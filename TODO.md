@@ -81,7 +81,8 @@
     - On a phone the fixed year bar sits over the bottom ~30px of whatever is passing under it (taps go through). A paper band behind it would hide what's underneath, if that's preferred.
     - ~~The head's lines waited ~2.5s~~ **Sped up (user, 4 Nov 2026):** no start delay, objects one frame apart, the lines fade in right behind the burst and the marker note at frame 6. Lines readable within ~0.7s, everything landed by ~1.2s after the motion code starts.
     - Lenis isn't used on touch, so on phones the string tip and year bar follow the native scroll directly.
-  - **Next:** user reviews locally (`npm run dev`), then says when to merge/push.
+  - **Merged and live (4 Nov 2026):** rebased onto main (dropping the duplicate YouTube-note commit), fast-forwarded, pushed; the branch is deleted.
+  - **More of the user's words (4 Nov 2026, `extras.lineOverrides`, all live):** "One life, tons of stories to tell." → "CSE undergrad IRL"; "Storyteller by heart." → "Storyteller at heart." (still the Heart face); "Ran socials and marketing for Homebrew." → "Running socials and marketing for Homebrew.". The script is unchanged; drop these if it's re-exported with them. Offered, not done: widen the head's top-left corner box so "CSE undergrad IRL" sits on one line on a laptop (it wraps as "CSE" / "undergrad IRL").
 - [ ] Phase 6: The intro (story mode only)
 - [ ] Phase 7: Story mode
 - [ ] Phase 8: Media and speed

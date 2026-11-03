@@ -277,7 +277,8 @@ for (const entry of manifest) {
 
   // Trim and crop before resizing, so maxWidth applies to what's left.
   const before = ["uncheck", "trim", "crop"];
-  let img = sharp(entry.src.endsWith(".pdf") ? jpegFromPdf(entry.src) : entry.src).rotate();
+  // `density` renders an SVG source at a higher resolution (72 is 1:1), so a small vector icon stays sharp.
+  let img = sharp(entry.src.endsWith(".pdf") ? jpegFromPdf(entry.src) : entry.src, entry.density ? { density: entry.density } : {}).rotate();
   let buffer = await img.png().toBuffer();
   for (const t of entry.treatment) {
     if (before.includes(t)) buffer = await (await steps[t](sharp(buffer), entry)).png().toBuffer();

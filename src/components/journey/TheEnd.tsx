@@ -8,16 +8,30 @@ import { site } from "@/content/site";
 import { tilt } from "@/lib/rough";
 import { CrayonScribble } from "@/components/ui/CrayonScribble";
 import { Dot } from "@/components/ui/Dot";
-import { MarkerLink } from "@/components/ui/MarkerLink";
+import { MediaImage } from "@/components/ui/MediaImage";
 import { NewsprintBand } from "@/components/ui/NewsprintBand";
 import { Supertitle } from "@/components/ui/Supertitle";
 import { WorkCard } from "@/components/ui/WorkCard";
 import type { Link } from "@/content/types";
 
+// A social link as a card: the network's icon and its name, the whole card one link (the user's
+// call, 3 Nov 2026). The name is the script's label up to the dash ("LinkedIn – linkedin.com/...").
 function LinkCard({ link }: { link: Link }) {
+  const name = link.label.split(" – ")[0];
+  const icon = `/media/icons/${name.toLowerCase()}.png`;
   return (
-    <li className="texture texture-mount px-5 py-3 text-details shadow-lift" style={{ rotate: `${tilt(`end:${link.href}`, 3)}deg` }}>
-      <MarkerLink link={link} />
+    <li style={{ rotate: `${tilt(`end:${link.href}`, 3)}deg` }}>
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="sticker-button texture texture-mount flex items-center gap-4 px-5 py-3 font-sans text-[length:var(--supertitle-small-size)] font-bold leading-none text-ink shadow-lift"
+      >
+        <span className="block w-[1.4em] shrink-0">
+          <MediaImage src={icon} alt="" sizes="48px" />
+        </span>
+        {name}
+      </a>
     </li>
   );
 }

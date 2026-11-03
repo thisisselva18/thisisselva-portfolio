@@ -580,5 +580,34 @@
     "maxWidth": 1080,
     "usedIn": "clubs-2025, under the Day 0 note (muted; added by the user, 3 Nov 2026)",
     "posterAt": 2
+  },
+  {
+    "src": "Material/Social Media Icons/Linkedin.svg",
+    "out": "public/media/icons/linkedin.png",
+    "treatment": [],
+    "maxWidth": 192,
+    "usedIn": "the end: social link icons (the user's, 3 Nov 2026)",
+    "density": 288
+  },
+  {
+    "src": "Material/Social Media Icons/Instagram.png",
+    "out": "public/media/icons/instagram.png",
+    "treatment": [],
+    "maxWidth": 192,
+    "usedIn": "the end: social link icons (the user's, 3 Nov 2026)"
+  },
+  {
+    "src": "Material/Social Media Icons/X.png",
+    "out": "public/media/icons/x.png",
+    "treatment": [],
+    "maxWidth": 192,
+    "usedIn": "the end: social link icons (the user's, 3 Nov 2026)"
+  },
+  {
+    "src": "Material/Social Media Icons/YouTube.png",
+    "out": "public/media/icons/youtube.png",
+    "treatment": [],
+    "maxWidth": 192,
+    "usedIn": "the end: social link icons (the user's, 3 Nov 2026)"
   }
 ]

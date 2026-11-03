@@ -50,6 +50,14 @@ export const extras = {
     "https://www.instagram.com/do.bengaluru": "Check out the page!",
   } as Record<string, string>,
 
+  // Note paragraphs shown in the user's words instead of the script's, keyed by the script's paragraph.
+  paragraphOverrides: {
+    "My job was to figure out what Xeneva stands for, how it should talk, and how it should show up online. Basically, a brand voice and a promotional cadence, which took about two months to get right.":
+      "My job was to figure out what Xeneva stands for, how it should talk, and how it should show up online. Basically, a brand voice and a promotional cadence, which took around a week to develop.",
+    'I also designed their T-shirt. "the future is spatial." on the front, and Xeneva in Malayalam, Hindi, Bengali and Kannada on the back.':
+      'I also designed their T-shirt. "the future is spatial." on the front, and Xeneva, with a quote that goes "Perception Redefined".',
+  } as Record<string, string>,
+
   // Script paragraphs the user took off the site (the script keeps them).
   hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
 

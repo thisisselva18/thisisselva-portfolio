@@ -50,7 +50,7 @@ export function StickyNote({ note, seed, className }: Props) {
       <span className="sticky-note__curl-shadow" aria-hidden />
       <div className="texture texture-note sticky-note__paper px-6 py-6 font-sans text-details text-ink sm:px-7 sm:py-7">
         {note.heading ? <h3 className="mb-3 text-details font-semibold leading-snug">{note.heading}</h3> : null}
-        {note.body.filter((paragraph) => !extras.hiddenParagraphs.includes(paragraph)).map((paragraph) => (
+        {note.body.filter((paragraph) => !extras.hiddenParagraphs.includes(paragraph)).map((paragraph) => extras.paragraphOverrides[paragraph] ?? paragraph).map((paragraph) => (
           <p key={paragraph} className="mb-3 max-w-[var(--details-measure)] last:mb-0">
             {paragraph}
           </p>

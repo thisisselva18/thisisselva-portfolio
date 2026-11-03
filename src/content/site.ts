@@ -4,7 +4,7 @@
 import type { Site } from "./types";
 
 export const site: Site = {
-  title: "This is Selva!",
+  title: "ThisIsSelva.",
   description: "Sidequestmaxxing my way through life :D",
 
   landing: {

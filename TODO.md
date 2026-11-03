@@ -39,7 +39,7 @@
   - **Pandoc 3.13 is installed** (winget). docs/script.md was re-exported and keeps its header comment. The text is identical to the .docx (252 paragraphs). Pandoc writes hard line breaks as `\` now.
   - **The types.** BUILD.md section 4 was updated first, then src/content/types.ts: a corner tag on each Supertitle, `MediaSet` card clusters with an optional group alt, notes that can carry media, links and buttons, and `HeadMoment`, `IntroBeat`, `EndMoment` and `Site`. Link gained `group` (for "REELS – ROTARACT").
   - **The content.** site.ts (landing, controls, music, the end), intro.ts (8 beats), and scenes.ts (head, 10 timeline scenes, zoomOut, yearBar). Rule: each picture appears once. Media named in action lines or "ON ONE SIDE" goes in `cards`; media named only in THE DETAILS goes in `notes[].media`.
-  - **Title and description, from the user** (not in the script): "This is Selva!" / "Sidequestmaxxing my way through life :D". They're wired into layout.tsx metadata.
+  - **Title and description, from the user** (not in the script): "ThisIsSelva." (changed from "This is Selva!" on 3 Nov) / "Sidequestmaxxing my way through life :D". They're wired into layout.tsx metadata.
   - **`npm run test:content`** (tests/content.check.mjs, Node's test runner, skips when docs/ is missing) checks both ways:
     - every word in src/content/ is in the script, and every supertitle, button, detail paragraph, link and timecode in the script is in src/content/
     - the holdFor chain runs from 0:00 to 1:30, the sides alternate, and Heart is used once

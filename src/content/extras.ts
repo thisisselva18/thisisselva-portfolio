@@ -56,6 +56,8 @@ export const extras = {
       "My job was to figure out what Xeneva stands for, how it should talk, and how it should show up online. Basically, a brand voice and a promotional cadence, which took around a week to develop.",
     'I also designed their T-shirt. "the future is spatial." on the front, and Xeneva in Malayalam, Hindi, Bengali and Kannada on the back.':
       'I also designed their T-shirt. "the future is spatial." on the front, and Xeneva, with a quote that goes "Perception Redefined".',
+    "do.bengaluru features builders and entrepreneurs from all over Bengaluru. People who've started something and want the world to know about it. We ran a series called P!TCH PLEASE, and at one point the page was reaching around 3K accounts.":
+      "do.bengaluru features builders and entrepreneurs from all over Bengaluru. People who've started something and want the world to know about it. At one point the page was reaching around 3K accounts. I wanted to start an event-series called P!TCH PLEASE, but unfortunately, that never saw the light of day.",
   } as Record<string, string>,
 
   // Script paragraphs the user took off the site (the script keeps them).

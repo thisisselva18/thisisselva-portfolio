@@ -53,11 +53,12 @@
   - **Media (4a):** 45 new manifest entries from BUILD.md's asset map, all built. Piano/headphones were already transparent; megaphone's white is removed by `uncheck`. The pipeline now handles `.mp4` (ffmpeg-static's binary or ffmpeg on PATH; muted H.264, faststart, poster at `posterAt`).
   - **Tests:** tests/journey.spec.ts (no errors / missing media / sideways scroll; scenes in order; every content link present and external ones `_blank noopener`; one pin per cluster; reduced motion = no sway). smoke.spec.ts now allows more textures. Playwright: 90s timeout, 2 workers (the dev server builds each image size on first request). 32/32, content 13/13, lint and `npm run build` clean. Link check: all 200, LinkedIn 999 (bot block, check by hand).
   - **Still open from Phase 4:**
-    - **Videos:** ffmpeg-static is installed but its download script needs approval: `npm install-scripts approve ffmpeg-static && npm rebuild ffmpeg-static`, then `npm run assets -- .mp4`. The vlog clips, Shunya reel and the ad then appear on their own (the clusters pick them up).
-    - The IndiaFOSS ad embed (Dc8rTjYTWry) has no cover screenshot, so it shows a black phone with a play button until tapped. A cover in Material/ fixes it.
+    - ~~Videos~~ done (user ran the ffmpeg-static approval, 3 Nov). ~~Ad embed cover~~ done: it uses the ad's poster frame.
     - Anthpo still has no picture (orange ball / shoe / statue).
     - Captions show on hover, but cards aren't keyboard-focusable, so a sighted keyboard user won't see them (screen readers get the alt).
     - The landing (STORY / SCROLL) isn't built: the site opens straight on the head, which is scroll mode's start anyway.
+  - **After the review (user, 3 Nov):** supertitle strips are drawn in a hidden layer under the words (they covered descenders); a stat that's in its supertitle (120K+) is circled in place, with no separate callout; the clubs scene's second part (Shunya reel + its 4 notes) sits under the cards on a laptop (`SECOND_PART` in Scene.tsx); later sets' photos/videos are bigger and a set's only video plays wide.
+  - **Next:** push to GitHub (waiting for the user's OK), import the repo on Vercel, check the live link on a phone.
 - [ ] Phase 5: Scroll mode, with the real motion
 - [ ] Phase 6: The intro (story mode only)
 - [ ] Phase 7: Story mode

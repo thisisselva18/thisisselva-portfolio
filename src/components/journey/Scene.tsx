@@ -102,12 +102,13 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
 // `buttonsUnderCards` drops its notes' embeds and puts each one's Watch here button under the cards
 // instead, where the same video already plays (the IndiaFOSS ad, the user's call).
 // `embedsAsCards` shows its notes' embeds on the cards side, one under another, in place of cards
-// (Anthpo has no pictures; its two videos go there, the user's call).
-type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean; buttonsUnderCards?: boolean; embedsAsCards?: boolean };
+// (Anthpo has no pictures; its two videos go there, the user's call). `tailMediaBeside` puts the tail
+// notes' media on the left with the tail notes stacked beside it (the Shunya QR video, Day 0, What happened).
+type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean; buttonsUnderCards?: boolean; embedsAsCards?: boolean; tailMediaBeside?: boolean };
 const PARTS: Record<string, Part[]> = {
   "clubs-2025": [
     { lines: [0], cards: [0], notes: [0], wideMedia: true },
-    { lines: [1], cards: [1], notes: [1, 2], tail: [3, 4] },
+    { lines: [1], cards: [1], notes: [1, 2], tail: [3, 4], tailMediaBeside: true },
   ],
   "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
   "homebrew-2026": [{ lines: [0], cards: [0], notes: [0, 1, 2], mediaUnder: true }],
@@ -238,7 +239,18 @@ export function Scene({ scene }: { scene: SceneContent }) {
               </div>
             ) : null}
 
-            {part.tail ? (
+            {part.tail && part.tailMediaBeside ? (
+              <div className="grid min-w-0 gap-5 lg:col-span-2 lg:grid-cols-[15rem_minmax(0,32rem)] lg:items-center lg:justify-center lg:gap-10">
+                <div className="hidden lg:block">
+                  {part.tail.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} fill />) ?? [])}
+                </div>
+                <div className="flex min-w-0 flex-col items-center gap-5 lg:items-start">
+                  {part.tail.map((i) => (
+                    <Note key={i} scene={scene} i={i} phoneOnlyMedia />
+                  ))}
+                </div>
+              </div>
+            ) : part.tail ? (
               <div className="grid min-w-0 gap-5 lg:col-span-2 lg:grid-cols-2 lg:items-start lg:gap-16">
                 {part.tail.map((i) => (
                   <div key={i} className="flex min-w-0 flex-col items-center gap-5">

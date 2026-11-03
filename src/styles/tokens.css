@@ -1,0 +1,44 @@
+/*
+ * Design tokens, from docs/design.md. The only place colours, faces and
+ * sizes are defined. Change design.md first, then this file.
+ */
+
+:root {
+  /* Colour (design.md section 3) */
+  --paper: #f6f3ec;
+  --ink: #161616;
+  --red: #e5321c;
+  --crayon-pink: #f07ab4;
+  --crayon-yellow: #ffcf33;
+  --crayon-blue: #3e9be0;
+  --crayon-green: #2fb463;
+  --kraft: #cbb491;
+  --note: #fff0a0;
+  --story-black: #0c0c0c;
+
+  /* Faces (design.md section 4). The --font-geist-* variables come from next/font in layout.tsx. */
+  --face-serif: var(--font-geist-serif-regular); /* the storyteller */
+  --face-heart: var(--font-geist-serif-heart); /* "Storyteller by heart." only */
+  --face-sans: var(--font-geist-sans); /* the details, buttons, links */
+  --face-mono: var(--font-geist-mono); /* the engineer: corner tags, year bar, captions */
+
+  /* Supertitles: at least 1/12 of the screen tall on desktop, never under 32px on a phone */
+  --supertitle-size: clamp(2rem, min(9vh, 7vw), 7.5rem);
+  --supertitle-measure: 20ch;
+
+  /* The details: about 18px, line height 1.6, at most about 65 characters per line */
+  --details-size: 1.125rem;
+  --details-leading: 1.6;
+  --details-measure: 65ch;
+
+  /* Buttons: bold Geist Sans caps, at least 19px */
+  --button-size: 1.1875rem;
+  --button-weight: 700;
+
+  /* Layout */
+  --gutter-phone: 1rem;
+
+  /* The paper (design.md section 5) */
+  --paper-grain-opacity: 0.12;
+  --paper-tone-opacity: 0.05;
+}

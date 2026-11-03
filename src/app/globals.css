@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Only the design tokens exist in Tailwind: no default palette or fonts. */
+@theme inline {
+  --color-*: initial;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-red: var(--red);
+  --color-crayon-pink: var(--crayon-pink);
+  --color-crayon-yellow: var(--crayon-yellow);
+  --color-crayon-blue: var(--crayon-blue);
+  --color-crayon-green: var(--crayon-green);
+  --color-kraft: var(--kraft);
+  --color-note: var(--note);
+  --color-story-black: var(--story-black);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-*: initial;
+  --font-serif: var(--face-serif);
+  --font-heart: var(--face-heart);
+  --font-sans: var(--face-sans);
+  --font-mono: var(--face-mono);
+
+  --text-supertitle: var(--supertitle-size);
+  --text-details: var(--details-size);
+  --text-details--line-height: var(--details-leading);
+  --text-button: var(--button-size);
+}
+
+/*
+ * The paper: flat --paper, a grain tile multiplied over it, and a soft,
+ * large-scale tone variation. Both layers sit behind the content and scroll
+ * with it. If the images don't load, the page is just flat --paper.
+ */
+body {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--face-sans);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+body::before {
+  background-image: url("/textures/paper.webp");
+  background-size: 1024px 1024px;
+  opacity: var(--paper-grain-opacity);
+}
+
+body::after {
+  background-image: url("/textures/paper-tone.webp");
+  background-size: 1600px 1600px;
+  opacity: var(--paper-tone-opacity);
+}
+
+@media (prefers-reduced-data: reduce) {
+  body::before,
+  body::after {
+    content: none;
+  }
+}

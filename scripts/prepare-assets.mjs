@@ -3,6 +3,7 @@
 //
 // Treatments run in the order the manifest lists them:
 //   trim            crop away empty transparent space around a cutout
+//   crop            cut strips off the edges, as fractions: "crop": { "bottom": 0.06 } (e.g. a screenshot's UI)
 //   bw-halftone     black-and-white print: faded ink-on-paper duotone with chunky dots over it
 //   colour-print    colour print: warmed, faded colour with a CMY dot screen over it
 //   sticker-border  a white, slightly rough sticker border around a cutout
@@ -15,7 +16,7 @@
 // Run with `npm run assets`. Add `-- <text>` to only run entries whose out path contains <text>.
 
 import sharp from "sharp";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
 const manifest = JSON.parse(readFileSync("assets.manifest.json", "utf8"));
@@ -131,6 +132,18 @@ async function stickerBorder(img) {
 
 const steps = {
   trim: (img) => img.trim({ threshold: 1 }),
+  crop: async (img, entry) => {
+    const { width, height } = await img.metadata();
+    const c = { top: 0, right: 0, bottom: 0, left: 0, ...entry.crop };
+    const left = Math.round(width * c.left);
+    const top = Math.round(height * c.top);
+    return img.extract({
+      left,
+      top,
+      width: width - left - Math.round(width * c.right),
+      height: height - top - Math.round(height * c.bottom),
+    });
+  },
   "bw-halftone": bwHalftone,
   "colour-print": colourPrint,
   "sticker-border": stickerBorder,
@@ -147,15 +160,16 @@ for (const entry of manifest) {
   const unknown = entry.treatment.filter((t) => !steps[t]);
   if (unknown.length) throw new Error(`${entry.out}: unknown treatment ${unknown.join(", ")}`);
 
-  // Trim before resizing, so maxWidth applies to the subject and not the empty space.
+  // Trim and crop before resizing, so maxWidth applies to what's left.
+  const before = ["trim", "crop"];
   let img = sharp(entry.src).rotate();
   let buffer = await img.png().toBuffer();
   for (const t of entry.treatment) {
-    if (t === "trim") buffer = await (await steps.trim(sharp(buffer))).png().toBuffer();
+    if (before.includes(t)) buffer = await (await steps[t](sharp(buffer), entry)).png().toBuffer();
   }
   buffer = await sharp(buffer).resize({ width: entry.maxWidth, withoutEnlargement: true }).png().toBuffer();
   for (const t of entry.treatment) {
-    if (t === "trim") continue;
+    if (before.includes(t)) continue;
     buffer = await (await steps[t](sharp(buffer))).png().toBuffer();
   }
 
@@ -173,3 +187,7 @@ for (const entry of manifest) {
 mkdirSync(dirname(SIZES), { recursive: true });
 const sorted = Object.fromEntries(Object.entries(sizes).sort(([a], [b]) => a.localeCompare(b)));
 writeFileSync(SIZES, JSON.stringify(sorted, null, 2) + "\n");
+
+// next/image caches its resized copies by URL, so a changed file would keep showing the old
+// version. Clear that cache whenever files are rewritten.
+for (const cache of [".next/dev/cache/images", ".next/cache/images"]) rmSync(cache, { recursive: true, force: true });

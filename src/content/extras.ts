@@ -1,12 +1,16 @@
-// The few small words on the site that aren't in the script. Claude made these up,
-// with the user's OK (3 Nov 2026): pointer labels, label strips, the reel sticker and
-// the handwritten note. Change them freely. Everything else comes from the script.
+// The few small words on the site that aren't in the script: pointer labels, label strips
+// and the handwritten note (made up by Claude, with the user's OK, 3 Nov 2026), and the
+// button under each embed (the user's words). Change them freely. Everything else comes
+// from the script.
 //
 // tests/content.check.mjs doesn't check this file against the script, on purpose.
 
 export const extras = {
-  // The "watch the original" sticker on every reel frame (design.md section 8)
-  reelSticker: "watch the original",
+  // The button under every embed, linking to the original. Keyed by video ID where it differs.
+  embedButton: {
+    default: "Watch the original",
+    "7C35Sxp9B3g": "Watch this to know more about me",
+  } as Record<string, string>,
 
   // Pointer labels: thin lines from parts of an object to a few small words (design.md section 5)
   pointerLabels: {

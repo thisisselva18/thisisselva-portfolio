@@ -2,35 +2,51 @@
   {
     "src": "Material/BeginningPic-Photoroom.png",
     "out": "public/media/cutouts/childhood.png",
-    "treatment": ["trim", "bw-halftone", "sticker-border"],
+    "treatment": [
+      "trim",
+      "bw-halftone",
+      "sticker-border"
+    ],
     "maxWidth": 1400,
     "usedIn": "head"
   },
   {
     "src": "Material/EndPicture_Photoroom.png",
     "out": "public/media/cutouts/present-day.png",
-    "treatment": ["trim", "colour-print", "sticker-border"],
+    "treatment": [
+      "trim",
+      "colour-print",
+      "sticker-border"
+    ],
     "maxWidth": 2000,
     "usedIn": "the end"
   },
   {
     "src": "Material/Cort-Photoroom.png",
     "out": "public/media/cutouts/guitar.png",
-    "treatment": ["trim", "colour-print", "sticker-border"],
+    "treatment": [
+      "trim",
+      "colour-print",
+      "sticker-border"
+    ],
     "maxWidth": 900,
     "usedIn": "head (music objects)"
   },
   {
     "src": "Material/Sept_2025_RotaractPESUECC_Club.jpg",
     "out": "public/media/photos/clubs/rotaract-poster.jpg",
-    "treatment": ["colour-print"],
+    "treatment": [
+      "colour-print"
+    ],
     "maxWidth": 1400,
     "usedIn": "clubs-shunya"
   },
   {
     "src": "Material/Sept_2025_Entrepreneurship_Club.jpg",
     "out": "public/media/photos/clubs/ecell-poster.jpg",
-    "treatment": ["bw-halftone"],
+    "treatment": [
+      "colour-print"
+    ],
     "maxWidth": 1400,
     "usedIn": "clubs-shunya"
   },
@@ -44,14 +60,18 @@
   {
     "src": "Material/IndiaFOSS Stickers/IndiaFOSS.png",
     "out": "public/media/stickers/indiafoss.png",
-    "treatment": ["trim"],
+    "treatment": [
+      "trim"
+    ],
     "maxWidth": 1000,
     "usedIn": "indiafoss"
   },
   {
     "src": "Material/IndiaFOSS Stickers/forkIt.png",
     "out": "public/media/stickers/fork-it.png",
-    "treatment": ["trim"],
+    "treatment": [
+      "trim"
+    ],
     "maxWidth": 1000,
     "usedIn": "indiafoss"
   },
@@ -68,5 +88,65 @@
     "treatment": [],
     "maxWidth": 1200,
     "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Rotaract - DN5-OuRiWIJ.png",
+    "out": "public/media/reels/covers/DN5-OuRiWIJ.jpg",
+    "treatment": [
+      "crop"
+    ],
+    "crop": {
+      "bottom": 0.06
+    },
+    "maxWidth": 720,
+    "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
+  },
+  {
+    "src": "Material/Rotaract - DNvPryR0kqc.png",
+    "out": "public/media/reels/covers/DNvPryR0kqc.jpg",
+    "treatment": [
+      "crop"
+    ],
+    "crop": {
+      "bottom": 0.06
+    },
+    "maxWidth": 720,
+    "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
+  },
+  {
+    "src": "Material/Rotaract - DN8dYkhCac1_ MostViralRotaractReel.png",
+    "out": "public/media/reels/covers/DN8dYkhCac1.jpg",
+    "treatment": [
+      "crop"
+    ],
+    "crop": {
+      "bottom": 0.06
+    },
+    "maxWidth": 720,
+    "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
+  },
+  {
+    "src": "Material/EClub_DOQ17fzD_vg.png",
+    "out": "public/media/reels/covers/DOQ17fzD_vg.jpg",
+    "treatment": [
+      "crop"
+    ],
+    "crop": {
+      "bottom": 0.06
+    },
+    "maxWidth": 720,
+    "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
+  },
+  {
+    "src": "Material/EClub - 2nd reel.png",
+    "out": "public/media/reels/covers/DHm_NzOCoT2.jpg",
+    "treatment": [
+      "crop"
+    ],
+    "crop": {
+      "bottom": 0.06
+    },
+    "maxWidth": 720,
+    "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
   }
 ]

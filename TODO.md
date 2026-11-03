@@ -1,7 +1,10 @@
 # To do
 
 ## Now
-- [ ] Phase 2: Turn the script into content. Nearly done: all copy is in src/content/. Only the user's words for media are left.
+- [x] Phase 2: Turn the script into content. **Done 3 Nov 2026:** all copy and all the user's words for media are in src/content/; `npm run test:content` shows nothing pending. (Details below, kept for the merge rules.)
+  - [x] **The user's answers are merged (3 Nov 2026):** 24 of 26 (group alts, item alts, the two embed titles, and the viral reel's tag "My most viral reel yet!", shown as a label strip on its reel). `set()` takes an optional third argument (the set's alt), `youtube()` takes a title, and item alts are `{ ...image(...), alt }`. No view counts were given, so the Bengaluru Systems posts show none. The pasted answers are in the session scratchpad (temporary).
+  - [x] **Scene-level answers (user's call, 3 Nov 2026):** new optional `Scene.cardsAlt`, one description for the whole card cluster. do-bengaluru-2026 = "do.blr", indiafoss-2026 = "Made stickers and an advert for IndiaFOSS 2026". Rule: blank alt = covered by the set's alt or the scene's cardsAlt, else decorative. The present-day cutout has no alt, so "Hit me up!" is said once (user: no description like "me today in the hoodie"). Merge rule for later answers: `group:<scene>` (no set) → that scene's `cardsAlt`.
+  - [x] **Last titles in (3 Nov 2026):** the club reels share "Humble Beginnings" (the set's alt); the latest video is "How My Love for Advertising Began!".
   - [ ] Waiting on the user: alt text, embed titles, the viral-reel tag and the post view counts, via docs/media-review.html (local only). They paste back JSON with only the filled-in entries, keyed by `group:<scene>/<set>`, `alt:<web path>`, `embed:…`, `tag:…` and `views:…`. Merge them in:
     - `group:` → that MediaSet's `alt`
     - `alt:/media/<path>` → the item's `alt`
@@ -9,8 +12,9 @@
     - `tag:viral-reel` → the `tag` on instagram.com/reel/DN8dYkhCac1
     - `views:post-N` → `views` on the Bengaluru Systems posts
 
+    **Sheet updated 3 Nov 2026:** the head's music objects and "The objects that burst out" are now one set of 10 (user's call; scenes.ts too). The cutout thumbnails show the Photoroom files. Six new embed title rows (the latest video and the five club reels).
+
     Blank means decorative: the cluster gets `role="group"` plus `aria-label`, and pictures without their own alt get `alt=""`. `npm run test:content` lists what's still pending (64 right now).
-  - [ ] Then commit and mark Phase 2 done.
 
 - [ ] Phase 3: Build the design kit. Split in two sessions; **3a is done (3 Nov 2026), 3b is next.** Running alongside Phase 2's wait for alt text (user's OK).
   - [ ] **3b, in order:**
@@ -19,6 +23,12 @@
     3. The stick in src/motion/presets.ts (drop in slightly big, top sticks, bottom flaps once, about 450ms in 12fps steps) and reducedMotion.ts (fade in already stuck). StickyNote already carries `data-sticky-note`. Add a replay control on /kit.
     4. A static two-card red string sample on /kit, to judge its look (routing is Phase 4).
     5. Review /kit at 1440 and 390 with the user (BUILD.md: "the most important visual check"), then commit and mark Phase 3 done.
+  - [x] **Embeds (3 Nov 2026, user's go-ahead).** The script now says "EMBED + LINK" on both club REELS lines, and has a new `EMBED + LINK: youtube.com/watch?v=7C35Sxp9B3g` above the channel link in THE CAMERA. The .docx was edited directly; the backup is in the session scratchpad (C:/Users/vk360/AppData/Local/Temp/claude/804e280d29e6ffdc/ce60cbfb-2452-437a-915c-5d9f19b2a1c9/scratchpad/backup/Storyteller_by_Heart_Script.before-embeds.docx, temporary). Built:
+    - **Content:** the five club reels in the clubs note's media, each with a cover, and the latest video in the camera-2017 note. `instagram` media gained `poster`.
+    - **Covers:** the user's screenshots in Material/ (`Rotaract - <id>.png`, `EClub_DOQ17fzD_vg.png`, `EClub - 2nd reel.png` = DHm_NzOCoT2), cropped 6% off the bottom to drop Instagram's mute icon (new `crop` step), into public/media/reels/covers/<id>.jpg. All five are 3:5, and so is the frame.
+    - **ReelEmbed:** handles Instagram (InstagramEmbed: cover, then Instagram's embed iframe on tap). A white sticker button sits under every embed: "Watch the original", or "Watch this to know more about me" for 7C35Sxp9B3g (extras.embedButton, the user's words). It's white, not red, so a row of reels doesn't break "one red shape per screen" (user OK'd the style). StickyNote leaves out links that are already an embed's button.
+    - **Tests:** tapping a cover loads the player, and nothing loads before.
+    - **Phase 4:** lay the five reels out beside the clubs notes as a fanned row, with each group's label ("REELS – ROTARACT") over its run. The viral reel's tag still comes from the user. Instagram's player brings its own header and footer, and Instagram decides whether a reel plays inline or opens Instagram. If that feels off, the alternative is hosting muted loops from the reel video files, like Shunya.
   - **Small things seen in the 3a review, for 3b:** a MarkerLink that wraps (LinkedIn at 390px) gets one underline under both lines. ReelEmbed doesn't handle the `instagram` media kind yet. rotaract-poster.jpg is 1.1MB (halftone dots compress badly; maybe maxWidth 1200).
 - [ ] Phase 4: Scroll mode, without fancy motion
 - [ ] Phase 5: Scroll mode, with the real motion
@@ -67,7 +77,10 @@
 - **The paper texture is a placeholder.** It's computer-made by `npm run textures` (scripts/make-paper-texture.mjs). To swap in a real scan, replace public/textures/paper.webp under the same name (about 1024px, seamless, under 150KB).
 - **Next.js 16 differs from older versions.** AGENTS.md says to read node_modules/next/dist/docs/ before using unfamiliar APIs. `next dev` rewrites AGENTS.md, so commit it as is. The default next.config.ts has `cacheComponents` and `partialPrefetching` on.
 - **Run `npx tsc` only after `npm run build` or `npm run dev`.** `LayoutProps` comes from Next's generated types. Untyped packages get a declaration in src/types/ (lite-youtube-embed has one).
+- **The E-Cell poster photo is colour, not B&W** (user, 3 Nov 2026). Only the childhood cutout is B&W so far.
+- **`npm run assets` clears next/image's cache** (.next/dev/cache/images), otherwise a changed file keeps showing its old version.
 - **The made-up words are in src/content/extras.ts.** Show the user any new ones when they first appear.
+- **pandoc isn't on Git Bash's PATH.** Use `/c/Users/vk360/AppData/Local/Pandoc/pandoc.exe`, and write to a new file before replacing script.md (a failed pandoc once emptied it).
 - **Re-export the script with** `pandoc -t gfm --wrap=none docs/Storyteller_by_Heart_Script.docx`, keep line 1 (the header comment) plus a blank line, and strip the `\r` characters.
 
 ## Open questions

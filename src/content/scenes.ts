@@ -13,7 +13,12 @@ const image = (src: string, treatment?: "halftone" | "colour" | "as-is") =>
   ({ kind: "image", src: `/media/${src}`, treatment }) as const;
 const video = (src: string) => ({ kind: "video", src: `/media/${src}.mp4`, poster: `/media/${src}.jpg` }) as const;
 const post = (src: string) => ({ kind: "post", src: `/media/${src}` }) as const;
-const set = (label: string, items: MediaSet["items"]): MediaSet => ({ label, items });
+// alt describes the whole set (the user's words, from docs/media-review.html).
+const set = (label: string, items: MediaSet["items"], alt?: string): MediaSet => ({ label, items, ...(alt ? { alt } : {}) });
+const youtube = (id: string, title = "") => ({ kind: "youtube", id, title }) as const;
+// A reel shown by its cover (from the user's screenshot) until it's tapped. Reels in a set
+// share the set's alt as their one title (the user's call), so they have no title of their own.
+const reel = (id: string) => ({ kind: "instagram", id, title: "", poster: `/media/reels/covers/${id}.jpg` }) as const;
 
 export const yearBar = { from: "2017", to: "2026" };
 
@@ -36,15 +41,15 @@ export const head: HeadMoment = {
   ].join("\n"),
   cards: [
     set("The childhood cutout", [image("cutouts/childhood.png", "halftone")]),
-    set("The music objects", [
+    // One set, in the script's order: the camera, the music note with its guitar, piano,
+    // headphones and Currents cover, then the rest (the user put them together, 3 Nov 2026).
+    set("The objects that burst out", [
+      image("cutouts/camera.png", "as-is"),
+      image("cutouts/music-note.png", "as-is"),
       image("cutouts/guitar.png"),
       image("cutouts/piano.png"),
       image("cutouts/headphones.png"),
       image("music/currents-cover.jpg", "as-is"),
-    ]),
-    set("The objects that burst out", [
-      image("cutouts/camera.png", "as-is"),
-      image("cutouts/music-note.png", "as-is"),
       image("cutouts/writing.png", "as-is"),
       image("cutouts/idea.png", "as-is"),
       image("cutouts/megaphone.png", "as-is"),
@@ -63,11 +68,15 @@ export const timeline: Scene[] = [
     supertitles: [{ text: "2017. A kid with a camera." }],
     visual:
       "Two short clips from my old vlogs play inside the lens, on mute. A kid, a camera, and absolutely no plan. (VIDEO: ThisIsSelva_Vid1.mp4, ThisIsSelva_Vid2.mp4)",
-    cards: [set("The vlog clips", [video("youtube/vlog-clip-1"), video("youtube/vlog-clip-2")])],
+    cards: [set("The vlog clips", [video("youtube/vlog-clip-1"), video("youtube/vlog-clip-2")], "Started out young!")],
     notes: [
       {
         body: ["Started a YouTube channel as a kid. Vlogs, random moments, whatever I felt like filming that day."],
-        links: [{ label: "youtube.com/@thisisselva18", href: "https://www.youtube.com/@thisisselva18" }],
+        media: [set("The latest video", [youtube("7C35Sxp9B3g", "How My Love for Advertising Began!")])],
+        links: [
+          { label: "youtube.com/watch?v=7C35Sxp9B3g", href: "https://www.youtube.com/watch?v=7C35Sxp9B3g" },
+          { label: "youtube.com/@thisisselva18", href: "https://www.youtube.com/@thisisselva18" },
+        ],
       },
     ],
   },
@@ -85,7 +94,7 @@ export const timeline: Scene[] = [
         body: [
           "In 2020, I started SG Records and Productions and made music till 2022. Took a break, then got back into it in 2024.",
         ],
-        media: [set("The SoundCloud profile", [image("music/soundcloud-profile.png")])],
+        media: [set("The SoundCloud profile", [{ ...image("music/soundcloud-profile.png"), alt: "Check out my SoundCloud" }])],
         links: [{ label: "LISTEN ON SOUNDCLOUD", href: "https://soundcloud.com/thisisselva18", style: "button" }],
       },
     ],
@@ -113,13 +122,13 @@ export const timeline: Scene[] = [
         image("youtube/four-years-ch2.png"),
         image("youtube/year-one.png"),
         image("youtube/year-two.png"),
-      ]),
+      ], "Back to YouTube"),
       set("The script pages", [
         image("scripts/script-1.png"),
         image("scripts/script-2.png"),
         image("scripts/script-3.png"),
         image("scripts/script-4.png"),
-      ]),
+      ], "Screenwriting ftw!"),
     ],
     notes: [
       {
@@ -130,7 +139,7 @@ export const timeline: Scene[] = [
           "And then engineering happened. In September 2024, I started Computer Science at PES University.",
           "Honestly? Not how I saw it going. But it turns out tech has plenty of stories too, and somebody has to tell them right.",
         ],
-        media: [set("The comeback video", [{ kind: "youtube", id: "XSlzEhfF9PI", title: "" }])],
+        media: [set("The comeback video", [youtube("XSlzEhfF9PI", "First video after four years!")])],
         links: [{ label: "youtube.com/watch?v=XSlzEhfF9PI", href: "https://www.youtube.com/watch?v=XSlzEhfF9PI" }],
       },
     ],
@@ -181,7 +190,7 @@ export const timeline: Scene[] = [
         image("photos/clubs/rotaract-event.jpg"),
         image("photos/clubs/acm-badge.jpg"),
         image("photos/clubs/acm-hacknight.jpg"),
-      ]),
+      ], "Origins of my love for campaigning..."),
       set("The Shunya reel", [video("reels/shunya-reveal")]),
     ],
     notes: [
@@ -192,11 +201,20 @@ export const timeline: Scene[] = [
           "I was the Vice President at Rotaract, where I helped our socials team pull in 90K+ views. I made promo content for the Entrepreneurship Club, and led a design team of 15 for an 18-hour ACM hackathon.",
           "But out of all of them, Shunya is the one I still think about.",
         ],
+        media: [
+          set("The club reels", [
+            reel("DN5-OuRiWIJ"),
+            reel("DNvPryR0kqc"),
+            reel("DN8dYkhCac1"),
+            reel("DOQ17fzD_vg"),
+            reel("DHm_NzOCoT2"),
+          ], "Humble Beginnings"),
+        ],
         links: [
           { group: "REELS – ROTARACT", label: "instagram.com/reel/DN5-OuRiWIJ", href: "https://www.instagram.com/reel/DN5-OuRiWIJ" },
           { group: "REELS – ROTARACT", label: "instagram.com/reel/DNvPryR0kqc", href: "https://www.instagram.com/reel/DNvPryR0kqc" },
-          // The script gives this one a small tag. Its wording comes from the user.
-          { group: "REELS – ROTARACT", label: "instagram.com/reel/DN8dYkhCac1", href: "https://www.instagram.com/reel/DN8dYkhCac1" },
+          // The script gives this one a small tag. Its wording is the user's.
+          { group: "REELS – ROTARACT", label: "instagram.com/reel/DN8dYkhCac1", href: "https://www.instagram.com/reel/DN8dYkhCac1", tag: "My most viral reel yet!" },
           { group: "REELS – ENTREPRENEURSHIP CLUB", label: "instagram.com/p/DOQ17fzD_vg", href: "https://www.instagram.com/p/DOQ17fzD_vg" },
           { group: "REELS – ENTREPRENEURSHIP CLUB", label: "instagram.com/reel/DHm_NzOCoT2", href: "https://www.instagram.com/reel/DHm_NzOCoT2" },
         ],
@@ -248,12 +266,12 @@ export const timeline: Scene[] = [
         post("posts/bengaluru-systems/post-1.png"),
         post("posts/bengaluru-systems/post-2.png"),
         post("posts/bengaluru-systems/post-3.png"),
-      ]),
+      ], "Posting posting..."),
       set("The meetup photos", [
         image("photos/bengaluru-systems/meetup-1.jpg"),
         image("photos/bengaluru-systems/meetup-2.jpg"),
         image("photos/bengaluru-systems/meetup-3.jpg"),
-      ]),
+      ], "Snaps from the meetups"),
     ],
     notes: [
       {
@@ -271,6 +289,7 @@ export const timeline: Scene[] = [
   {
     id: "do-bengaluru-2026",
     stat: "3K",
+    cardsAlt: "do.blr",
     object: "notebook",
     side: "left",
     timecode: 59,
@@ -285,7 +304,7 @@ export const timeline: Scene[] = [
         post("posts/do-blr/do-blr-3.png"),
         post("posts/do-blr/do-blr-4.png"),
         post("posts/do-blr/do-blr-5.png"),
-      ]),
+      ], "A step outside my comfort zone"),
       set("You filming", [image("photos/do-blr/filming.jpg")]),
     ],
     notes: [
@@ -314,17 +333,17 @@ export const timeline: Scene[] = [
       'The T-shirt spins. "the future is spatial." on the front, Xeneva in four Indian scripts on the back. A few Xeneva stickers slap down around it. Then a quick cut to the whole team wearing it at IndiaFOSS- (DESIGNS: FINAL T-SHIRT 2, Sticker1 to Sticker4)',
     cards: [
       set("The designs: T-shirt and stickers", [
-        image("xeneva/tshirt.png", "as-is"),
+        { ...image("xeneva/tshirt.png", "as-is"), alt: "The T-shirt" },
         image("xeneva/sticker-1.png", "as-is"),
         image("xeneva/sticker-2.png", "as-is"),
         image("xeneva/sticker-3.png", "as-is"),
         image("xeneva/sticker-4.png", "as-is"),
-      ]),
+      ], "Merchandise, by yours truly!"),
       set("The team at IndiaFOSS", [
         image("photos/xeneva/team.jpg"),
         image("photos/xeneva/booth-1.jpg"),
         image("photos/xeneva/booth-2.jpg"),
-      ]),
+      ], "Xeneva at IndiaFOSS '26"),
     ],
     notes: [
       {
@@ -348,12 +367,12 @@ export const timeline: Scene[] = [
     visual: "An HSP hoodie. Behind it, a room full of people on Church Street. (PHOTO: Homebrew events, Church Street)",
     cards: [
       set("The Homebrew events", [
-        image("photos/homebrew/church-street-1.jpg"),
-        image("photos/homebrew/church-street-2.jpg"),
+        { ...image("photos/homebrew/church-street-1.jpg"), alt: "FOSS Talks 3.0" },
+        { ...image("photos/homebrew/church-street-2.jpg"), alt: "FOSS Talks 4.0" },
         image("photos/homebrew/event.jpg"),
         image("photos/homebrew/stall.jpg"),
-        image("photos/homebrew/marketing.jpg"),
-      ]),
+        { ...image("photos/homebrew/marketing.jpg"), alt: "Whacky marketing be like ;p" },
+      ], "Leading Social Media & Marketing for HSP"),
     ],
     notes: [
       {
@@ -366,7 +385,7 @@ export const timeline: Scene[] = [
         heading: "Spotted in the wild.",
         body: [],
         media: [
-          set("Spotted in the wild", [image("photos/homebrew/poster.jpg"), image("photos/homebrew/united-by-foss.jpg")]),
+          set("Spotted in the wild", [{ ...image("photos/homebrew/poster.jpg"), alt: "Homebrew @ IndiaFOSS '26" }, { ...image("photos/homebrew/united-by-foss.jpg"), alt: "Homebrew" }], "Our feature at IndiaFOSS!"),
         ],
       },
       {
@@ -376,6 +395,7 @@ export const timeline: Scene[] = [
   },
   {
     id: "indiafoss-2026",
+    cardsAlt: "Made stickers and an advert for IndiaFOSS 2026",
     object: "sticker-stack",
     side: "right",
     timecode: 70,
@@ -393,8 +413,8 @@ export const timeline: Scene[] = [
         image("stickers/indiafoss.png", "as-is"),
         image("stickers/julius.png", "as-is"),
         image("stickers/fork-it.png", "as-is"),
-      ]),
-      set("The ad", [video("reels/hb-x-indiafoss")]),
+      ], "Made these cool stickers for IndiaFOSS '26"),
+      set("The ad", [{ ...video("reels/hb-x-indiafoss"), alt: "My best advert yet..." }]),
     ],
     notes: [
       {
@@ -405,7 +425,7 @@ export const timeline: Scene[] = [
       {
         heading: "The ad",
         body: ["This is the one I'm proudest of so far. A Homebrew x FOSS United reel, revealed in September 2026."],
-        media: [set("The ad embed", [{ kind: "instagram", id: "Dc8rTjYTWry", title: "" }])],
+        media: [set("The ad embed", [{ kind: "instagram", id: "Dc8rTjYTWry", title: "Written, edited, directed and voiced by yours truly..." }])],
         links: [{ label: "instagram.com/reel/Dc8rTjYTWry", href: "https://www.instagram.com/reel/Dc8rTjYTWry" }],
       },
       {

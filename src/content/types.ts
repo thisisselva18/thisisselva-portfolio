@@ -16,13 +16,14 @@ export type Link = {
   tag?: string; // a small tag next to the link
 };
 
-// alt is optional everywhere: no alt means decorative, or covered by its set's alt.
+// alt is optional everywhere: no alt means decorative, or covered by its set's alt,
+// or by the scene's cardsAlt (the user's rule, 3 Nov 2026).
 export type Media =
   | { kind: "image"; src: string; alt?: string; treatment?: "halftone" | "colour" | "as-is" }
   | { kind: "video"; src: string; poster: string; alt?: string }
   | { kind: "post"; src: string; alt?: string; views?: string }
   | { kind: "youtube"; id: string; title: string }
-  | { kind: "instagram"; id: string; title: string };
+  | { kind: "instagram"; id: string; title: string; poster?: string }; // poster: a cover shown until it's tapped
 
 // One card cluster. Its alt describes the whole set for screen readers,
 // and pictures inside it without their own alt are skipped.
@@ -50,6 +51,7 @@ export type Scene = {
   visual: string; // the script's action lines, kept as a note for builders
   cards: MediaSet[];
   notes: StickyNote[];
+  cardsAlt?: string; // one description for the whole card cluster, read as a single group (the user's words)
   stat?: string; // the StatCallout: a word-for-word piece of the script, like "120K+"
 };
 

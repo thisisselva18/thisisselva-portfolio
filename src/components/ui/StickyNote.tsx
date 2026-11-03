@@ -25,8 +25,17 @@ function groupLinks(links: Link[]) {
   return runs;
 }
 
+// A link that belongs to an embed in this note ("EMBED + LINK" in the script) is shown as the
+// button under that embed, so the note doesn't repeat it.
+function embedIds(note: StickyNoteContent) {
+  return (note.media ?? [])
+    .flatMap((set) => set.items)
+    .flatMap((m) => (m.kind === "youtube" || m.kind === "instagram" ? [m.id] : []));
+}
+
 export function StickyNote({ note, seed, className }: Props) {
-  const links = note.links?.filter((l) => l.style !== "button") ?? [];
+  const embedded = embedIds(note);
+  const links = note.links?.filter((l) => l.style !== "button" && !embedded.some((id) => l.href.includes(id))) ?? [];
   const buttons = note.links?.filter((l) => l.style === "button") ?? [];
 
   return (

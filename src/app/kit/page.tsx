@@ -48,7 +48,20 @@ export default function Kit() {
   const youtube = scene("youtube-2024");
   const clubs = scene("clubs-2025");
   const blrSys = scene("bengaluru-systems-2026");
-  const comeback = youtube.notes[0].media?.[0].items[0];
+  // An embed from a note, with the link it came with ("EMBED + LINK") and its button's words.
+  const embed = (s: Scene, id: string) => {
+    for (const note of s.notes) {
+      const set = note.media?.find((st) => st.items.some((m) => "id" in m && m.id === id));
+      const media = set?.items.find((m) => "id" in m && m.id === id);
+      if (media && (media.kind === "youtube" || media.kind === "instagram")) {
+        const original = note.links?.find((l) => l.href.includes(id));
+        return { media, original, groupTitle: set?.alt, button: extras.embedButton[id] ?? extras.embedButton.default };
+      }
+    }
+    throw new Error(`No embed ${id} in ${s.id}`);
+  };
+  const latestVideo = embed(camera, "7C35Sxp9B3g");
+  const viralReel = embed(clubs, "DN8dYkhCac1");
   const townSquare = intro.flatMap((b) => b.supertitles).find((l) => l.size === "small" && l.text.length > 32);
   const stats = timeline.filter((s) => s.stat).map((s) => s.stat as string);
   const cardSizes = "(max-width: 640px) 70vw, 300px";
@@ -132,10 +145,11 @@ export default function Kit() {
           </div>
         </Piece>
 
-        <Piece name="ReelEmbed: the comeback video, with the sticker link">
-          {comeback && comeback.kind === "youtube" ? (
-            <ReelEmbed media={comeback} original={youtube.notes[0].links?.[0]} sticker={extras.reelSticker} className="mx-3 max-w-md" />
-          ) : null}
+        <Piece name="ReelEmbed: YouTube (the latest video) and an Instagram reel, each loading on tap, with its button underneath" wide>
+          <div className="flex flex-col items-center gap-14 sm:flex-row sm:items-start sm:justify-start">
+            <ReelEmbed {...latestVideo} className="w-[calc(100%-1.5rem)] max-w-md" />
+            <ReelEmbed {...viralReel} className="w-52" />
+          </div>
         </Piece>
 
         <Piece name="StickerButton">

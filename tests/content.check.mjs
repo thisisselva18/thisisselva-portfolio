@@ -148,17 +148,21 @@ test("Geist Serif Heart is used exactly once", () => {
   assert.equal(hearts.length, 1);
 });
 
+// A blank alt is a decision, not a gap: the picture is decorative, or covered by its set's alt
+// or its scene's cardsAlt (the user's rule, 3 Nov 2026). Embeds need a name, though: their own
+// title, or their set's alt (the club reels share one title).
 test("words still to come from the user", (t) => {
   const pending = [];
-  const walk = (node, where) => {
-    if (Array.isArray(node)) return node.forEach((n) => walk(n, where));
+  const walk = (node, where, setAlt) => {
+    if (Array.isArray(node)) return node.forEach((n) => walk(n, where, setAlt));
     if (!node || typeof node !== "object") return;
-    if (node.kind === "youtube" || node.kind === "instagram") {
-      if (!node.title) pending.push(`${where}: title for ${node.kind} ${node.id}`);
-    } else if (node.kind && !node.alt) pending.push(`${where}: alt for ${node.src}`);
-    for (const [k, v] of Object.entries(node)) if (k !== "items") walk(v, node.id ?? where);
-    if (node.items) walk(node.items, node.alt ? `${where} (set has group alt)` : where);
+    if ((node.kind === "youtube" || node.kind === "instagram") && !node.title && !setAlt) {
+      pending.push(`${where}: a title for ${node.kind} ${node.id}${node.kind === "instagram" ? " (or one for its set)" : ""}`);
+    }
+    if (node.items) return walk(node.items, where, node.alt);
+    for (const [k, v] of Object.entries(node)) walk(v, node.id ?? where, setAlt);
   };
   walk(content, "site");
-  t.diagnostic(`${pending.length} pending (fine for now: alt text and embed titles come from docs/media-review.html)`);
+  const list = [...new Set(pending)];
+  t.diagnostic(list.length ? `${list.length} pending: ${list.join("; ")}` : "nothing pending");
 });

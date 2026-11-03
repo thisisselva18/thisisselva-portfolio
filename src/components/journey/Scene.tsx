@@ -81,21 +81,42 @@ function NoteMedia({ set, note }: { set: MediaSet; note: NoteContent }) {
   );
 }
 
+// Scenes whose story has a second part: from card set `cards` and note `notes` on, it goes under
+// the card cluster on a laptop, so both halves stay full (the user: Shunya's reel and its notes
+// fill the side under the club photos). On a phone it simply follows, in reading order.
+const SECOND_PART: Record<string, { cards: number; notes: number }> = {
+  "clubs-2025": { cards: 1, notes: 1 },
+};
+
+function Notes({ scene, notes, from }: { scene: SceneContent; notes: NoteContent[]; from: number }) {
+  return notes.map((note, i) => (
+    <Fragment key={note.heading ?? note.body[0] ?? i}>
+      <StickyNote note={note} seed={`${scene.id}-${from + i}`} className="w-full" />
+      {note.media?.map((set) => <NoteMedia key={set.label} set={set} note={note} />)}
+    </Fragment>
+  ));
+}
+
 export function Scene({ scene }: { scene: SceneContent }) {
   const right = scene.side === "right";
   const corners = scene.supertitles.flatMap((l) => (l.cornerTag ? [l.cornerTag] : []));
   // A stat that's already in a supertitle is circled there, not repeated below it.
   const statInLine = !!scene.stat && scene.supertitles.some((l) => l.text.includes(scene.stat as string));
+  const split = SECOND_PART[scene.id];
+  const cards = split ? scene.cards.slice(0, split.cards) : scene.cards;
+  const notes = split ? scene.notes.slice(0, split.notes) : scene.notes;
+  const cardsCol = right ? "lg:col-start-2" : "lg:col-start-1";
+  const textCol = right ? "lg:col-start-1" : "lg:col-start-2";
   return (
     <section
       id={scene.id}
       aria-labelledby={`${scene.id}-title`}
       className="relative z-10 grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:items-start lg:gap-16"
     >
-      <div className={`min-w-0 lg:pt-10 ${right ? "lg:order-2" : ""}`}>
+      <div className={`min-w-0 lg:row-start-1 lg:pt-10 ${cardsCol}`}>
         <CardCluster
           seed={scene.id}
-          sets={scene.cards}
+          sets={cards}
           label={scene.cardsAlt}
           cornerTags={corners}
           labelStrip={(extras.labelStrips as Record<string, string>)[scene.id]}
@@ -103,20 +124,22 @@ export function Scene({ scene }: { scene: SceneContent }) {
         />
       </div>
 
-      <div className="flex min-w-0 flex-col items-center gap-8 lg:items-start">
+      <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-span-2 lg:row-start-1 lg:items-start ${textCol}`}>
         <div className="w-full space-y-4 text-center lg:text-left">
           {scene.supertitles.map((line, i) => (
             <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} as={i === 0 ? "h2" : "p"} {...(i === 0 ? { id: `${scene.id}-title` } : {})} className="mx-auto lg:mx-0" />
           ))}
         </div>
         {scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
-        {scene.notes.map((note, i) => (
-          <Fragment key={note.heading ?? note.body[0] ?? i}>
-            <StickyNote note={note} seed={`${scene.id}-${i}`} className="w-full" />
-            {note.media?.map((set) => <NoteMedia key={set.label} set={set} note={note} />)}
-          </Fragment>
-        ))}
+        <Notes scene={scene} notes={notes} from={0} />
       </div>
+
+      {split ? (
+        <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-start-2 lg:items-start ${cardsCol}`}>
+          <CardCluster seed={`${scene.id}-2`} sets={scene.cards.slice(split.cards)} tied={false} />
+          <Notes scene={scene} notes={scene.notes.slice(split.notes)} from={split.notes} />
+        </div>
+      ) : null}
     </section>
   );
 }

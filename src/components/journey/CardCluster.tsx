@@ -21,6 +21,7 @@ type Props = {
   cornerTags?: string[]; // the scene's corner tags, stamped on the first cards in order
   labelStrip?: string; // extras.labelStrips: on the last set
   pointers?: string[]; // extras.pointerLabels: round the camera
+  tied?: boolean; // false for a second cluster in the same scene: the string ties each scene once
 };
 
 type Shown = Extract<Media, { kind: "image" | "post" | "video" }>;
@@ -39,9 +40,10 @@ const CAMERA_POINTS: Pick<Pointer, "at" | "label">[] = [
   { at: [12, 40], label: [-4, 88] },
 ];
 
-export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers }: Props) {
+export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers, tied = true }: Props) {
   const shownSets = sets.map((set) => ({ set, items: set.items.filter(ready) })).filter((s) => s.items.length);
 
+  if (!shownSets.length && !tied) return null;
   // Nothing to show yet (Anthpo): a crayon mark holds the string's place.
   if (!shownSets.length) {
     return (
@@ -67,28 +69,34 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
           key={set.label}
           role={set.alt && !label ? "group" : undefined}
           aria-label={set.alt && !label ? set.alt : undefined}
-          className={`relative flex w-full flex-wrap items-start justify-center ${s > 0 ? "-mt-4 sm:-mt-8" : ""}`}
+          className={`relative flex w-full flex-wrap items-start justify-center ${s > 0 ? (pointers ? "mt-6" : "-mt-4 sm:-mt-8") : ""}`}
         >
           {items.map((m, i) => {
             const lead = s === 0 && i === 0;
             const alone = standsAlone(m);
-            const width = lead
+            // A set's only video plays wide (the IndiaFOSS ad); photos and videos in the sets after
+            // the first (the meetups, the vlog clips) are bigger than the first set's extras.
+            const wide = lead || (m.kind === "video" && items.length === 1);
+            const later = s > 0 && !alone;
+            const width = wide
               ? alone
                 ? "w-[62%] max-w-[18rem]"
                 : "w-[80%] max-w-[26rem]"
               : alone
                 ? "w-[30%] max-w-[9rem]"
-                : "w-[48%] max-w-[15rem]";
+                : later
+                  ? "w-[50%] max-w-[17rem]"
+                  : "w-[48%] max-w-[15rem]";
             // A messy pile: neighbours overlap a little and sit at slightly different heights.
-            const pile = lead ? "z-0" : `-mx-[1.5%] ${i % 2 ? "mt-8" : "-mt-2"}`;
+            const pile = wide ? "z-0" : `${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`;
             const corner = corners.get(key(m));
             let card: ReactNode = (
               <WorkCard
                 src={m.src}
                 alt={m.kind === "video" ? "" : (m.alt ?? "")}
-                sizes={lead ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 48vw, 240px"}
+                sizes={wide ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 50vw, 272px"}
                 mount={!alone}
-                attach={lead ? (alone ? "tape" : "pin") : "none"}
+                attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
                 caption={alone ? undefined : m.alt}
                 corner={corner ? <CornerTag text={corner} /> : null}
                 media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt} /> : undefined}
@@ -104,7 +112,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
             );
           })}
           {labelStrip && s === shownSets.length - 1 ? (
-            <LabelStrip text={labelStrip} className={`absolute left-[8%] z-20 ${pointers ? "-top-3" : "-bottom-3"}`} />
+            <LabelStrip text={labelStrip} className={`absolute left-[8%] z-20 ${pointers && shownSets.length === 1 ? "-top-3" : "-bottom-3"}`} />
           ) : null}
         </div>
       ))}

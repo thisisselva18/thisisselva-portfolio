@@ -441,7 +441,8 @@ export const timeline: Scene[] = [
       {
         heading: "The ad",
         body: ["This is the one I'm proudest of so far. A Homebrew x FOSS United reel, revealed in September 2026."],
-        media: [set("The ad embed", [{ kind: "instagram", id: "Dc8rTjYTWry", title: "Written, edited, directed and voiced by yours truly..." }])],
+        // Its cover is a frame of the ad itself (the same reel, compressed for the cards).
+        media: [set("The ad embed", [{ kind: "instagram", id: "Dc8rTjYTWry", title: "Written, edited, directed and voiced by yours truly...", poster: "/media/reels/hb-x-indiafoss.jpg" }])],
         links: [{ label: "instagram.com/reel/Dc8rTjYTWry", href: "https://www.instagram.com/reel/Dc8rTjYTWry" }],
       },
       {

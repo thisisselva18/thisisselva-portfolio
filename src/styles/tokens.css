@@ -73,6 +73,8 @@
   /* Cutouts and cards: a thin white sticker border, a barely-there shadow */
   --sticker-border: 6px;
   --mount-border: 10px; /* the thicker paper a work card is mounted on */
+  --polaroid-gap: 2.75rem; /* the wide bottom edge a card's caption sits in */
+  --caption-size: 0.9375rem; /* Geist Mono captions in the polaroid gap */
   --lift-shadow: 0 1px 1px color-mix(in srgb, var(--ink) 22%, transparent),
     0 2px 5px color-mix(in srgb, var(--ink) 10%, transparent);
   --curl-shadow: 0 6px 6px -4px color-mix(in srgb, var(--ink) 30%, transparent);

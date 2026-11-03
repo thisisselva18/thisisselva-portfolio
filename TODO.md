@@ -43,7 +43,21 @@
     - **Tests:** tapping a cover loads the player, and nothing loads before.
     - **Phase 4:** lay the five reels out beside the clubs notes as a fanned row, with each group's label ("REELS – ROTARACT") over its run. The viral reel's tag still comes from the user. Instagram's player brings its own header and footer, and Instagram decides whether a reel plays inline or opens Instagram. If that feels off, the alternative is hosting muted loops from the reel video files, like Shunya.
   - **Small things seen in the 3a review:** all handled in 3b (wrapped MarkerLink, the poster's size; ReelEmbed already handled `instagram`).
-- [ ] Phase 4: Scroll mode, without fancy motion. **Next.** Carry over the "For Phase 4" notes under Phase 3 (string on phones, clip sideways overflow, marker note anchored to the cutout, newsprint strips).
+- [x] Phase 4: Scroll mode, without fancy motion. **Done 3 Nov 2026** (user's go-ahead on all 8 recommendations; deadline: site live by 22:30 IST tonight).
+  - **The page** (src/app/page.tsx): HeadStage → 10 × Scene → TheEnd in one positioned column, `overflow-x: clip` on main, one `RedString layer="behind"` from the kid's head through one pin per cluster to the present-day head (12 pins). The string runs under the cards and notes and shows in the gaps; supertitles sit on their paper `strip` so it passes under the letters. Phone: cards on top, notes below, everything centred, so the string runs straight down the middle.
+  - **CardCluster** (journey/): a seeded pile per scene; the first card is the lead (bigger, the only pin; WorkCard got `attach="none"`). Corner tags go on cards (Phase 3a rule). Cutouts/stickers stand alone; everything else is mounted. Videos are left out until their file and poster exist. Anthpo (no pictures) gets a pink crayon loop holding the pin. Camera gets the pointer labels, its label strip top-left.
+  - **Polaroid captions (user's call, design.md section 8 first):** a mounted card with alt text gets a wide bottom edge (`--polaroid-gap`) and its alt as a Geist Mono caption (`--caption-size`), shown on hover/focus, always on touch screens. `aria-hidden` (the img alt says it already). Cards without alt have no caption. The user's alt text is final as of 3 Nov ("given wherever required").
+  - **Content:** the camera and music-note cutouts are reused as their scenes' objects (decorative). Homebrew_HSP_event.jpg removed (not a Homebrew photo, user).
+  - **Note media** (Scene.tsx): embeds via ReelEmbed with their link as the button; the five club reels as rows under their group labels (phone: swipe row, next reel peeking; laptop: fanned); pictures as captioned cards.
+  - **TheEnd:** zoom-out supertitle, present-day cutout on newsprint (printed lines only, for now), the four socials as paper cards, "Hit me up!" with the Dot over the "!"'s dot.
+  - **Media (4a):** 45 new manifest entries from BUILD.md's asset map, all built. Piano/headphones were already transparent; megaphone's white is removed by `uncheck`. The pipeline now handles `.mp4` (ffmpeg-static's binary or ffmpeg on PATH; muted H.264, faststart, poster at `posterAt`).
+  - **Tests:** tests/journey.spec.ts (no errors / missing media / sideways scroll; scenes in order; every content link present and external ones `_blank noopener`; one pin per cluster; reduced motion = no sway). smoke.spec.ts now allows more textures. Playwright: 90s timeout, 2 workers (the dev server builds each image size on first request). 32/32, content 13/13, lint and `npm run build` clean. Link check: all 200, LinkedIn 999 (bot block, check by hand).
+  - **Still open from Phase 4:**
+    - **Videos:** ffmpeg-static is installed but its download script needs approval: `npm install-scripts approve ffmpeg-static && npm rebuild ffmpeg-static`, then `npm run assets -- .mp4`. The vlog clips, Shunya reel and the ad then appear on their own (the clusters pick them up).
+    - The IndiaFOSS ad embed (Dc8rTjYTWry) has no cover screenshot, so it shows a black phone with a play button until tapped. A cover in Material/ fixes it.
+    - Anthpo still has no picture (orange ball / shoe / statue).
+    - Captions show on hover, but cards aren't keyboard-focusable, so a sighted keyboard user won't see them (screen readers get the alt).
+    - The landing (STORY / SCROLL) isn't built: the site opens straight on the head, which is scroll mode's start anyway.
 - [ ] Phase 5: Scroll mode, with the real motion
 - [ ] Phase 6: The intro (story mode only)
 - [ ] Phase 7: Story mode

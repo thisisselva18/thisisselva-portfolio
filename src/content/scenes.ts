@@ -1,6 +1,7 @@
 // The Head Journey, 0:30 to 1:23. Copied word for word from docs/script.md.
 //
-// Each picture appears once. Media named in the action lines or under "ON ONE SIDE"
+// Each picture appears once, except the camera and music-note cutouts, which are also
+// their scenes' objects. Media named in the action lines or under "ON ONE SIDE"
 // is the scene's card cluster (cards). Media named only inside THE DETAILS goes
 // in the sticky note it follows (notes[].media).
 //
@@ -70,7 +71,11 @@ export const timeline: Scene[] = [
     supertitles: [{ text: "2017. A kid with a camera." }],
     visual:
       "Two short clips from my old vlogs play inside the lens, on mute. A kid, a camera, and absolutely no plan. (VIDEO: ThisIsSelva_Vid1.mp4, ThisIsSelva_Vid2.mp4)",
-    cards: [set("The vlog clips", [video("youtube/vlog-clip-1"), video("youtube/vlog-clip-2")], "Started out young!")],
+    // The camera cutout is reused from the head's burst as this scene's object (decorative, user's OK 3 Nov 2026).
+    cards: [
+      set("The camera", [image("cutouts/camera.png", "as-is")]),
+      set("The vlog clips", [video("youtube/vlog-clip-1"), video("youtube/vlog-clip-2")], "Started out young!"),
+    ],
     notes: [
       {
         body: ["Started a YouTube channel as a kid. Vlogs, random moments, whatever I felt like filming that day."],
@@ -91,7 +96,8 @@ export const timeline: Scene[] = [
     holdFor: 2,
     supertitles: [{ text: "2020." }, { text: "SG Records and Productions", size: "small" }],
     visual: "A quick pass. The note pulses, once.",
-    cards: [],
+    // The music-note cutout is reused from the head's burst as this scene's object (decorative, user's OK 3 Nov 2026).
+    cards: [set("The music note", [image("cutouts/music-note.png", "as-is")])],
     notes: [
       {
         body: [
@@ -379,7 +385,6 @@ export const timeline: Scene[] = [
       set("The Homebrew events", [
         { ...image("photos/homebrew/church-street-1.jpg"), alt: "FOSS Talks 3.0" },
         { ...image("photos/homebrew/church-street-2.jpg"), alt: "FOSS Talks 4.0" },
-        image("photos/homebrew/event.jpg"),
         image("photos/homebrew/stall.jpg"),
         { ...image("photos/homebrew/marketing.jpg"), alt: "Whacky marketing be like ;p" },
       ], "Leading Social Media & Marketing for HSP"),

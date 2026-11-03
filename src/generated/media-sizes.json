@@ -11,25 +11,153 @@
     "width": 157,
     "height": 459
   },
+  "/media/cutouts/headphones.png": {
+    "width": 440,
+    "height": 519
+  },
+  "/media/cutouts/idea.png": {
+    "width": 547,
+    "height": 858
+  },
+  "/media/cutouts/megaphone.png": {
+    "width": 930,
+    "height": 850
+  },
+  "/media/cutouts/music-note.png": {
+    "width": 699,
+    "height": 838
+  },
+  "/media/cutouts/music-staff.png": {
+    "width": 500,
+    "height": 2521
+  },
+  "/media/cutouts/piano.png": {
+    "width": 395,
+    "height": 248
+  },
   "/media/cutouts/present-day.png": {
     "width": 938,
     "height": 923
+  },
+  "/media/cutouts/writing.png": {
+    "width": 900,
+    "height": 883
   },
   "/media/marks/arrow.svg": {
     "width": 577,
     "height": 727
   },
+  "/media/music/currents-cover.jpg": {
+    "width": 554,
+    "height": 554
+  },
+  "/media/music/soundcloud-profile.png": {
+    "width": 1200,
+    "height": 1002
+  },
+  "/media/photos/bengaluru-systems/meetup-1.jpg": {
+    "width": 1400,
+    "height": 904
+  },
+  "/media/photos/bengaluru-systems/meetup-2.jpg": {
+    "width": 1400,
+    "height": 1050
+  },
+  "/media/photos/bengaluru-systems/meetup-3.jpg": {
+    "width": 1400,
+    "height": 923
+  },
+  "/media/photos/clubs/acm-badge.jpg": {
+    "width": 1200,
+    "height": 1105
+  },
+  "/media/photos/clubs/acm-hacknight.jpg": {
+    "width": 1400,
+    "height": 1050
+  },
   "/media/photos/clubs/ecell-poster.jpg": {
     "width": 1400,
     "height": 1785
+  },
+  "/media/photos/clubs/rotaract-event.jpg": {
+    "width": 1400,
+    "height": 1049
   },
   "/media/photos/clubs/rotaract-poster.jpg": {
     "width": 1200,
     "height": 2133
   },
+  "/media/photos/do-blr/filming.jpg": {
+    "width": 477,
+    "height": 716
+  },
+  "/media/photos/homebrew/church-street-1.jpg": {
+    "width": 1400,
+    "height": 788
+  },
+  "/media/photos/homebrew/church-street-2.jpg": {
+    "width": 1400,
+    "height": 788
+  },
+  "/media/photos/homebrew/marketing.jpg": {
+    "width": 1400,
+    "height": 787
+  },
+  "/media/photos/homebrew/poster.jpg": {
+    "width": 960,
+    "height": 1280
+  },
+  "/media/photos/homebrew/stall.jpg": {
+    "width": 1400,
+    "height": 788
+  },
+  "/media/photos/homebrew/united-by-foss.jpg": {
+    "width": 1400,
+    "height": 654
+  },
+  "/media/photos/xeneva/booth-1.jpg": {
+    "width": 1400,
+    "height": 788
+  },
+  "/media/photos/xeneva/booth-2.jpg": {
+    "width": 1400,
+    "height": 788
+  },
+  "/media/photos/xeneva/team.jpg": {
+    "width": 1400,
+    "height": 1050
+  },
   "/media/posts/bengaluru-systems/post-1.png": {
     "width": 599,
     "height": 461
+  },
+  "/media/posts/bengaluru-systems/post-2.png": {
+    "width": 596,
+    "height": 501
+  },
+  "/media/posts/bengaluru-systems/post-3.png": {
+    "width": 598,
+    "height": 159
+  },
+  "/media/posts/do-blr/do-blr-1.png": {
+    "width": 1080,
+    "height": 1443
+  },
+  "/media/posts/do-blr/do-blr-2.png": {
+    "width": 1080,
+    "height": 1387
+  },
+  "/media/posts/do-blr/do-blr-3.png": {
+    "width": 1080,
+    "height": 1434
+  },
+  "/media/posts/do-blr/do-blr-4.png": {
+    "width": 1080,
+    "height": 1440
+  },
+  "/media/posts/do-blr/do-blr-5.png": {
+    "width": 1080,
+    "height": 1426
   },
   "/media/reels/covers/DHm_NzOCoT2.jpg": {
     "width": 499,
@@ -55,7 +183,27 @@
     "width": 575,
     "height": 700
   },
+  "/media/scripts/script-2.png": {
+    "width": 573,
+    "height": 776
+  },
+  "/media/scripts/script-3.png": {
+    "width": 645,
+    "height": 831
+  },
+  "/media/scripts/script-4.png": {
+    "width": 524,
+    "height": 615
+  },
+  "/media/stickers/devroom-security.png": {
+    "width": 500,
+    "height": 500
+  },
   "/media/stickers/fork-it.png": {
+    "width": 500,
+    "height": 500
+  },
+  "/media/stickers/indiafoss-wild.png": {
     "width": 500,
     "height": 500
   },
@@ -63,8 +211,44 @@
     "width": 500,
     "height": 500
   },
+  "/media/stickers/julius.png": {
+    "width": 489,
+    "height": 500
+  },
+  "/media/xeneva/sticker-1.png": {
+    "width": 700,
+    "height": 700
+  },
+  "/media/xeneva/sticker-2.png": {
+    "width": 700,
+    "height": 755
+  },
+  "/media/xeneva/sticker-3.png": {
+    "width": 700,
+    "height": 700
+  },
+  "/media/xeneva/sticker-4.png": {
+    "width": 700,
+    "height": 629
+  },
+  "/media/xeneva/tshirt.png": {
+    "width": 1600,
+    "height": 870
+  },
   "/media/youtube/four-years-ch1.png": {
     "width": 801,
     "height": 589
+  },
+  "/media/youtube/four-years-ch2.png": {
+    "width": 794,
+    "height": 633
+  },
+  "/media/youtube/year-one.png": {
+    "width": 792,
+    "height": 535
+  },
+  "/media/youtube/year-two.png": {
+    "width": 785,
+    "height": 577
   }
 }

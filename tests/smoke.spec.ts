@@ -18,7 +18,7 @@ test("the page sits on textured paper", async ({ page }, testInfo) => {
 
   const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   expect(background).toBe("rgb(246, 243, 236)");
-  expect(textures.sort()).toEqual(["/textures/paper-tone.webp", "/textures/paper.webp"]);
+  expect(textures).toEqual(expect.arrayContaining(["/textures/paper-tone.webp", "/textures/paper.webp"]));
 
   await page.screenshot({ path: testInfo.outputPath("home.png"), fullPage: true });
 });

@@ -14,10 +14,11 @@ import { sway as swayCard } from "@/motion/presets";
 type Props = {
   sag?: number; // how far it dips between two pins, as a fraction of the run
   sway?: boolean; // whether the cards hanging from it sway
+  layer?: "front" | "behind"; // behind: under the cards and notes, showing in the gaps (the page)
   className?: string;
 };
 
-export function RedString({ sag = 0.05, sway = true, className }: Props) {
+export function RedString({ sag = 0.05, sway = true, layer = "front", className }: Props) {
   const svg = useRef<SVGSVGElement>(null);
   const [d, setD] = useState("");
 
@@ -36,6 +37,9 @@ export function RedString({ sag = 0.05, sway = true, className }: Props) {
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(parent);
+    // Late fonts and images can move pins without changing the parent's size much.
+    document.fonts?.ready.then(measure);
+    window.addEventListener("load", measure);
 
     // Each card swings round its own pin (the pin's spot inside the card, before any tilt).
     const swings = sway
@@ -54,12 +58,13 @@ export function RedString({ sag = 0.05, sway = true, className }: Props) {
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("load", measure);
       swings.forEach((tween) => tween?.revert());
     };
   }, [sag, sway]);
 
   return (
-    <svg ref={svg} aria-hidden className={`pointer-events-none absolute inset-0 z-30 size-full overflow-visible ${className ?? ""}`}>
+    <svg ref={svg} aria-hidden className={`pointer-events-none absolute inset-0 ${layer === "behind" ? "z-0" : "z-30"} size-full overflow-visible ${className ?? ""}`}>
       <defs>
         {/* A few loose fibres round the string: a soft, slightly ragged halo, not a clean line. */}
         <filter id="string-fuzz" x="-5%" y="-5%" width="110%" height="110%">

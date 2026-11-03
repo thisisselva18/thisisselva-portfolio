@@ -175,5 +175,430 @@
     ],
     "maxWidth": 1200,
     "usedIn": "head (the burst) and camera-2017. Already halftoned with a sticker border; only the fake checkerboard is removed"
+  },
+  {
+    "src": "Material/music.jpg",
+    "out": "public/media/cutouts/music-note.png",
+    "treatment": [
+      "uncheck",
+      "trim"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst) and music-2020"
+  },
+  {
+    "src": "Material/yamaha.png",
+    "out": "public/media/cutouts/piano.png",
+    "treatment": [
+      "trim",
+      "colour-print",
+      "sticker-border"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst)"
+  },
+  {
+    "src": "Material/headphone.png",
+    "out": "public/media/cutouts/headphones.png",
+    "treatment": [
+      "trim",
+      "colour-print",
+      "sticker-border"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst)"
+  },
+  {
+    "src": "Material/Tame_Impala.jpg",
+    "out": "public/media/music/currents-cover.jpg",
+    "treatment": [],
+    "maxWidth": 600,
+    "usedIn": "head (the burst). Tame Impala artwork, shown as it is"
+  },
+  {
+    "src": "Material/Writing.jpg",
+    "out": "public/media/cutouts/writing.png",
+    "treatment": [
+      "uncheck",
+      "trim"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst)"
+  },
+  {
+    "src": "Material/idea.jpg",
+    "out": "public/media/cutouts/idea.png",
+    "treatment": [
+      "uncheck",
+      "trim"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst)"
+  },
+  {
+    "src": "Material/megaphone.png",
+    "out": "public/media/cutouts/megaphone.png",
+    "treatment": [
+      "uncheck",
+      "trim",
+      "colour-print",
+      "sticker-border"
+    ],
+    "maxWidth": 900,
+    "usedIn": "head (the burst). White background removed by uncheck"
+  },
+  {
+    "src": "Material/music2.jpg",
+    "out": "public/media/cutouts/music-staff.png",
+    "treatment": [
+      "uncheck",
+      "trim"
+    ],
+    "maxWidth": 500,
+    "usedIn": "head (the burst)"
+  },
+  {
+    "src": "Material/Soundcloud.png",
+    "out": "public/media/music/soundcloud-profile.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "music-2020"
+  },
+  {
+    "src": "Material/Four_Years_Later_2.png",
+    "out": "public/media/youtube/four-years-ch2.png",
+    "treatment": [],
+    "maxWidth": 1280,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Year_One_YouTube.png",
+    "out": "public/media/youtube/year-one.png",
+    "treatment": [],
+    "maxWidth": 1280,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Year_Two_YouTube.png",
+    "out": "public/media/youtube/year-two.png",
+    "treatment": [],
+    "maxWidth": 1280,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Script2.png",
+    "out": "public/media/scripts/script-2.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Script3.png",
+    "out": "public/media/scripts/script-3.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Script4.png",
+    "out": "public/media/scripts/script-4.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Rotaract.png",
+    "out": "public/media/photos/clubs/rotaract-event.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "clubs-2025"
+  },
+  {
+    "src": "Material/October_2025_Design_Lead_for_Hackathon.png",
+    "out": "public/media/photos/clubs/acm-badge.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1200,
+    "usedIn": "clubs-2025"
+  },
+  {
+    "src": "Material/Hacknight7_October_Hackathon.jpg",
+    "out": "public/media/photos/clubs/acm-hacknight.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "clubs-2025"
+  },
+  {
+    "src": "Material/BlrSys_Post2.png",
+    "out": "public/media/posts/bengaluru-systems/post-2.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "bengaluru-systems-2026"
+  },
+  {
+    "src": "Material/BlrSys_Post3.png",
+    "out": "public/media/posts/bengaluru-systems/post-3.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "bengaluru-systems-2026"
+  },
+  {
+    "src": "Material/BengaluruSystems_March2026.png",
+    "out": "public/media/photos/bengaluru-systems/meetup-1.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "bengaluru-systems-2026"
+  },
+  {
+    "src": "Material/BengaluruSystems_April2026.png",
+    "out": "public/media/photos/bengaluru-systems/meetup-2.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "bengaluru-systems-2026"
+  },
+  {
+    "src": "Material/BengaluruSystems_May2026.png",
+    "out": "public/media/photos/bengaluru-systems/meetup-3.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "bengaluru-systems-2026"
+  },
+  {
+    "src": "Material/doblr1.png",
+    "out": "public/media/posts/do-blr/do-blr-1.png",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/doblr2.png",
+    "out": "public/media/posts/do-blr/do-blr-2.png",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/doblr3.png",
+    "out": "public/media/posts/do-blr/do-blr-3.png",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/doblr4.png",
+    "out": "public/media/posts/do-blr/do-blr-4.png",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/doblr5.png",
+    "out": "public/media/posts/do-blr/do-blr-5.png",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/March_2026_Pic.png",
+    "out": "public/media/photos/do-blr/filming.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1200,
+    "usedIn": "do-bengaluru-2026"
+  },
+  {
+    "src": "Material/Xeneva/FINAL T-SHIRT 2.png",
+    "out": "public/media/xeneva/tshirt.png",
+    "treatment": [],
+    "maxWidth": 1600,
+    "usedIn": "xeneva-2026 (mockup on grey, shown as a card)"
+  },
+  {
+    "src": "Material/Xeneva/Sticker1.png",
+    "out": "public/media/xeneva/sticker-1.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 700,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva/Sticker2.png",
+    "out": "public/media/xeneva/sticker-2.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 700,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva/Sticker3.png",
+    "out": "public/media/xeneva/sticker-3.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 700,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva/Sticker4.png",
+    "out": "public/media/xeneva/sticker-4.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 700,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva_IndiaFOSS.jpg",
+    "out": "public/media/photos/xeneva/team.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva_IndiaFOSS_2.jpg",
+    "out": "public/media/photos/xeneva/booth-1.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/Xeneva_IndiaFOSS_3.jpg",
+    "out": "public/media/photos/xeneva/booth-2.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "xeneva-2026"
+  },
+  {
+    "src": "Material/FOSSTalks_3_Church_Street.png",
+    "out": "public/media/photos/homebrew/church-street-1.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "homebrew-2026"
+  },
+  {
+    "src": "Material/Homebrew_ChurchStreet.jpg",
+    "out": "public/media/photos/homebrew/church-street-2.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "homebrew-2026"
+  },
+  {
+    "src": "Material/Homebrew_HSP_Stall.jpg",
+    "out": "public/media/photos/homebrew/stall.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "homebrew-2026"
+  },
+  {
+    "src": "Material/HSP_Homebrew_Marketing.png",
+    "out": "public/media/photos/homebrew/marketing.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "homebrew-2026"
+  },
+  {
+    "src": "Material/Homebrew_HSP_2.jpg",
+    "out": "public/media/photos/homebrew/poster.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1200,
+    "usedIn": "homebrew-2026 (spotted in the wild)"
+  },
+  {
+    "src": "Material/Homebrew_IndiaFOSS.jpg",
+    "out": "public/media/photos/homebrew/united-by-foss.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "homebrew-2026 (spotted in the wild)"
+  },
+  {
+    "src": "Material/IndiaFOSS Stickers/Devroom - Security.png",
+    "out": "public/media/stickers/devroom-security.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 1000,
+    "usedIn": "indiafoss-2026"
+  },
+  {
+    "src": "Material/IndiaFOSS Stickers/IndiaFOSS - Wild.png",
+    "out": "public/media/stickers/indiafoss-wild.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 1000,
+    "usedIn": "indiafoss-2026"
+  },
+  {
+    "src": "Material/IndiaFOSS Stickers/Julius.png",
+    "out": "public/media/stickers/julius.png",
+    "treatment": [
+      "trim"
+    ],
+    "maxWidth": 1000,
+    "usedIn": "indiafoss-2026"
+  },
+  {
+    "src": "Material/ThisIsSelva_Vid1.mp4",
+    "out": "public/media/youtube/vlog-clip-1.mp4",
+    "treatment": [],
+    "maxWidth": 720,
+    "usedIn": "camera-2017 (muted)",
+    "posterAt": 2
+  },
+  {
+    "src": "Material/ThisIsSelva_Vid2.mp4",
+    "out": "public/media/youtube/vlog-clip-2.mp4",
+    "treatment": [],
+    "maxWidth": 720,
+    "usedIn": "camera-2017 (muted)",
+    "posterAt": 2
+  },
+  {
+    "src": "Material/Shunya_Reveal.mp4",
+    "out": "public/media/reels/shunya-reveal.mp4",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "clubs-2025 (muted)",
+    "posterAt": 3
+  },
+  {
+    "src": "Material/HBxIndiaFOSS.mp4",
+    "out": "public/media/reels/hb-x-indiafoss.mp4",
+    "treatment": [],
+    "maxWidth": 1920,
+    "usedIn": "indiafoss-2026 (muted)",
+    "posterAt": 3
   }
 ]

@@ -31,6 +31,7 @@
   --text-supertitle-small: var(--supertitle-small-size);
   --text-supertitle-small--line-height: var(--supertitle-small-leading);
   --text-mono: var(--mono-size);
+  --text-caption: var(--caption-size);
   --text-details: var(--details-size);
   --text-details--line-height: var(--details-leading);
   --text-button: var(--button-size);

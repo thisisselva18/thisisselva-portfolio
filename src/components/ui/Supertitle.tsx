@@ -13,15 +13,16 @@ type Props = {
   as?: "h1" | "h2" | "h3" | "p";
   strip?: boolean; // on a busy moment: sits on a solid strip of paper, like a label stuck on top
   className?: string;
+  id?: string;
 };
 
-export function Supertitle({ line, as: Tag = "p", strip, className }: Props) {
+export function Supertitle({ line, as: Tag = "p", strip, className, id }: Props) {
   const small = line.size === "small";
   const face =
     line.face === "heart" ? "font-heart" : small && line.text.length > SMALL_SERIF_MAX ? "font-sans" : "font-serif";
   const size = small ? "text-supertitle-small max-w-[32ch]" : "text-supertitle max-w-[var(--supertitle-measure)]";
   return (
-    <Tag className={`${face} ${size} font-normal text-balance text-ink [hyphens:none] ${className ?? ""}`}>
+    <Tag id={id} className={`${face} ${size} font-normal text-balance text-ink [hyphens:none] ${className ?? ""}`}>
       {strip ? <span className="bg-paper px-[0.2em] [box-decoration-break:clone]">{line.text}</span> : line.text}
     </Tag>
   );

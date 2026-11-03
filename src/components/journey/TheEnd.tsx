@@ -1,5 +1,75 @@
-// The present-day cutout with the social links around it.
+// The zoom out and the end (design.md section 9, "The end"): "So much more to come", then the
+// present-day cutout in front of wavy newsprint bands made from the script's own lines, the
+// social links around him like cards, one crayon scribble, and the dot as the dot of the
+// exclamation mark in "Hit me up!". The red string ends at the top of his head.
+
+import { head, timeline, zoomOut } from "@/content/scenes";
+import { site } from "@/content/site";
+import { tilt } from "@/lib/rough";
+import { CrayonScribble } from "@/components/ui/CrayonScribble";
+import { Dot } from "@/components/ui/Dot";
+import { MarkerLink } from "@/components/ui/MarkerLink";
+import { NewsprintBand } from "@/components/ui/NewsprintBand";
+import { Supertitle } from "@/components/ui/Supertitle";
+import { WorkCard } from "@/components/ui/WorkCard";
+import type { Link } from "@/content/types";
+
+function LinkCard({ link }: { link: Link }) {
+  return (
+    <li className="texture texture-mount px-5 py-3 text-details shadow-lift" style={{ rotate: `${tilt(`end:${link.href}`, 3)}deg` }}>
+      <MarkerLink link={link} />
+    </li>
+  );
+}
+
+// The signoff, with the dot standing in for the dot of its last "!".
+function Signoff({ text }: { text: string }) {
+  const bang = text.endsWith("!");
+  return (
+    <p className="font-serif text-supertitle text-ink">
+      {bang ? text.slice(0, -1) : text}
+      {bang ? (
+        <span className="relative inline-block">
+          <span className="inline-block [clip-path:inset(0_0_24%_0)]">{text.slice(-1)}</span>
+          <Dot className="absolute bottom-[0.09em] left-1/2 -translate-x-1/2" />
+        </span>
+      ) : null}
+    </p>
+  );
+}
 
 export function TheEnd() {
-  return null;
+  const { end } = site;
+  const cutout = zoomOut.cards[0].items[0];
+  const newsprint = [head, ...timeline, zoomOut, end].flatMap((m) => [m.slug, ...m.visual.split("\n")]);
+  const half = Math.ceil(end.links.length / 2);
+  if (cutout.kind !== "image") return null;
+
+  return (
+    <section id="the-end" aria-labelledby="zoom-out-title" className="relative z-10 flex flex-col items-center gap-14 pb-28 pt-20 sm:pt-28">
+      <Supertitle line={zoomOut.supertitles[0]} strip as="h2" id="zoom-out-title" className="mx-auto text-center" />
+
+      <div className="relative w-full">
+        <NewsprintBand lines={newsprint} seed="the-end" bands={9} className="absolute -inset-x-4 top-1/2 sm:-inset-x-10 h-[19rem] -translate-y-1/2 sm:h-[24rem]" />
+        <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
+          <div className="relative mx-auto w-60 sm:w-72 lg:order-2">
+            <WorkCard src={cutout.src} alt={cutout.alt ?? ""} sizes="(max-width: 640px) 64vw, 288px" mount={false} attach="tape" />
+            <CrayonScribble kind="star" colour="blue" seed="the-end" className="absolute -right-14 top-6 w-12" />
+          </div>
+          <ul className="flex flex-col items-center gap-5 lg:order-1 lg:items-end">
+            {end.links.slice(0, half).map((link) => (
+              <LinkCard key={link.href} link={link} />
+            ))}
+          </ul>
+          <ul className="flex flex-col items-center gap-5 lg:order-3 lg:items-start">
+            {end.links.slice(half).map((link) => (
+              <LinkCard key={link.href} link={link} />
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <Signoff text={end.signoff.text} />
+    </section>
+  );
 }

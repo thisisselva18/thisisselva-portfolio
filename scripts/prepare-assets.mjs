@@ -23,7 +23,8 @@
 
 import sharp from "sharp";
 import potrace from "potrace";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
 const manifest = JSON.parse(readFileSync("assets.manifest.json", "utf8"));
@@ -229,10 +230,46 @@ const steps = {
 
 const sizes = existsSync(SIZES) ? JSON.parse(readFileSync(SIZES, "utf8")) : {};
 
+// Videos (.mp4 out): muted H.264 with faststart, scaled so the long side is at most maxWidth,
+// plus a poster frame (.jpg next to it) taken `posterAt` seconds in. Uses ffmpeg-static's binary
+// if it was downloaded, else ffmpeg on the PATH. Without either, videos are skipped with a warning.
+function findFfmpeg() {
+  const local = "node_modules/ffmpeg-static/ffmpeg" + (process.platform === "win32" ? ".exe" : "");
+  if (existsSync(local)) return local;
+  return spawnSync("ffmpeg", ["-version"]).status === 0 ? "ffmpeg" : null;
+}
+function video(entry) {
+  const ffmpeg = findFfmpeg();
+  if (!ffmpeg) {
+    console.warn(`skipped  ${entry.out} (no ffmpeg: run \`npm install-scripts approve ffmpeg-static && npm rebuild ffmpeg-static\`, or install ffmpeg)`);
+    return;
+  }
+  mkdirSync(dirname(entry.out), { recursive: true });
+  const long = entry.maxWidth;
+  const run = (args) => {
+    const r = spawnSync(ffmpeg, ["-y", "-loglevel", "error", ...args], { stdio: "inherit" });
+    if (r.status !== 0) throw new Error(`${entry.out}: ffmpeg failed`);
+  };
+  run(["-i", entry.src, "-vf", `scale='if(gt(iw,ih),min(${long},iw),-2)':'if(gt(iw,ih),-2,min(${long},ih))'`, "-c:v", "libx264", "-crf", "26", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-an", "-movflags", "+faststart", entry.out]);
+  const poster = entry.out.replace(/\.mp4$/, ".jpg");
+  run(["-ss", String(entry.posterAt ?? 2), "-i", entry.out, "-frames:v", "1", "-q:v", "3", poster]);
+  return poster;
+}
+
 for (const entry of manifest) {
   if (only && !entry.out.includes(only)) continue;
   if (!existsSync(entry.src)) {
     console.warn(`missing  ${entry.src}`);
+    continue;
+  }
+  if (entry.out.endsWith(".mp4")) {
+    const poster = video(entry);
+    if (poster) {
+      const { width, height } = await sharp(poster).metadata();
+      sizes[entry.out.replace(/^public/, "")] = { width, height };
+      sizes[poster.replace(/^public/, "")] = { width, height };
+      console.log(`${entry.out.replace(/^public/, "")}  ${width}x${height}  ${(statSync(entry.out).size / 1048576).toFixed(1)}MB (video)`);
+    }
     continue;
   }
   const unknown = entry.treatment.filter((t) => !steps[t]);

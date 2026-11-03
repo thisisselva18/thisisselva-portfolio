@@ -71,46 +71,73 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
           aria-label={set.alt && !label ? set.alt : undefined}
           className={`relative flex w-full flex-wrap items-start justify-center ${s > 0 ? (pointers ? "mt-6" : "-mt-4 sm:-mt-8") : ""}`}
         >
-          {items.map((m, i) => {
-            const lead = s === 0 && i === 0;
-            const alone = standsAlone(m);
-            // A set's only video plays wide (the IndiaFOSS ad); photos and videos in the sets after
-            // the first (the meetups, the vlog clips) are bigger than the first set's extras.
-            const wide = lead || (m.kind === "video" && items.length === 1);
-            const later = s > 0 && !alone;
-            const width = wide
-              ? alone
-                ? "w-[62%] max-w-[18rem]"
-                : "w-[80%] max-w-[26rem]"
-              : alone
-                ? "w-[30%] max-w-[9rem]"
-                : later
-                  ? "w-[50%] max-w-[17rem]"
-                  : "w-[48%] max-w-[15rem]";
-            // A messy pile: neighbours overlap a little and sit at slightly different heights.
-            const pile = wide ? "z-0" : `${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`;
-            const corner = corners.get(key(m));
-            let card: ReactNode = (
-              <WorkCard
-                src={m.src}
-                alt={m.kind === "video" ? "" : (m.alt ?? "")}
-                sizes={wide ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 50vw, 272px"}
-                mount={!alone}
-                attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
-                caption={alone ? undefined : m.alt}
-                corner={corner ? <CornerTag text={corner} /> : null}
-                media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt} /> : undefined}
-              />
-            );
-            if (lead && pointers && m.kind === "image" && m.src.endsWith("/camera.png")) {
-              card = <PointerLabel pointers={pointers.map((text, p) => ({ text, ...CAMERA_POINTS[p] }))}>{card}</PointerLabel>;
-            }
+          {(() => {
+            const cards = items.map((m, i) => {
+              const lead = s === 0 && i === 0;
+              const alone = standsAlone(m);
+              // A set's only video plays wide (the IndiaFOSS ad); photos and videos in the sets after
+              // the first (the meetups, the vlog clips) are bigger than the first set's extras.
+              const wide = lead || (m.kind === "video" && items.length === 1);
+              const later = s > 0 && !alone;
+              const corner = corners.get(key(m));
+              let card: ReactNode = (
+                <WorkCard
+                  src={m.src}
+                  alt={m.kind === "video" ? "" : (m.alt ?? "")}
+                  sizes={wide ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 50vw, 272px"}
+                  mount={!alone}
+                  attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
+                  caption={alone ? undefined : m.alt}
+                  corner={corner ? <CornerTag text={corner} /> : null}
+                  media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt} /> : undefined}
+                />
+              );
+              if (lead && pointers && m.kind === "image" && m.src.endsWith("/camera.png")) {
+                card = <PointerLabel pointers={pointers.map((text, p) => ({ text, ...CAMERA_POINTS[p] }))}>{card}</PointerLabel>;
+              }
+              return { m, i, wide, alone, later, card };
+            });
+            const wideCards = cards.filter((c) => c.wide);
+            const rest = cards.filter((c) => !c.wide);
+            const maxW = (later: boolean) => (later ? "max-w-[17rem]" : "max-w-[15rem]");
+
+            // Three or more mounted prints: two columns that pack upward (masonry), so a short
+            // landscape print slides up under the one above it instead of leaving a hole.
+            const masonry = rest.length >= 3 && rest.every((c) => !c.alone);
             return (
-              <div key={key(m)} className={`relative ${width} ${pile}`}>
-                {card}
-              </div>
+              <>
+                {wideCards.map(({ m, alone, card }) => (
+                  <div key={key(m)} className={`relative z-0 ${alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                    {card}
+                  </div>
+                ))}
+                {masonry ? (
+                  <div className={`flex w-full justify-center ${wideCards.length ? "-mt-6" : ""}`}>
+                    {[0, 1].map((col) => (
+                      <div key={col} className={`flex w-1/2 flex-col ${col ? "mt-10 items-start" : "items-end"}`}>
+                        {rest
+                          .filter((_, r) => r % 2 === col)
+                          .map(({ m, later, card }, r) => (
+                            <div key={key(m)} className={`relative w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"}`}>
+                              {card}
+                            </div>
+                          ))}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  rest.map(({ m, i, alone, later, card }) => (
+                    <div
+                      key={key(m)}
+                      className={`relative ${alone ? "w-[30%] max-w-[9rem]" : `${later ? "w-[50%]" : "w-[48%]"} ${maxW(later)}`} ${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`}
+                    >
+                      {card}
+                    </div>
+                  ))
+                )}
+              </>
             );
-          })}
+          })()}
           {labelStrip && s === shownSets.length - 1 ? (
             <LabelStrip text={labelStrip} className={`absolute left-[8%] z-20 ${pointers && shownSets.length === 1 ? "-top-3" : "-bottom-3"}`} />
           ) : null}

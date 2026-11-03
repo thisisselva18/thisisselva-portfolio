@@ -33,8 +33,8 @@
   --supertitle-small-size: clamp(1.25rem, min(4.5vh, 3.5vw), 3.75rem);
   --supertitle-small-leading: 1.15;
 
-  /* The details: about 18px, line height 1.6, at most about 65 characters per line */
-  --details-size: 1.125rem;
+  /* The details: 21px (the user asked for at least 2pt more than 18px, 3 Nov 2026), line height 1.6, at most about 65 characters per line */
+  --details-size: 1.3125rem;
   --details-leading: 1.6;
   --details-measure: 65ch;
 

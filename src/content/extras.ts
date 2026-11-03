@@ -32,6 +32,9 @@ export const extras = {
     "Oh hello, didn't see you there.": "Hello there. This is Selva!",
   } as Record<string, string>,
 
+  // Script paragraphs the user took off the site (the script keeps them).
+  hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
+
   // Extra supertitle lines under a scene's first one, in the user's words (not in the script).
   // `circle` is the bit circled in red crayon.
   extraLines: {

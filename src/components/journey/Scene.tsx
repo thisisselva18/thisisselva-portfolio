@@ -8,6 +8,7 @@ import { extras } from "@/content/extras";
 import type { Link, MediaSet, Scene as SceneContent, StickyNote as NoteContent } from "@/content/types";
 import { InViewVideo } from "@/components/ui/InViewVideo";
 import { OriginalButton, ReelEmbed } from "@/components/ui/ReelEmbed";
+import { StickerButton } from "@/components/ui/StickerButton";
 import { StatCallout } from "@/components/ui/StatCallout";
 import { StickyNote } from "@/components/ui/StickyNote";
 import { Supertitle } from "@/components/ui/Supertitle";
@@ -236,6 +237,11 @@ export function Scene({ scene }: { scene: SceneContent }) {
               ))}
             </div>
 
+            {p === 0 && extras.partButtons[scene.id] ? (
+              <div className="flex justify-center lg:col-span-2">
+                <StickerButton label={extras.partButtons[scene.id].label} href={extras.partButtons[scene.id].href} />
+              </div>
+            ) : null}
             {part.wideMedia ? (
               <div className="min-w-0 lg:col-span-2">
                 {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} wide />) ?? [])}

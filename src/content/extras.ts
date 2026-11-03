@@ -60,6 +60,12 @@ export const extras = {
       "do.bengaluru features builders and entrepreneurs from all over Bengaluru. People who've started something and want the world to know about it. At one point the page was reaching around 3K accounts. I wanted to start an event-series called P!TCH PLEASE, but unfortunately, that never saw the light of day.",
   } as Record<string, string>,
 
+  // A sticker button across a scene part, between its notes and its wide media (the user's words
+  // and link, 3 Nov 2026). Keyed by scene id.
+  partButtons: {
+    "clubs-2025": { label: "All my work here!", href: "https://drive.google.com/drive/u/0/folders/1nAYMgnHxcpmMaMKoGDReWWyFz2xY3to-" },
+  } as Record<string, { label: string; href: string }>,
+
   // Script paragraphs the user took off the site (the script keeps them).
   hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
 

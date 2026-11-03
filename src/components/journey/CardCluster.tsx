@@ -92,7 +92,9 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   stretch={stretch}
                   src={m.src}
                   alt={m.kind === "video" ? "" : (m.alt ?? "")}
-                  sizes={wide ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 50vw, 272px"}
+                  // A stretched card crops its photo to a taller box, so the photo shows up to about twice as
+                  // wide as the card: ask for a bigger file, or it's enlarged and blurry.
+                  sizes={wide ? "(max-width: 640px) 80vw, 416px" : stretch ? "(max-width: 640px) 110vw, 600px" : "(max-width: 640px) 50vw, 272px"}
                   mount={!alone}
                   attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
                   caption={alone ? undefined : m.alt}

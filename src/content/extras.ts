@@ -33,6 +33,7 @@ export const extras = {
 
   // Cards whose caption always shows, not only on hover (the user's picks, 3 Nov 2026).
   shownCaptions: [
+    "/media/photos/homebrew/church-street-2.jpg", // FOSS Talks 4.0
     "/media/photos/homebrew/marketing.jpg",
     "/media/photos/homebrew/poster.jpg",
     "/media/photos/homebrew/united-by-foss.jpg",

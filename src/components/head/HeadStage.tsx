@@ -26,7 +26,6 @@ const RING: { left: number; top: number; w: string; lg?: [number, number] }[] = 
   { left: 22, top: 1, w: "w-[17%] sm:w-[9%]", lg: [12, 50] }, // writing
   { left: 66, top: 80, w: "w-[15%] sm:w-[7%]" }, // idea
   { left: 80, top: 76, w: "w-[20%] sm:w-[11%]" }, // megaphone
-  { left: 93, top: 6, w: "w-[6%] sm:w-[3%]" }, // music staff
 ];
 
 // The lines that move to the stage's top corners on a laptop: which line, where, and its lean.

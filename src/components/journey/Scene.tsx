@@ -136,13 +136,13 @@ export function Scene({ scene }: { scene: SceneContent }) {
   const split = parts.length > 1 || !!PARTS[scene.id];
 
   return (
-    <section id={scene.id} aria-labelledby={`${scene.id}-title`} className="relative z-10 space-y-24 py-20 sm:py-28">
+    <section id={scene.id} aria-labelledby={`${scene.id}-title`} className="relative z-10 space-y-14 py-16 sm:py-20">
       {parts.map((part, p) => {
         const right = (scene.side === "right") !== (p % 2 === 1);
         const cardsCol = right ? "lg:col-start-2" : "lg:col-start-1";
         const textCol = right ? "lg:col-start-1" : "lg:col-start-2";
         return (
-          <div key={p} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 ${split ? "lg:items-center" : "lg:items-start"}`}>
+          <div key={p} className={`grid gap-8 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 ${split ? "lg:items-center" : "lg:items-start"}`}>
             <div className={`min-w-0 lg:row-start-1 ${split ? "" : "lg:pt-10"} ${cardsCol} ${part.mediaBeside ? "flex items-center justify-center gap-[4%]" : ""}`}>
               <div className={part.mediaBeside ? "w-[34%] shrink-0" : ""}>
                 <CardCluster

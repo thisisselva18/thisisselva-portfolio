@@ -55,7 +55,7 @@ export const head: HeadMoment = {
       image("cutouts/writing.png", "as-is"),
       image("cutouts/idea.png", "as-is"),
       image("cutouts/megaphone.png", "as-is"),
-      image("cutouts/music-staff.png", "as-is"),
+      // The music strip was taken out by the user (3 Nov 2026).
     ]),
   ],
 };

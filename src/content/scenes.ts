@@ -204,6 +204,7 @@ export const timeline: Scene[] = [
         image("photos/clubs/acm-hacknight.jpg"),
         // Moved here from do.bengaluru by the user (3 Nov 2026), to fill the clubs pile.
         image("photos/do-blr/filming.jpg"),
+        image("photos/clubs/photography.jpg"), // added by the user (3 Nov 2026)
       ], "Origins of my love for campaigning..."),
       set("The Shunya reel", [video("reels/shunya-reveal")]),
     ],

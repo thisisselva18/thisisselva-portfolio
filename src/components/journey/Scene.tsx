@@ -96,6 +96,10 @@ const PARTS: Record<string, Part[]> = {
   "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
 };
 
+// A headline whose stat starts its own line ("120K+ impressions.") is sized to its column, so that
+// line never has to wrap or run over: the line is about 9em wide, so at most 10.5% of the column.
+const FIT_STAT_LINE = "!text-[length:min(var(--supertitle-size),10.5cqi)]";
+
 function Note({ scene, i, noMedia }: { scene: SceneContent; i: number; noMedia?: boolean }) {
   const note = scene.notes[i];
   return (
@@ -144,12 +148,15 @@ export function Scene({ scene }: { scene: SceneContent }) {
             </div>
 
             <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-start-1 lg:items-start ${textCol}`}>
-              <div className="w-full space-y-4 text-center lg:text-left">
+              <div className="@container w-full space-y-4 text-center lg:text-left">
                 {part.lines.map((l, i) => {
                   const line = scene.supertitles[l];
                   const heading = l === 0 ? { as: "h2" as const, id: `${scene.id}-title` } : i === 0 ? { as: "h3" as const } : { as: "p" as const };
-                  return <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} {...heading} className="mx-auto lg:mx-0" />;
+                  return <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} {...heading} className={`mx-auto lg:mx-0 ${statInLine ? FIT_STAT_LINE : ""}`} />;
                 })}
+                {p === 0
+                  ? extras.extraLines[scene.id]?.map((text) => <Supertitle key={text} line={{ text }} strip className={`mx-auto !mt-1 lg:mx-0 ${FIT_STAT_LINE}`} />)
+                  : null}
               </div>
               {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
               {part.notes.map((i) => (

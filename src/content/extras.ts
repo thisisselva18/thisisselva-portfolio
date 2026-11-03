@@ -27,6 +27,11 @@ export const extras = {
     "youtube.com/@thisisselva18": "Check out my channel",
   } as Record<string, string>,
 
+  // Extra supertitle lines under a scene's first one, in the user's words (not in the script).
+  extraLines: {
+    "bengaluru-systems-2026": ["1.1K+ followers"],
+  } as Record<string, string[]>,
+
   // The one handwritten marker note (design.md section 4: "the hand")
   markerNote: {
     head: "(yep, that kid)",

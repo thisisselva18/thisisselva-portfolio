@@ -600,5 +600,14 @@
     "maxWidth": 1920,
     "usedIn": "indiafoss-2026 (muted)",
     "posterAt": 3
+  },
+  {
+    "src": "Material/Club_Photography.png",
+    "out": "public/media/photos/clubs/photography.jpg",
+    "treatment": [
+      "colour-print"
+    ],
+    "maxWidth": 1400,
+    "usedIn": "clubs-2025 (added by the user, 3 Nov 2026)"
   }
 ]

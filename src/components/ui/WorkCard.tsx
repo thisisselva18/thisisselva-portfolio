@@ -22,18 +22,19 @@ type Props = {
   corner?: ReactNode; // a CornerTag, at the bottom-right corner like a date stamp on a photo
   caption?: string; // the user's words, in the polaroid gap (mounted cards only)
   media?: ReactNode; // shown instead of the image (a video)
+  stretch?: boolean; // grow to fill a taller box, cropping the picture (never squashing it)
   className?: string;
 };
 
-export function WorkCard({ src, alt, sizes, attach = "pin", tapes = [], mount = true, corner, caption, media, className }: Props) {
+export function WorkCard({ src, alt, sizes, attach = "pin", tapes = [], mount = true, corner, caption, media, stretch, className }: Props) {
   const isCutout = !mount;
   const polaroid = mount && !!caption;
   return (
     <figure
-      className={`group relative m-0 ${mount ? "texture texture-mount p-[var(--mount-border)] shadow-lift" : "cutout-lift"} ${polaroid ? "pb-[var(--polaroid-gap)]" : ""} ${className ?? ""}`}
+      className={`group relative m-0 ${stretch ? "flex grow flex-col" : ""} ${mount ? "texture texture-mount p-[var(--mount-border)] shadow-lift" : "cutout-lift"} ${polaroid ? "pb-[var(--polaroid-gap)]" : ""} ${className ?? ""}`}
       style={{ rotate: `${tilt(`card:${src}`, 4)}deg` }}
     >
-      {media ?? <MediaImage src={src} alt={alt} sizes={sizes} />}
+      {media ?? <MediaImage src={src} alt={alt} sizes={sizes} className={stretch ? "min-h-0 grow object-cover" : undefined} />}
       {attach === "pin" ? (
         <span
           aria-hidden

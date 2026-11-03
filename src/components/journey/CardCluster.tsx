@@ -81,8 +81,10 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
               const wide = lead || (m.kind === "video" && items.length === 1);
               const later = s > 0 && !alone;
               const corner = corners.get(key(m));
+              const make = (stretch?: boolean): ReactNode => {
               let card: ReactNode = (
                 <WorkCard
+                  stretch={stretch}
                   src={m.src}
                   alt={m.kind === "video" ? "" : (m.alt ?? "")}
                   sizes={wide ? "(max-width: 640px) 80vw, 416px" : "(max-width: 640px) 50vw, 272px"}
@@ -96,8 +98,11 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
               if (lead && pointers && m.kind === "image" && m.src.endsWith("/camera.png")) {
                 card = <PointerLabel pointers={pointers.map((text, p) => ({ text, ...CAMERA_POINTS[p] }))}>{card}</PointerLabel>;
               }
+              return card;
+              };
+              const card = make();
               // A card with a corner tag sits above its neighbours, so the tag isn't hidden under the next print.
-              return { m, i, wide, alone, later, card, lift: corner ? "z-10" : "" };
+              return { m, i, wide, alone, later, card, make, lift: corner ? "z-10" : "" };
             });
             const wideCards = cards.filter((c) => c.wide);
             const rest = cards.filter((c) => !c.wide);
@@ -119,11 +124,17 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                       <div key={col} className={`flex w-1/2 flex-col ${col ? "mt-10 items-start" : "items-end"}`}>
                         {columnOf(rest.map((c) => c.m))
                           .flatMap((c, r) => (c === col ? [rest[r]] : []))
-                          .map(({ m, later, card, lift }, r) => (
-                            <div key={key(m)} className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"}`}>
-                              {card}
-                            </div>
-                          ))}
+                          .map(({ m, later, make, lift }, r, column) => {
+                            // The last print in each column grows to the shared bottom, so both
+                            // columns end level (the shorter one crops its last print a little).
+                            // Photos only: thumbnails, posts and script pages have words near their edges.
+                            const last = r === column.length - 1 && m.kind === "image" && m.src.startsWith("/media/photos/");
+                            return (
+                              <div key={key(m)} className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"} ${last ? "flex grow flex-col" : ""}`}>
+                                {make(last)}
+                              </div>
+                            );
+                          })}
                       </div>
                     ))}
                   </div>

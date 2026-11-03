@@ -27,12 +27,16 @@ export function Supertitle({ line, as: Tag = "p", strip, className, id, circle }
       line.text
     ) : (
       <>
-        {line.text.slice(0, at)}
-        <span className="relative inline-block whitespace-nowrap">
-          {circle}
-          {loop ? <CrayonLoop stat={circle} /> : null}
+        {line.text.slice(0, at).trimEnd()}
+        {/* The stat starts its own line ("120K+ impressions."), the user's call. */}
+        <br />
+        <span className="whitespace-nowrap">
+          <span className="relative inline-block">
+            {circle}
+            {loop ? <CrayonLoop stat={circle} /> : null}
+          </span>
+          {line.text.slice(at + circle.length)}
         </span>
-        {line.text.slice(at + circle.length)}
       </>
     );
   const small = line.size === "small";

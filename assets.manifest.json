@@ -609,5 +609,12 @@
     ],
     "maxWidth": 1400,
     "usedIn": "clubs-2025 (added by the user, 3 Nov 2026)"
+  },
+  {
+    "src": "Material/Flavicon.png",
+    "out": "src/app/icon.png",
+    "treatment": [],
+    "maxWidth": 512,
+    "usedIn": "the favicon (Next.js serves src/app/icon.png as the site icon)"
   }
 ]

@@ -114,8 +114,9 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
             const masonry = rest.length >= 3 && rest.every((c) => !c.alone);
             return (
               <>
+                {/* The lead (the card the string ties to) sits on top of the prints under it. */}
                 {wideCards.map(({ m, alone, card }) => (
-                  <div key={key(m)} className={`relative z-0 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                  <div key={key(m)} className={`relative z-20 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
                     {card}
                   </div>
                 ))}

@@ -154,7 +154,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               </div>
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
               {part.mediaUnder ? (
-                <div className="mt-10 hidden lg:block">
+                <div className="mt-6 hidden lg:block">
                   {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} />) ?? [])}
                 </div>
               ) : null}
@@ -165,7 +165,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               ) : null}
             </div>
 
-            <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-start-1 lg:items-start ${textCol}`}>
+            <div className={`flex min-w-0 flex-col items-center gap-5 lg:row-start-1 lg:items-start ${textCol}`}>
               <div className="@container w-full space-y-4 text-center lg:text-left">
                 {part.lines.map((l, i) => {
                   const line = scene.supertitles[l];
@@ -189,9 +189,9 @@ export function Scene({ scene }: { scene: SceneContent }) {
             ) : null}
 
             {part.tail ? (
-              <div className="grid min-w-0 gap-8 lg:col-span-2 lg:grid-cols-2 lg:items-start lg:gap-16">
+              <div className="grid min-w-0 gap-5 lg:col-span-2 lg:grid-cols-2 lg:items-start lg:gap-16">
                 {part.tail.map((i) => (
-                  <div key={i} className="flex min-w-0 flex-col items-center gap-8">
+                  <div key={i} className="flex min-w-0 flex-col items-center gap-5">
                     <Note scene={scene} i={i} />
                   </div>
                 ))}

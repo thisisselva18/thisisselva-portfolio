@@ -21,7 +21,8 @@ type Props = {
 };
 
 // White, not red: a row of reels would otherwise put several red shapes on one screen.
-function OriginalButton({ link, text }: { link: Link; text: string }) {
+// Also used on its own, under a card that plays the same video (the IndiaFOSS ad).
+export function OriginalButton({ link, text }: { link: Link; text: string }) {
   return (
     <a
       href={link.href}

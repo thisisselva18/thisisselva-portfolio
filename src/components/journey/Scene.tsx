@@ -6,7 +6,7 @@
 import { Fragment } from "react";
 import { extras } from "@/content/extras";
 import type { Link, MediaSet, Scene as SceneContent, StickyNote as NoteContent } from "@/content/types";
-import { ReelEmbed } from "@/components/ui/ReelEmbed";
+import { OriginalButton, ReelEmbed } from "@/components/ui/ReelEmbed";
 import { StatCallout } from "@/components/ui/StatCallout";
 import { StickyNote } from "@/components/ui/StickyNote";
 import { Supertitle } from "@/components/ui/Supertitle";
@@ -89,7 +89,9 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
 // it all reads top to bottom in that order. Only the first part's cards are tied to the string.
 // `mediaUnder` puts its notes' pictures under the cards on a laptop (Homebrew's "Spotted in the
 // wild"), and after their note on a phone, so the notes on the other side sit close together.
-type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean };
+// `buttonsUnderCards` drops its notes' embeds and puts each one's Watch here button under the cards
+// instead, where the same video already plays (the IndiaFOSS ad, the user's call).
+type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean; buttonsUnderCards?: boolean };
 const PARTS: Record<string, Part[]> = {
   "clubs-2025": [
     { lines: [0], cards: [0], notes: [0], wideMedia: true },
@@ -97,6 +99,7 @@ const PARTS: Record<string, Part[]> = {
   ],
   "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
   "homebrew-2026": [{ lines: [0], cards: [0], notes: [0, 1, 2], mediaUnder: true }],
+  "indiafoss-2026": [{ lines: [0], cards: [0, 1], notes: [0, 1, 2, 3], buttonsUnderCards: true }],
 };
 
 // A headline whose stat starts its own line ("120K+ impressions.") is sized to its column, so that
@@ -153,6 +156,18 @@ export function Scene({ scene }: { scene: SceneContent }) {
                 />
               </div>
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
+              {part.buttonsUnderCards ? (
+                <div className="mt-6 flex flex-wrap justify-center gap-4">
+                  {part.notes.flatMap((i) =>
+                    (scene.notes[i].media ?? []).flatMap((set) =>
+                      set.items.filter(isEmbed).flatMap((m) => {
+                        const original = originalFor(scene.notes[i], m.id);
+                        return original ? [<OriginalButton key={m.id} link={original} text={button(m.id)} />] : [];
+                      }),
+                    ),
+                  )}
+                </div>
+              ) : null}
               {part.mediaUnder ? (
                 <div className="mt-6 hidden lg:block">
                   {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} />) ?? [])}
@@ -178,7 +193,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               </div>
               {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
               {part.notes.map((i) => (
-                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside} phoneOnlyMedia={part.mediaUnder} />
+                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards} phoneOnlyMedia={part.mediaUnder} />
               ))}
             </div>
 

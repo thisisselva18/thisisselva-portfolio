@@ -1,4 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { site } from "../src/content/site";
+
+test("the title and description come from site.ts", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle(site.title);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", site.description);
+});
 
 test("the page sits on textured paper", async ({ page }, testInfo) => {
   const textures: string[] = [];

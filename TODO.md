@@ -79,7 +79,7 @@
   - **Tests:** tests/motion.spec.ts: everything lands within 1px of where it sits with reduced motion (and keeps its tilt); once in, stays in; no sideways scroll while the head opens; the year bar shows from the first scene and its dot only moves forward; the string grows and never draws back; with reduced motion, no transforms and no clip. 44/44 Playwright, 13/13 content, lint and build clean.
   - **For the user to judge:**
     - On a phone the fixed year bar sits over the bottom ~30px of whatever is passing under it (taps go through). A paper band behind it would hide what's underneath, if that's preferred.
-    - The head's lines fade in after the objects land, about 2.5s after the page opens. If that's too long a wait, the first line could fade in with the burst.
+    - ~~The head's lines waited ~2.5s~~ **Sped up (user, 4 Nov 2026):** no start delay, objects one frame apart, the lines fade in right behind the burst and the marker note at frame 6. Lines readable within ~0.7s, everything landed by ~1.2s after the motion code starts.
     - Lenis isn't used on touch, so on phones the string tip and year bar follow the native scroll directly.
   - **Next:** user reviews locally (`npm run dev`), then says when to merge/push.
 - [ ] Phase 6: The intro (story mode only)

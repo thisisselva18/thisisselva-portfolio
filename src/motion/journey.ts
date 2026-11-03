@@ -40,10 +40,11 @@ function animate(el: Element): gsap.core.Timeline {
 }
 
 /**
- * The head opens when the page does: the burst slaps in, the objects fly out of his head one
- * after another (two frames apart) while the string's first run is pulled taut as each lands,
- * then the marker note slaps in and the lines fade in. Then the objects idle-jitter while the
- * head is on screen. Returns the opening timeline.
+ * The head opens as soon as the page does (user: speed up the beginning, 4 Nov 2026): the burst
+ * slaps in, the lines fade in right behind it, the objects fly out of his head one frame apart
+ * while the string's first run is pulled taut as each lands, and the marker note slaps in
+ * halfway through. All in about 1.2s. Then the objects idle-jitter while the head is on screen.
+ * Returns the opening timeline.
  */
 export function openHead(section: HTMLElement): gsap.core.Timeline | null {
   const burst = Array.from(section.querySelectorAll("[data-head-burst]"));
@@ -60,7 +61,7 @@ export function openHead(section: HTMLElement): gsap.core.Timeline | null {
   }
 
   const reduced = prefersReducedMotion();
-  const tl = gsap.timeline({ delay: 0.25 });
+  const tl = gsap.timeline();
   all.forEach(arm);
 
   if (reduced) {
@@ -73,8 +74,8 @@ export function openHead(section: HTMLElement): gsap.core.Timeline | null {
 
   // Each object flies from the middle of his head (behind it: the objects sit under the cutout).
   const face = section.querySelector("[data-head-cutout]")?.getBoundingClientRect();
-  const start = 3 * FRAME;
-  const step = 2 * FRAME;
+  const start = FRAME;
+  const step = FRAME;
   const slack = { v: SLACK };
   tl.call(() => setStringSlack(SLACK), [], 0);
   objects.forEach((el, i) => {
@@ -88,8 +89,9 @@ export function openHead(section: HTMLElement): gsap.core.Timeline | null {
   });
 
   const landed = start + (objects.length - 1) * step + 5 * FRAME;
-  note.forEach((el) => tl.add(pop(el), landed));
-  text.forEach((el, i) => tl.add(fadeIn(el, 0.5), landed + 2 * FRAME + i * 0.12));
+  // The words don't wait for the objects: readable within about 0.7s.
+  text.forEach((el, i) => tl.add(fadeIn(el, 0.35), 2 * FRAME + i * 0.08));
+  note.forEach((el) => tl.add(pop(el), 6 * FRAME));
   tl.call(() => startJitter(section, objects), [], landed + FRAME);
   return tl;
 }

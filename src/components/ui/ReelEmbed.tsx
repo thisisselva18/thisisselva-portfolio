@@ -71,7 +71,8 @@ export function ReelEmbed({ media, original, groupTitle, button, className }: Pr
   }
 
   return (
-    <div className={`flex flex-col items-center gap-6 ${className ?? ""}`}>
+    // data-pop: in scroll mode the reel pops in like a card as it comes into view (Phase 5).
+    <div data-pop className={`flex flex-col items-center gap-6 ${className ?? ""}`}>
       <div className="relative w-full">
         {frame}
         {original?.tag ? <LabelStrip text={original.tag} className="absolute -right-4 top-6 z-30 whitespace-nowrap" /> : null}

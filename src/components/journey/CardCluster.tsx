@@ -3,6 +3,8 @@
 // red string ties to (one pin per cluster). Photos, posts, thumbnails and videos are mounted
 // cards with a polaroid caption when the user gave them words; cutouts and stickers stand on
 // their own. A set's alt names the set for screen readers; a scene's cardsAlt names the cluster.
+// Each card's wrapper (never the tilted card itself) carries data-pop: it pops in as it scrolls
+// into view (Phase 5, src/motion/journey.ts).
 
 import type { ReactNode } from "react";
 import { extras } from "@/content/extras";
@@ -53,7 +55,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
   // Nothing to show yet (Anthpo): a crayon mark holds the string's place.
   if (!shownSets.length) {
     return (
-      <div className="relative mx-auto aspect-square w-40 sm:w-52" aria-hidden>
+      <div data-pop className="relative mx-auto aspect-square w-40 sm:w-52" aria-hidden>
         <CrayonScribble kind="loop" colour="pink" seed={`${seed}:empty`} className="absolute inset-0 size-full" />
         <span data-string-pin className="absolute left-1/2 top-[18%] block size-2.5 -translate-x-1/2 rounded-full bg-ink shadow-lift" />
       </div>
@@ -123,13 +125,13 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   {cards
                     .filter((c) => !isSticker(c.m))
                     .map(({ m, alone, card }) => (
-                      <div key={key(m)} className={`relative z-20 ${alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                      <div key={key(m)} data-pop className={`relative z-20 ${alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
                         {card}
                       </div>
                     ))}
                   <div className={`flex w-full flex-wrap justify-center gap-y-6 ${stickers.length < cards.length ? "mt-6" : ""}`}>
                     {stickers.map(({ m, card, lift }) => (
-                      <div key={key(m)} className={`relative flex aspect-square items-center justify-center px-[2%] ${lift}`} style={{ width: `${100 / per}%` }}>
+                      <div key={key(m)} data-pop className={`relative flex aspect-square items-center justify-center px-[2%] ${lift}`} style={{ width: `${100 / per}%` }}>
                         <div className="w-full">{card}</div>
                       </div>
                     ))}
@@ -150,6 +152,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                 {wideCards.map(({ m, alone, card }, w) => (
                   <div
                     key={key(m)}
+                    data-pop
                     className={`relative z-20 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"} ${underLead && w === 0 ? "mb-20" : ""}`}
                   >
                     {card}
@@ -176,7 +179,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                             // Photos only: thumbnails, posts and script pages have words near their edges.
                             const last = r === column.length - 1 && m.kind === "image" && m.src.startsWith("/media/photos/");
                             return (
-                              <div key={key(m)} className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"} ${last ? "flex grow flex-col" : ""}`}>
+                              <div key={key(m)} data-pop className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"} ${last ? "flex grow flex-col" : ""}`}>
                                 {make(last)}
                               </div>
                             );
@@ -188,6 +191,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   rest.map(({ m, i, alone, later, card, lift }) => (
                     <div
                       key={key(m)}
+                      data-pop
                       className={`relative ${lift} ${alone ? "w-[30%] max-w-[9rem]" : `${later ? "w-[50%]" : "w-[48%]"} ${maxW(later)}`} ${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`}
                     >
                       {card}
@@ -198,7 +202,9 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
             );
           })()}
           {labelStrip && s === shownSets.length - 1 ? (
-            <LabelStrip text={labelStrip} className={`absolute left-[8%] z-20 ${pointers && shownSets.length === 1 ? "-top-3" : "-bottom-3"}`} />
+            <div data-pop className={`absolute left-[8%] z-20 flex ${pointers && shownSets.length === 1 ? "-top-3" : "-bottom-3"}`}>
+              <LabelStrip text={labelStrip} />
+            </div>
           ) : null}
         </div>
       ))}

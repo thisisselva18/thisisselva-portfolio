@@ -48,6 +48,7 @@ export function HeadStage() {
           {objects.map((m, i) => (
             <div
               key={m.src}
+              data-head-object
               className={`absolute left-[var(--at-l)] top-[var(--at-t)] lg:left-[var(--at-lg-l)] lg:top-[var(--at-lg-t)] ${RING[i]?.w ?? "w-[14%]"}`}
               style={
                 {
@@ -64,24 +65,32 @@ export function HeadStage() {
         </div>
 
         <div className="relative mx-auto w-56 sm:w-72">
-          <RedBurst seed="head" className="absolute -left-[25%] -top-[22%] w-[150%]" />
-          <CrayonScribble kind="burst" colour="yellow" seed="head" weight={6} className="absolute -left-[38%] -top-[35%] aspect-square w-[176%]" />
-          <WorkCard src={cutout.src} alt={cutout.alt ?? ""} sizes="(max-width: 640px) 60vw, 288px" mount={false} attach="tape" className="relative" />
+          {/* The burst and the scribble slap in as the head opens (Phase 5). This layer is exactly the
+              cutout's box, so their positions are the same as when they sat in it directly. */}
+          <div data-head-burst className="absolute inset-0">
+            <RedBurst seed="head" className="absolute -left-[25%] -top-[22%] w-[150%]" />
+            <CrayonScribble kind="burst" colour="yellow" seed="head" weight={6} className="absolute -left-[38%] -top-[35%] aspect-square w-[176%]" />
+          </div>
+          <div data-head-cutout className="relative">
+            <WorkCard src={cutout.src} alt={cutout.alt ?? ""} sizes="(max-width: 640px) 60vw, 288px" mount={false} attach="tape" className="relative" />
+          </div>
           {/* Anchored to the cutout, as on /kit: the arrow's tip lands on the top of the head. */}
-          <MarkerNote text={extras.markerNote.head} className="absolute left-[120px] top-[-106px] z-10 sm:left-[194px] sm:top-[-109px]" />
+          <div data-head-note className="absolute inset-0 z-10">
+            <MarkerNote text={extras.markerNote.head} className="absolute left-[120px] top-[-106px] z-10 sm:left-[194px] sm:top-[-109px]" />
+          </div>
         </div>
 
         {/* On a laptop, the second and third lines sit in the top corners, among the objects, leaning
             outwards (the user's call, 3 Nov 2026). On a phone the corners are too narrow, so they
             stay under the first line (below). Overlapping the objects is fine. */}
         {CORNER_LINES.map(({ line: l, at, lean }) => (
-          <div key={l} aria-hidden className={`absolute z-20 hidden lg:block ${at}`} style={{ rotate: `${lean}deg` }}>
+          <div key={l} aria-hidden data-fade className={`absolute z-20 hidden lg:block ${at}`} style={{ rotate: `${lean}deg` }}>
             <Supertitle line={head.supertitles[l]} strip className={`mx-auto text-center ${CORNER_SIZE}`} />
           </div>
         ))}
       </div>
 
-      <div className="mx-auto flex max-w-[40rem] flex-col items-center gap-5 text-center">
+      <div data-fade className="mx-auto flex max-w-[40rem] flex-col items-center gap-5 text-center">
         {head.supertitles.map((line, i) => (
           <Supertitle
             key={line.text}

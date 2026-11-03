@@ -14,12 +14,29 @@ export const FPS = 12;
 
 type Pose = gsap.TweenVars;
 
-/** Holds each pose for one frame, like stop-motion: no in-betweens. */
+/**
+ * Holds each pose for one frame, like stop-motion: no in-betweens.
+ *
+ * GSAP folds an element's own CSS `rotate`, `translate` and `scale` (a note's tilt, a centring
+ * translate) into its transform while it moves, and clearProps then removes them. So the
+ * element's own inline values are noted first and put back after the last pose: motion never
+ * changes where, or how crooked, a thing ends up.
+ */
 function frames(el: Element, poses: Pose[]): gsap.core.Timeline {
+  const style = (el as HTMLElement).style;
+  const own = { rotate: style.rotate, translate: style.translate, scale: style.scale };
+  const restore = () => {
+    style.rotate = own.rotate;
+    style.translate = own.translate;
+    style.scale = own.scale;
+  };
   const tl = gsap.timeline();
   poses.forEach((pose, i) => tl.set(el, pose, i / FPS));
-  return tl;
+  // Right after the last pose (which clears GSAP's transform), the element's own tilt goes back.
+  return tl.call(restore, [], (poses.length - 1) / FPS);
 }
+
+const CLEAR = "transform,transformOrigin,transformPerspective,opacity";
 
 /**
  * The stick: a sticky note drops in from slightly above, a little bigger than it ends up,
@@ -38,7 +55,7 @@ export function stick(note: Element): gsap.core.Timeline {
     { y: 0, scale: 1, rotationX: 18 }, // the top edge sticks
     { rotationX: -2 }, // the bottom slaps down
     { rotationX: 9 }, // flaps up, once
-    { rotationX: 0, clearProps: "transform,transformOrigin,transformPerspective,opacity" }, // flat, and stays stuck
+    { rotationX: 0, clearProps: CLEAR }, // flat, and stays stuck
   ]).add(() => {}, 6 / FPS); // hold the last pose for its frame, so it lasts 6/12s
 }
 
@@ -77,4 +94,54 @@ export function sway(card: Element, pivot: [number, number], tilt: number, seed:
     repeat: -1,
   });
   return tween.seek(r(3) * swing); // each card starts at a different point in its swing
+}
+
+/**
+ * A card or cutout pops in: a hand slaps it down. It starts a little small and low, overshoots,
+ * settles, in four held frames (about 330ms). `amount` scales how far it travels (the head's
+ * burst slaps in harder). With reduced motion it fades in, in place.
+ */
+export function pop(el: Element, amount = 1): gsap.core.Timeline {
+  if (prefersReducedMotion()) return fadeIn(el);
+  const base = { transformOrigin: "50% 50%" };
+  return frames(el, [
+    { ...base, opacity: 1, scale: 1 - 0.18 * amount, y: 10 * amount, rotation: -2.5 * amount },
+    { scale: 1 + 0.06 * amount, y: -3 * amount, rotation: 1.2 * amount },
+    { scale: 1 - 0.02 * amount, y: 0, rotation: -0.5 * amount },
+    { scale: 1, rotation: 0, clearProps: CLEAR },
+  ]).add(() => {}, 4 / FPS);
+}
+
+/**
+ * A card flies out of the head to its spot: from `from` (px, the head's centre relative to the
+ * card's own centre), small and spinning, in five held frames along a little arc, overshooting
+ * once before it lands. Ends exactly where its layout puts it. With reduced motion it fades in.
+ */
+export function flyOut(el: Element, from: [number, number]): gsap.core.Timeline {
+  if (prefersReducedMotion()) return fadeIn(el);
+  const [dx, dy] = from;
+  const lift = Math.min(40, Math.hypot(dx, dy) * 0.12); // the arc: up a little on the way
+  const spin = dx > 0 ? -1 : 1;
+  return frames(el, [
+    { transformOrigin: "50% 50%", opacity: 1, x: dx, y: dy, scale: 0.3, rotation: 14 * spin },
+    { x: dx * 0.55, y: dy * 0.55 - lift, scale: 0.7, rotation: -8 * spin },
+    { x: dx * 0.2, y: dy * 0.2 - lift * 0.5, scale: 0.95, rotation: 4 * spin },
+    { x: -dx * 0.04, y: -dy * 0.04, scale: 1.05, rotation: -1.5 * spin },
+    { x: 0, y: 0, scale: 1, rotation: 0, clearProps: CLEAR },
+  ]).add(() => {}, 5 / FPS);
+}
+
+/**
+ * Idle jitter (design.md section 10): paper on a desk with a fan running. Every second or two the
+ * card shifts by 1–2px, in one held step, no in-betweens. Nothing with reduced motion. Returns
+ * the timeline, so the caller can pause it while it's off screen, and kill it.
+ */
+export function jitter(el: Element, seed: number): gsap.core.Timeline | null {
+  if (prefersReducedMotion()) return null;
+  let n = 0;
+  const r = () => ((Math.sin(seed * 91.17 + ++n * 47.3) * 43758.5453) % 1 + 1) % 1;
+  const nudge = () => (r() - 0.5) * 3; // -1.5..1.5px
+  const tl = gsap.timeline({ repeat: -1, repeatRefresh: true });
+  tl.set(el, { x: nudge, y: nudge }, 1 + r()).set(el, { x: 0, y: 0 }, 2.2 + r() * 0.8);
+  return tl;
 }

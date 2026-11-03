@@ -2,6 +2,7 @@
 // present-day cutout in front of wavy newsprint bands made from the script's own lines, the
 // social links around him like cards, one crayon scribble, and the dot as the dot of the
 // exclamation mark in "Hit me up!". The red string ends at the top of his head.
+// In scroll mode the cutout and the link cards pop in, and the lines fade in (Phase 5).
 
 import { head, timeline, zoomOut } from "@/content/scenes";
 import { site } from "@/content/site";
@@ -20,8 +21,10 @@ function LinkCard({ link }: { link: Link }) {
   const name = link.label.split(" – ")[0];
   const icon = `/media/icons/${name.toLowerCase()}.png`;
   return (
-    <li style={{ rotate: `${tilt(`end:${link.href}`, 3)}deg` }}>
+    // The tilt sits on the link, not the item, so the item can pop in without losing it.
+    <li data-pop>
       <a
+        style={{ rotate: `${tilt(`end:${link.href}`, 3)}deg` }}
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
@@ -40,7 +43,7 @@ function LinkCard({ link }: { link: Link }) {
 function Signoff({ text }: { text: string }) {
   const bang = text.endsWith("!");
   return (
-    <p className="font-serif text-supertitle text-ink">
+    <p data-fade className="font-serif text-supertitle text-ink">
       {bang ? text.slice(0, -1) : text}
       {bang ? (
         <span className="relative inline-block">
@@ -61,12 +64,14 @@ export function TheEnd() {
 
   return (
     <section id="the-end" aria-labelledby="zoom-out-title" className="relative z-10 flex flex-col items-center gap-14 pb-28 pt-20 sm:pt-28">
-      <Supertitle line={zoomOut.supertitles[0]} strip as="h2" id="zoom-out-title" className="mx-auto text-center" />
+      <div data-fade className="w-full">
+        <Supertitle line={zoomOut.supertitles[0]} strip as="h2" id="zoom-out-title" className="mx-auto text-center" />
+      </div>
 
       <div className="relative w-full">
         <NewsprintBand lines={newsprint} seed="the-end" bands={9} className="absolute -inset-x-4 top-1/2 sm:-inset-x-10 h-[19rem] -translate-y-1/2 sm:h-[24rem]" />
         <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_auto_1fr]">
-          <div className="relative mx-auto w-60 sm:w-72 lg:order-2">
+          <div data-pop className="relative mx-auto w-60 sm:w-72 lg:order-2">
             <WorkCard src={cutout.src} alt={cutout.alt ?? ""} sizes="(max-width: 640px) 64vw, 288px" mount={false} attach="tape" />
             <CrayonScribble kind="star" colour="blue" seed="the-end" className="absolute -right-14 top-6 w-12" />
           </div>

@@ -76,7 +76,7 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
   return (
     <div role={set.alt ? "group" : undefined} aria-label={set.alt} className="flex w-full flex-wrap items-start justify-center">
       {pictures.map((m, i) => (
-        <div key={m.src} className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : fill ? "w-full max-w-[24rem]" : m.kind === "video" ? "w-[62%] max-w-[15rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
+        <div key={m.src} data-pop className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : fill ? "w-full max-w-[24rem]" : m.kind === "video" ? "w-[62%] max-w-[15rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
           <WorkCard
             src={m.src}
             alt={m.kind === "video" ? "" : (m.alt ?? "")}
@@ -197,7 +197,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               )}
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
               {part.buttonsUnderCards ? (
-                <div className="mt-6 flex flex-wrap justify-center gap-4">
+                <div data-fade className="mt-6 flex flex-wrap justify-center gap-4">
                   {part.notes.flatMap((i) =>
                     (scene.notes[i].media ?? []).flatMap((set) =>
                       set.items.filter(isEmbed).flatMap((m) => {
@@ -221,7 +221,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
             </div>
 
             <div className={`flex min-w-0 flex-col items-center gap-5 lg:row-start-1 lg:items-start ${textCol}`}>
-              <div className="@container w-full space-y-4 text-center lg:text-left">
+              <div data-fade className="@container w-full space-y-4 text-center lg:text-left">
                 {part.lines.map((l, i) => {
                   const line = scene.supertitles[l];
                   const heading = l === 0 ? { as: "h2" as const, id: `${scene.id}-title` } : i === 0 ? { as: "h3" as const } : { as: "p" as const };
@@ -231,13 +231,17 @@ export function Scene({ scene }: { scene: SceneContent }) {
                   ? extras.extraLines[scene.id]?.map(({ text, circle }) => <Supertitle key={text} line={{ text }} strip circle={circle} className={`mx-auto !mt-1 lg:mx-0 ${FIT_STAT_LINE}`} />)
                   : null}
               </div>
-              {p === 0 && scene.stat && !statInLine && !extras.extraLines[scene.id] ? <StatCallout stat={scene.stat} /> : null}
+              {p === 0 && scene.stat && !statInLine && !extras.extraLines[scene.id] ? (
+                <div data-pop className="flex">
+                  <StatCallout stat={scene.stat} />
+                </div>
+              ) : null}
               {part.notes.map((i) => (
                 <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards || part.embedsAsCards} phoneOnlyMedia={part.mediaUnder} />
               ))}
               {/* The user's button for this part, centred under its notes (extras.partButtons). */}
               {p === 0 && extras.partButtons[scene.id] ? (
-                <div className="mt-3 flex w-full max-w-[30rem] justify-center">
+                <div data-fade className="mt-3 flex w-full max-w-[30rem] justify-center">
                   <StickerButton label={extras.partButtons[scene.id].label} href={extras.partButtons[scene.id].href} />
                 </div>
               ) : null}
@@ -258,7 +262,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                     (scene.notes[i].media ?? []).flatMap((set) =>
                       set.items.flatMap((m) =>
                         m.kind === "video" ? (
-                          <div key={m.src} className="absolute inset-y-0 left-5 aspect-[9/16]">
+                          <div key={m.src} data-pop className="absolute inset-y-0 left-5 aspect-[9/16]">
                             <WorkCard
                               src={m.src}
                               alt=""

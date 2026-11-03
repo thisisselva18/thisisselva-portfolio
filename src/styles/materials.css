@@ -189,3 +189,21 @@
   -webkit-mask: var(--arrow) center / contain no-repeat;
   mask: var(--arrow) center / contain no-repeat;
 }
+
+/*
+ * Scroll mode's motion (Phase 5, src/motion/journey.ts): until its turn, each card, note and line
+ * on the journey is hidden, then animated into the place its layout already gives it. The inline
+ * script in the layout sets data-motion before the first paint; without it, nothing is hidden.
+ */
+html[data-motion] main[data-journey] :is([data-pop], [data-fade], [data-sticky-note], [data-head-burst], [data-head-object], [data-head-note]):not([data-entered]) {
+  opacity: 0;
+}
+
+/* The year bar's strip of kraft tape: the same tape as everywhere, slightly see-through. */
+.year-bar__tape {
+  background-color: var(--kraft);
+  background-image: url("/textures/tape.webp");
+  background-size: 256px;
+  background-blend-mode: multiply;
+  opacity: var(--tape-opacity);
+}

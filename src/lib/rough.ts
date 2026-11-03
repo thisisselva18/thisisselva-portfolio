@@ -201,13 +201,22 @@ export function curve(from: Point, to: Point, bend = 0.15): string {
  * A string hung between pins: from each pin to the next it sags down under its own
  * weight, more on longer runs. `sag` is a fraction of each run's length.
  */
-export function sagPath(pins: Point[], sag = 0.12): string {
+export function sagPath(pins: Point[], sag = 0.12, slack = 0): string {
   if (pins.length < 2) return "";
   let d = `M ${round(pins[0][0])} ${round(pins[0][1])}`;
   for (let i = 1; i < pins.length; i++) {
     const [x1, y1] = pins[i - 1];
     const [x2, y2] = pins[i];
-    const drop = Math.hypot(x2 - x1, y2 - y1) * sag;
+    const length = Math.hypot(x2 - x1, y2 - y1);
+    const drop = length * sag;
+    // A slack first run (the head opening, before the string is pulled taut) bows sideways in a
+    // loose S, across its own direction, so it reads as slack whichever way the run goes.
+    if (i === 1 && slack > 0 && length > 0) {
+      const [nx, ny] = [-(y2 - y1) / length, (x2 - x1) / length];
+      const b = length * slack;
+      d += ` C ${round(x1 + (x2 - x1) / 3 + nx * b)} ${round(y1 + (y2 - y1) / 3 + ny * b + drop)} ${round(x1 + ((x2 - x1) * 2) / 3 - nx * b * 0.6)} ${round(y1 + ((y2 - y1) * 2) / 3 - ny * b * 0.6 + drop)} ${round(x2)} ${round(y2)}`;
+      continue;
+    }
     // Two control points pulled down: a softer, rope-like curve than a single quadratic.
     d += ` C ${round(x1 + (x2 - x1) / 3)} ${round(y1 + (y2 - y1) / 3 + drop)} ${round(x1 + ((x2 - x1) * 2) / 3)} ${round(y1 + ((y2 - y1) * 2) / 3 + drop)} ${round(x2)} ${round(y2)}`;
   }

@@ -36,8 +36,10 @@ function embedIds(note: StickyNoteContent) {
 
 export function StickyNote({ note, seed, className }: Props) {
   const embedded = embedIds(note);
-  const links = note.links?.filter((l) => l.style !== "button" && !embedded.some((id) => l.href.includes(id)) && !extras.linkButtons[l.href]) ?? [];
-  const buttons = note.links?.filter((l) => l.style === "button") ?? [];
+  const links = note.links?.filter((l) => l.style !== "button" && !embedded.some((id) => l.href.includes(id)) && !extras.linkButtons[l.href] && !extras.noteButtons[l.href]) ?? [];
+  // The script's BUTTON lines, plus links the user turned into buttons (extras.noteButtons).
+  const buttons =
+    note.links?.flatMap((l) => (l.style === "button" ? [l] : extras.noteButtons[l.href] ? [{ ...l, label: extras.noteButtons[l.href] }] : [])) ?? [];
 
   return (
     <div

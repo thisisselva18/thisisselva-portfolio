@@ -20,7 +20,6 @@ export const extras = {
   // Label strips: a few typed words on a narrow strip of paper, slightly crooked
   labelStrips: {
     "camera-2017": "VID_2017_0001.MP4",
-    "youtube-2024": "draft_v3_final_FINAL.fdx",
   },
 
   // The one handwritten marker note (design.md section 4: "the hand")

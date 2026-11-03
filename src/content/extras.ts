@@ -8,7 +8,7 @@
 export const extras = {
   // The button under every embed, linking to the original. Keyed by video ID where it differs.
   embedButton: {
-    default: "Watch the original",
+    default: "Watch here", // the user's words (3 Nov 2026), was "Watch the original"
     "7C35Sxp9B3g": "Watch this to know more about me",
   } as Record<string, string>,
 

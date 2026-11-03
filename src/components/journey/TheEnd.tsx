@@ -25,7 +25,7 @@ function LinkCard({ link }: { link: Link }) {
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="sticker-button texture texture-mount flex items-center gap-4 px-5 py-3 font-sans text-[length:var(--supertitle-small-size)] font-bold leading-none text-ink shadow-lift"
+        className="sticker-button texture texture-mount flex items-center gap-4 px-5 py-3 font-sans text-[length:var(--supertitle-small-size)] font-medium leading-none text-ink shadow-lift"
       >
         <span className="block w-[1.4em] shrink-0">
           <MediaImage src={icon} alt="" sizes="48px" />
@@ -70,12 +70,12 @@ export function TheEnd() {
             <WorkCard src={cutout.src} alt={cutout.alt ?? ""} sizes="(max-width: 640px) 64vw, 288px" mount={false} attach="tape" />
             <CrayonScribble kind="star" colour="blue" seed="the-end" className="absolute -right-14 top-6 w-12" />
           </div>
-          <ul className="flex flex-col items-center gap-5 lg:order-1 lg:items-end">
+          <ul className="flex flex-col items-center gap-9 lg:order-1 lg:items-end">
             {end.links.slice(0, half).map((link) => (
               <LinkCard key={link.href} link={link} />
             ))}
           </ul>
-          <ul className="flex flex-col items-center gap-5 lg:order-3 lg:items-start">
+          <ul className="flex flex-col items-center gap-9 lg:order-3 lg:items-start">
             {end.links.slice(half).map((link) => (
               <LinkCard key={link.href} link={link} />
             ))}

@@ -30,6 +30,7 @@ export const extras = {
   lineOverrides: {
     "Oh hello, didn't see you there.": "Hello there. This is Selva!",
     "One life, tons of stories to tell.": "CSE undergrad IRL", // the user's words, 4 Nov 2026
+    "Storyteller by heart.": "Storyteller at heart.", // the user's words, 4 Nov 2026 (still in the Heart face)
   } as Record<string, string>,
 
   // Cards whose caption always shows, not only on hover (the user's picks, 3 Nov 2026).

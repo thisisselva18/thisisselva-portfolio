@@ -50,6 +50,7 @@ export type Scene = {
   visual: string; // the script's action lines, kept as a note for builders
   cards: MediaSet[];
   notes: StickyNote[];
+  stat?: string; // the StatCallout: a word-for-word piece of the script, like "120K+"
 };
 
 // The head (0:30) and the zoom out to the present day (1:19). Not timeline entries.

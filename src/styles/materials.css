@@ -1,0 +1,140 @@
+/*
+ * The materials the scrapbook is made of (design.md section 5): textured paper layers,
+ * tape, the sticky note's curl, sticker borders. Only tokens from tokens.css.
+ * Components add these classes; the seeded shapes (tilts, torn edges) come from src/lib/rough.ts.
+ */
+
+/* Every layer is its own paper: a grain tile multiplied over the layer's own colour. */
+.texture {
+  position: relative;
+  isolation: isolate;
+}
+.texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--texture);
+  background-size: var(--texture-size, 512px);
+  background-position: var(--texture-offset, 0 0);
+  mix-blend-mode: multiply;
+  opacity: var(--texture-opacity);
+}
+.texture-note {
+  --texture: url("/textures/note.webp");
+  --texture-opacity: var(--note-grain-opacity);
+  background-color: var(--note);
+}
+.texture-kraft {
+  --texture: url("/textures/kraft.webp");
+  --texture-opacity: var(--kraft-grain-opacity);
+  background-color: var(--kraft);
+}
+.texture-mount {
+  --texture: url("/textures/paper.webp");
+  --texture-size: 700px;
+  --texture-opacity: calc(var(--paper-grain-opacity) * 1.6);
+  background-color: var(--white);
+}
+@media (prefers-reduced-data: reduce) {
+  .texture::before {
+    content: none;
+  }
+}
+
+/* Kraft tape: slightly see-through, streaky, torn at the ends (the clip-path comes from tornEdges). */
+.tape {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: var(--tape-length, 5.5rem);
+  height: var(--tape-width, 1.6rem);
+  background-color: var(--kraft);
+  background-image: url("/textures/tape.webp");
+  background-size: 256px;
+  background-blend-mode: multiply;
+  opacity: var(--tape-opacity);
+  pointer-events: none;
+}
+
+/* A cutout's own outline gets the barely-there shadow (the white sticker border is baked into the file). */
+.cutout-lift {
+  filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--ink) 22%, transparent))
+    drop-shadow(0 2px 4px color-mix(in srgb, var(--ink) 8%, transparent));
+}
+
+/*
+ * The sticky note: the bottom-right corner curls up very slightly, so it's a touch
+ * shaded, and the only shadow is the one under that curl.
+ */
+.sticky-note {
+  position: relative;
+}
+.sticky-note__curl-shadow {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.35rem;
+  width: 45%;
+  height: 1.5rem;
+  z-index: -1;
+  transform: rotate(3deg) skewX(-8deg);
+  transform-origin: right bottom;
+  box-shadow: var(--curl-shadow);
+}
+.sticky-note__paper {
+  background-image: linear-gradient(
+    to top left,
+    color-mix(in srgb, var(--ink) 9%, transparent) 0%,
+    transparent 14%
+  );
+}
+
+/* The marker underline on links: drawn under the text, never through it. */
+.marker-link {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  padding-bottom: 0.3em;
+}
+.marker-link__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0.45em;
+  overflow: visible;
+}
+.marker-link:hover .marker-link__line,
+.marker-link:focus-visible .marker-link__line {
+  stroke-width: 3.2;
+}
+
+/* Sticker buttons lift and tilt a little on hover, like a sticker being peeled. */
+.sticker-button {
+  transition: transform 160ms steps(2), box-shadow 160ms steps(2);
+}
+.sticker-button:hover,
+.sticker-button:focus-visible {
+  transform: translateY(-3px) rotate(var(--peel, -2deg));
+  box-shadow: 0 6px 10px -4px color-mix(in srgb, var(--ink) 35%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticker-button {
+    transition: none;
+  }
+  .sticker-button:hover,
+  .sticker-button:focus-visible {
+    transform: none;
+  }
+}
+
+/* Keyboard focus: a clear ink ring everywhere. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}

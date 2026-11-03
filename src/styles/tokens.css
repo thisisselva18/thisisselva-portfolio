@@ -14,6 +14,7 @@
   --crayon-green: #2fb463;
   --kraft: #cbb491;
   --note: #fff0a0;
+  --white: #ffffff; /* sticker borders, label strips, torn rims. Never a background. */
   --story-black: #0c0c0c;
 
   /* Faces (design.md section 4). The --font-geist-* variables come from next/font in layout.tsx. */
@@ -25,6 +26,11 @@
   /* Supertitles: at least 1/12 of the screen tall on desktop, never under 32px on a phone */
   --supertitle-size: clamp(2rem, min(9vh, 7vw), 7.5rem);
   --supertitle-measure: 20ch;
+  --supertitle-leading: 1.05;
+
+  /* Supertitle (small): half the main size, never under 20px. Over 32 characters it's set in Geist Sans. */
+  --supertitle-small-size: clamp(1.25rem, min(4.5vh, 3.5vw), 3.75rem);
+  --supertitle-small-leading: 1.15;
 
   /* The details: about 18px, line height 1.6, at most about 65 characters per line */
   --details-size: 1.125rem;
@@ -38,7 +44,25 @@
   /* Layout */
   --gutter-phone: 1rem;
 
+  /* Small Geist Mono text: corner tags, label strips, pointer labels, year marks */
+  --mono-size: 0.8125rem;
+
+  /* Story-mode controls: easy to find, easy to ignore */
+  --controls-opacity: 0.6;
+
   /* The paper (design.md section 5) */
   --paper-grain-opacity: 0.12;
   --paper-tone-opacity: 0.05;
+
+  /* Every layer is its own paper: notes, kraft scraps and tape get their own grain */
+  --note-grain-opacity: 0.25;
+  --kraft-grain-opacity: 0.4;
+  --tape-opacity: 0.82; /* kraft tape is slightly see-through */
+
+  /* Cutouts and cards: a thin white sticker border, a barely-there shadow */
+  --sticker-border: 6px;
+  --mount-border: 10px; /* the thicker paper a work card is mounted on */
+  --lift-shadow: 0 1px 1px color-mix(in srgb, var(--ink) 22%, transparent),
+    0 2px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  --curl-shadow: 0 6px 6px -4px color-mix(in srgb, var(--ink) 30%, transparent);
 }

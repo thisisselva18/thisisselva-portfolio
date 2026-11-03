@@ -10,7 +10,7 @@
     "test": "playwright test",
     "assets": "node scripts/prepare-assets.mjs",
     "textures": "node scripts/make-paper-texture.mjs",
-    "test:content": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/content.check.mjs"
+    "test:content": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/content.check.mjs tests/tokens.check.mjs"
   },
   "dependencies": {
     "geist": "^1.9.0",

@@ -79,6 +79,13 @@ test("every word in src/content/ is in the script", { skip }, () => {
   assert.deepEqual(missing, [], "these aren't in docs/script.md word for word");
 });
 
+test("every stat is a word-for-word piece of the script", { skip }, () => {
+  const script = readScript().map((p) => p.text).join("\n");
+  const stats = timeline.filter((s) => s.stat);
+  assert.ok(stats.length > 0, "found the stats");
+  assert.deepEqual(stats.filter((s) => !script.includes(s.stat)).map((s) => `${s.id}: ${s.stat}`), []);
+});
+
 test("every on-screen line in the script is in src/content/", { skip }, () => {
   const missing = [];
   for (const { text } of readScript()) {

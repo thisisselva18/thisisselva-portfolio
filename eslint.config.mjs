@@ -5,6 +5,11 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Components never contain text: every word comes from src/content/ (CLAUDE.md).
+  {
+    files: ["src/components/**/*.tsx"],
+    rules: { "react/jsx-no-literals": ["error", { noStrings: false, ignoreProps: true }] },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

@@ -1,5 +1,39 @@
-// Design kit piece (docs/design.md section 8). Built in Phase 3.
+// A big Geist Serif number with a hand-drawn red crayon circle round it
+// (design.md section 8). One per scene at most: it comes from Scene.stat.
+// The number is already in the supertitle or note beside it, so this is
+// hidden from screen readers rather than read twice.
 
-export function StatCallout() {
-  return null;
+import { scribbleLoop } from "@/lib/rough";
+
+export function StatCallout({ stat, className }: { stat: string; className?: string }) {
+  const id = `crayon-${stat.replace(/[^a-z0-9]/gi, "")}`;
+  return (
+    <span aria-hidden className={`relative m-[0.25em] inline-block px-[0.3em] py-[0.2em] ${className ?? ""}`}>
+      <span className="relative z-10 whitespace-nowrap font-serif text-[calc(var(--supertitle-size)*1.4)] leading-none text-ink">{stat}</span>
+      {/* The loop spills a little past the box (the margin makes room), so it clears the text's corners. */}
+      <svg className="absolute -inset-x-[5%] -inset-y-[12%] h-[124%] w-[110%] overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          {/* A waxy, broken crayon edge: the stroke is roughened and speckled once, when it's drawn. */}
+          <filter id={id} x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" result="rough" />
+            <feComponentTransfer in="noise" result="speckle">
+              <feFuncA type="discrete" tableValues="0 1 1 1 1" />
+            </feComponentTransfer>
+            <feComposite in="rough" in2="speckle" operator="in" />
+          </filter>
+        </defs>
+        <path
+          d={scribbleLoop(stat)}
+          fill="none"
+          stroke="var(--red)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+          filter={`url(#${id})`}
+        />
+      </svg>
+    </span>
+  );
 }

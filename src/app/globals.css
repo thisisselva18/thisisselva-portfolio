@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "../styles/materials.css";
 
 /* Only the design tokens exist in Tailwind: no default palette or fonts. */
 @theme inline {
@@ -13,6 +14,7 @@
   --color-crayon-green: var(--crayon-green);
   --color-kraft: var(--kraft);
   --color-note: var(--note);
+  --color-white: var(--white);
   --color-story-black: var(--story-black);
   --color-transparent: transparent;
   --color-current: currentColor;
@@ -24,9 +26,16 @@
   --font-mono: var(--face-mono);
 
   --text-supertitle: var(--supertitle-size);
+  --text-supertitle--line-height: var(--supertitle-leading);
+  --text-supertitle-small: var(--supertitle-small-size);
+  --text-supertitle-small--line-height: var(--supertitle-small-leading);
+  --text-mono: var(--mono-size);
   --text-details: var(--details-size);
   --text-details--line-height: var(--details-leading);
   --text-button: var(--button-size);
+
+  --shadow-*: initial;
+  --shadow-lift: var(--lift-shadow);
 }
 
 /*

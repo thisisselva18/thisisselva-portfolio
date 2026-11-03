@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "src": "Material/BeginningPic-Photoroom.png",
+    "out": "public/media/cutouts/childhood.png",
+    "treatment": ["trim", "bw-halftone", "sticker-border"],
+    "maxWidth": 1400,
+    "usedIn": "head"
+  },
+  {
+    "src": "Material/EndPicture_Photoroom.png",
+    "out": "public/media/cutouts/present-day.png",
+    "treatment": ["trim", "colour-print", "sticker-border"],
+    "maxWidth": 2000,
+    "usedIn": "the end"
+  },
+  {
+    "src": "Material/Cort-Photoroom.png",
+    "out": "public/media/cutouts/guitar.png",
+    "treatment": ["trim", "colour-print", "sticker-border"],
+    "maxWidth": 900,
+    "usedIn": "head (music objects)"
+  },
+  {
+    "src": "Material/Sept_2025_RotaractPESUECC_Club.jpg",
+    "out": "public/media/photos/clubs/rotaract-poster.jpg",
+    "treatment": ["colour-print"],
+    "maxWidth": 1400,
+    "usedIn": "clubs-shunya"
+  },
+  {
+    "src": "Material/Sept_2025_Entrepreneurship_Club.jpg",
+    "out": "public/media/photos/clubs/ecell-poster.jpg",
+    "treatment": ["bw-halftone"],
+    "maxWidth": 1400,
+    "usedIn": "clubs-shunya"
+  },
+  {
+    "src": "Material/BlrSys_Post1.png",
+    "out": "public/media/posts/bengaluru-systems/post-1.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "bengaluru-systems"
+  },
+  {
+    "src": "Material/IndiaFOSS Stickers/IndiaFOSS.png",
+    "out": "public/media/stickers/indiafoss.png",
+    "treatment": ["trim"],
+    "maxWidth": 1000,
+    "usedIn": "indiafoss"
+  },
+  {
+    "src": "Material/IndiaFOSS Stickers/forkIt.png",
+    "out": "public/media/stickers/fork-it.png",
+    "treatment": ["trim"],
+    "maxWidth": 1000,
+    "usedIn": "indiafoss"
+  },
+  {
+    "src": "Material/Four_Years_Later_1.png",
+    "out": "public/media/youtube/four-years-ch1.png",
+    "treatment": [],
+    "maxWidth": 1280,
+    "usedIn": "youtube-2024"
+  },
+  {
+    "src": "Material/Script1.png",
+    "out": "public/media/scripts/script-1.png",
+    "treatment": [],
+    "maxWidth": 1200,
+    "usedIn": "youtube-2024"
+  }
+]

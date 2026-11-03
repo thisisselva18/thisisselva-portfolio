@@ -233,6 +233,7 @@ export const timeline: Scene[] = [
   },
   {
     id: "bengaluru-systems-2026",
+    stat: "120K+",
     object: "sigma-gear",
     side: "right",
     timecode: 54,
@@ -269,6 +270,7 @@ export const timeline: Scene[] = [
   },
   {
     id: "do-bengaluru-2026",
+    stat: "3K",
     object: "notebook",
     side: "left",
     timecode: 59,
@@ -337,6 +339,7 @@ export const timeline: Scene[] = [
   },
   {
     id: "homebrew-2026",
+    stat: "40 people",
     object: "hoodie",
     side: "left",
     timecode: 67,

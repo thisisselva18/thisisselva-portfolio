@@ -84,6 +84,8 @@ function NoteMedia({ set, note }: { set: MediaSet; note: NoteContent }) {
 export function Scene({ scene }: { scene: SceneContent }) {
   const right = scene.side === "right";
   const corners = scene.supertitles.flatMap((l) => (l.cornerTag ? [l.cornerTag] : []));
+  // A stat that's already in a supertitle is circled there, not repeated below it.
+  const statInLine = !!scene.stat && scene.supertitles.some((l) => l.text.includes(scene.stat as string));
   return (
     <section
       id={scene.id}
@@ -104,10 +106,10 @@ export function Scene({ scene }: { scene: SceneContent }) {
       <div className="flex min-w-0 flex-col items-center gap-8 lg:items-start">
         <div className="w-full space-y-4 text-center lg:text-left">
           {scene.supertitles.map((line, i) => (
-            <Supertitle key={line.text} line={line} strip as={i === 0 ? "h2" : "p"} {...(i === 0 ? { id: `${scene.id}-title` } : {})} className="mx-auto lg:mx-0" />
+            <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} as={i === 0 ? "h2" : "p"} {...(i === 0 ? { id: `${scene.id}-title` } : {})} className="mx-auto lg:mx-0" />
           ))}
         </div>
-        {scene.stat ? <StatCallout stat={scene.stat} /> : null}
+        {scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
         {scene.notes.map((note, i) => (
           <Fragment key={note.heading ?? note.body[0] ?? i}>
             <StickyNote note={note} seed={`${scene.id}-${i}`} className="w-full" />

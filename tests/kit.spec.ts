@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { timeline } from "../src/content/scenes";
 
 // /kit shows every design-kit piece. Screenshots go to test-results/ for a person to look at.
 test("the kit renders every piece without errors", async ({ page, viewport }, testInfo) => {
@@ -37,20 +36,13 @@ test("the kit renders every piece without errors", async ({ page, viewport }, te
 });
 
 // Reels show a cover until tapped; only then does Instagram's player load.
-test("an Instagram reel loads its player only when tapped", async ({ page }, testInfo) => {
+test("an Instagram reel is a screenshot with its button, not a player", async ({ page }) => {
   await page.goto("/kit");
   await expect(page.locator('iframe[src*="instagram.com"]')).toHaveCount(0);
-
-  // The club reels share their set's title as their name.
-  const reels = timeline.flatMap((s) => s.notes).flatMap((n) => n.media ?? []).find((set) => set.items.some((m) => "id" in m && m.id === "DN8dYkhCac1"));
-  const cover = page.getByRole("button", { name: reels?.alt });
-  await cover.scrollIntoViewIfNeeded();
-  await cover.click();
-
-  const player = page.locator('iframe[src="https://www.instagram.com/p/DN8dYkhCac1/embed"]');
-  await expect(player).toHaveCount(1);
-  await page.waitForTimeout(3000); // Instagram's page is outside our control; this is only for the screenshot
-  await player.screenshot({ path: testInfo.outputPath("instagram-playing.png") });
+  await expect(page.locator('img[src*="DN8dYkhCac1"]')).toHaveCount(1);
+  // Nothing to tap on the reel itself: the only way through is the button to the original.
+  await expect(page.locator('button:has(img[src*="DN8dYkhCac1"])')).toHaveCount(0);
+  await expect(page.locator('a[href="https://www.instagram.com/reel/DN8dYkhCac1"]').first()).toBeVisible();
 });
 
 // Records every inline style a note is given, so the test sees each stop-motion pose.

@@ -58,6 +58,7 @@
     - Captions show on hover, but cards aren't keyboard-focusable, so a sighted keyboard user won't see them (screen readers get the alt).
     - The landing (STORY / SCROLL) isn't built: the site opens straight on the head, which is scroll mode's start anyway.
   - **After the review (user, 3 Nov):** supertitle strips are drawn in a hidden layer under the words (they covered descenders); a stat that's in its supertitle (120K+) is circled in place, with no separate callout; the clubs scene's second part (Shunya reel + its 4 notes) sits under the cards on a laptop (`SECOND_PART` in Scene.tsx); later sets' photos/videos are bigger and a set's only video plays wide.
+  - **Instagram reels are screenshots now (user, 3 Nov):** no play mark, no player; the "Watch the original" button is the way through. InstagramEmbed.tsx was removed. YouTube embeds still load on tap.
   - **Next:** push to GitHub (waiting for the user's OK), import the repo on Vercel, check the live link on a phone.
 - [ ] Phase 5: Scroll mode, with the real motion
 - [ ] Phase 6: The intro (story mode only)

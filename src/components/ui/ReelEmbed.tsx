@@ -1,15 +1,14 @@
 // A reel or video in its frame (design.md section 8): a vertical reel sits in a phone,
 // a wide one or a YouTube video in a polaroid, with tape on top. Underneath it, a small
 // white sticker button links to the original. The button's words come from extras.ts.
-// YouTube and Instagram load their real players only when tapped. A link's tag (like the
-// viral reel's) is typed on a label strip stuck to the frame's top corner.
+// YouTube loads its real player only when tapped; an Instagram reel is just its screenshot.
+// A link's tag (like the viral reel's) is typed on a label strip stuck to the frame's top corner.
 
 import type { Link, Media } from "@/content/types";
 import { tilt } from "@/lib/rough";
-import { InstagramEmbed } from "./InstagramEmbed";
 import { LabelStrip } from "./LabelStrip";
 import { InViewVideo } from "./InViewVideo";
-import { mediaSize } from "./MediaImage";
+import { MediaImage, mediaSize } from "./MediaImage";
 import { TapedFrame } from "./TapedFrame";
 import { YouTubeEmbed } from "./YouTubeEmbed";
 
@@ -51,7 +50,13 @@ export function ReelEmbed({ media, original, groupTitle, button, className }: Pr
   } else if (media.kind === "instagram") {
     frame = (
       <TapedFrame seed={media.id} variant="phone" className="w-full">
-        <InstagramEmbed id={media.id} poster={media.poster} label={label} />
+        {/* A screenshot of the reel, not a player (the user's call, 3 Nov 2026): the button under it
+            opens the original on Instagram. Club reels are named by their set, so theirs is blank. */}
+        {media.poster ? (
+          <MediaImage src={media.poster} alt={media.title} sizes="(max-width: 640px) 62vw, 240px" className="aspect-[3/5] object-cover" />
+        ) : (
+          <span className="block aspect-[3/5] w-full bg-ink" />
+        )}
       </TapedFrame>
     );
   } else {

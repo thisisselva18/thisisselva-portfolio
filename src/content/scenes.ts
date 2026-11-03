@@ -385,8 +385,9 @@ export const timeline: Scene[] = [
     visual: "An HSP hoodie. Behind it, a room full of people on Church Street. (PHOTO: Homebrew events, Church Street)",
     cards: [
       set("The Homebrew events", [
-        { ...image("photos/homebrew/church-street-1.jpg"), alt: "FOSS Talks 3.0" },
+        // The group photo leads (the user's call, 3 Nov 2026); each keeps its own caption.
         { ...image("photos/homebrew/church-street-2.jpg"), alt: "FOSS Talks 4.0" },
+        { ...image("photos/homebrew/church-street-1.jpg"), alt: "FOSS Talks 3.0" },
         image("photos/homebrew/stall.jpg"),
         { ...image("photos/homebrew/marketing.jpg"), alt: "Whacky marketing be like ;p" },
       ], "Leading Social Media & Marketing for HSP"),

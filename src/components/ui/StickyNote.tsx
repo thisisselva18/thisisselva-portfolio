@@ -36,7 +36,7 @@ function embedIds(note: StickyNoteContent) {
 
 export function StickyNote({ note, seed, className }: Props) {
   const embedded = embedIds(note);
-  const links = note.links?.filter((l) => l.style !== "button" && !embedded.some((id) => l.href.includes(id))) ?? [];
+  const links = note.links?.filter((l) => l.style !== "button" && !embedded.some((id) => l.href.includes(id)) && !extras.linkButtons[l.href]) ?? [];
   const buttons = note.links?.filter((l) => l.style === "button") ?? [];
 
   return (

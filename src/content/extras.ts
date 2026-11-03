@@ -39,6 +39,12 @@ export const extras = {
     "/media/photos/homebrew/united-by-foss.jpg",
   ] as string[],
 
+  // Note links shown instead as a button under the scene's cards, with the user's words
+  // (keyed by href). The Shunya reel: the button sits under the video (3 Nov 2026).
+  linkButtons: {
+    "https://www.instagram.com/p/DOD8L9ykh-q": "Watch the reel here",
+  } as Record<string, string>,
+
   // Script paragraphs the user took off the site (the script keeps them).
   hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
 

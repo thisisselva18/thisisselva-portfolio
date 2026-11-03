@@ -157,6 +157,17 @@ export function Scene({ scene }: { scene: SceneContent }) {
                 />
               </div>
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
+              {/* A note's link the user turned into a button under the cards (the Shunya reel). */}
+              {(() => {
+                const moved = [...part.notes, ...(part.tail ?? [])].flatMap((i) => (scene.notes[i].links ?? []).filter((l) => extras.linkButtons[l.href]));
+                return moved.length ? (
+                  <div className="mt-6 flex flex-wrap justify-center gap-4">
+                    {moved.map((l) => (
+                      <OriginalButton key={l.href} link={l} text={extras.linkButtons[l.href]} />
+                    ))}
+                  </div>
+                ) : null;
+              })()}
               {part.buttonsUnderCards ? (
                 <div className="mt-6 flex flex-wrap justify-center gap-4">
                   {part.notes.flatMap((i) =>

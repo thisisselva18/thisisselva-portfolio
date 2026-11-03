@@ -282,6 +282,7 @@ export const timeline: Scene[] = [
         post("posts/bengaluru-systems/post-1.png"),
         post("posts/bengaluru-systems/post-2.png"),
         post("posts/bengaluru-systems/post-3.png"),
+        post("posts/bengaluru-systems/graphic.png"), // added by the user (3 Nov 2026)
       ], "Posting posting..."),
       set("The meetup photos", [
         image("photos/bengaluru-systems/meetup-1.jpg"),

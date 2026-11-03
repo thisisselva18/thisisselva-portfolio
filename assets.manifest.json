@@ -626,5 +626,12 @@
     ],
     "maxWidth": 600,
     "usedIn": "head (the burst), in the music note's place; also the favicon (user, 3 Nov 2026)"
+  },
+  {
+    "src": "Material/BengaluruSystems_Graphic.png",
+    "out": "public/media/posts/bengaluru-systems/graphic.png",
+    "treatment": [],
+    "maxWidth": 1060,
+    "usedIn": "bengaluru-systems-2026 (added by the user, 3 Nov 2026)"
   }
 ]

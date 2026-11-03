@@ -55,18 +55,14 @@
   {
     "src": "Material/IndiaFOSS Stickers/IndiaFOSS.png",
     "out": "public/media/stickers/indiafoss.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 1000,
     "usedIn": "indiafoss"
   },
   {
     "src": "Material/IndiaFOSS Stickers/forkIt.png",
     "out": "public/media/stickers/fork-it.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 1000,
     "usedIn": "indiafoss"
   },
@@ -405,36 +401,28 @@
   {
     "src": "Material/Xeneva/Sticker1.png",
     "out": "public/media/xeneva/sticker-1.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 700,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/Xeneva/Sticker2.png",
     "out": "public/media/xeneva/sticker-2.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 700,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/Xeneva/Sticker3.png",
     "out": "public/media/xeneva/sticker-3.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 700,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/Xeneva/Sticker4.png",
     "out": "public/media/xeneva/sticker-4.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 700,
     "usedIn": "xeneva-2026"
   },
@@ -504,27 +492,21 @@
   {
     "src": "Material/IndiaFOSS Stickers/Devroom - Security.png",
     "out": "public/media/stickers/devroom-security.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 1000,
     "usedIn": "indiafoss-2026"
   },
   {
     "src": "Material/IndiaFOSS Stickers/IndiaFOSS - Wild.png",
     "out": "public/media/stickers/indiafoss-wild.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 1000,
     "usedIn": "indiafoss-2026"
   },
   {
     "src": "Material/IndiaFOSS Stickers/Julius.png",
     "out": "public/media/stickers/julius.png",
-    "treatment": [
-      "trim"
-    ],
+    "treatment": [],
     "maxWidth": 1000,
     "usedIn": "indiafoss-2026"
   },

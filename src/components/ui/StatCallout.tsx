@@ -4,6 +4,7 @@
 // hidden from screen readers rather than read twice.
 
 import { scribbleLoop } from "@/lib/rough";
+import { CrayonFilter } from "./CrayonFilter";
 
 export function StatCallout({ stat, className }: { stat: string; className?: string }) {
   const id = `crayon-${stat.replace(/[^a-z0-9]/gi, "")}`;
@@ -13,15 +14,7 @@ export function StatCallout({ stat, className }: { stat: string; className?: str
       {/* The loop spills a little past the box (the margin makes room), so it clears the text's corners. */}
       <svg className="absolute -inset-x-[5%] -inset-y-[12%] h-[124%] w-[110%] overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
-          {/* A waxy, broken crayon edge: the stroke is roughened and speckled once, when it's drawn. */}
-          <filter id={id} x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" result="rough" />
-            <feComponentTransfer in="noise" result="speckle">
-              <feFuncA type="discrete" tableValues="0 1 1 1 1" />
-            </feComponentTransfer>
-            <feComposite in="rough" in2="speckle" operator="in" />
-          </filter>
+          <CrayonFilter id={id} />
         </defs>
         <path
           d={scribbleLoop(stat)}

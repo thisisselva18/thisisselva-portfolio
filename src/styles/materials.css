@@ -91,27 +91,38 @@
   );
 }
 
-/* The marker underline on links: drawn under the text, never through it. */
-.marker-link {
+/*
+ * The marker underline on links: drawn under the text, never through it. A link that
+ * wraps gets one hand-drawn line under each of its lines (MarkerLink measures them).
+ */
+.marker-link-wrap {
   position: relative;
   display: inline-block;
   max-width: 100%;
-  overflow-wrap: anywhere;
+}
+.marker-link {
   text-decoration: none;
+  overflow-wrap: anywhere;
   padding-bottom: 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
-.marker-link__line {
+.marker-link__lines {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   width: 100%;
-  height: 0.45em;
+  height: 100%;
   overflow: visible;
+  pointer-events: none;
 }
-.marker-link:hover .marker-link__line,
-.marker-link:focus-visible .marker-link__line {
+.marker-link-wrap:has(.marker-link:hover, .marker-link:focus-visible) .marker-link__lines path {
   stroke-width: 3.2;
+}
+/* Before the lines are measured (and without JavaScript), a plain underline stands in. */
+.marker-link-wrap:not([data-measured]) .marker-link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
 }
 
 /* Sticker buttons lift and tilt a little on hover, like a sticker being peeled. */
@@ -137,4 +148,44 @@
 :where(a, button, [tabindex]):focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
+}
+
+/* Red paper for the burst: --red with its own grain. */
+.texture-red {
+  --texture: url("/textures/paper.webp");
+  --texture-size: 600px;
+  --texture-opacity: 0.35;
+  background-color: var(--red);
+}
+
+/* The dot (design.md section 6): always alive, a slow, slight breath. */
+.dot {
+  display: inline-block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background-color: var(--ink);
+  animation: dot-breath var(--dot-breath) ease-in-out infinite;
+}
+.dot--dark {
+  background-color: var(--white);
+  box-shadow: 0 0 calc(var(--dot-size) * 0.9) color-mix(in srgb, var(--white) 45%, transparent);
+}
+@keyframes dot-breath {
+  50% {
+    transform: scale(1.14);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
+
+/* The marker arrow: Selva's traced scan, used as a mask so it's drawn in --ink. */
+.marker-arrow {
+  aspect-ratio: 577 / 727;
+  background-color: var(--ink);
+  -webkit-mask: var(--arrow) center / contain no-repeat;
+  mask: var(--arrow) center / contain no-repeat;
 }

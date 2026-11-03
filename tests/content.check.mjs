@@ -64,11 +64,11 @@ function collect(node, key, out) {
   return out;
 }
 
-const COPY_KEYS = new Set(["text", "heading", "body", "label", "cornerTag", "group", "visual", "button", "pause", "replay", "title", "artist", "from", "to"]);
+const COPY_KEYS = new Set(["text", "heading", "body", "label", "cornerTag", "group", "visual", "slug", "button", "pause", "replay", "title", "artist", "from", "to"]);
 const content = { site, intro, head, timeline, zoomOut, yearBar };
 const strings = collect(content, "", []).filter((s) => COPY_KEYS.has(s.key));
 const hrefs = collect(content, "", []).filter((s) => s.key === "href").map((s) => s.value);
-const shown = new Set(strings.filter((s) => s.key !== "visual").map((s) => norm(s.value)));
+const shown = new Set(strings.filter((s) => s.key !== "visual" && s.key !== "slug").map((s) => norm(s.value)));
 
 test("every word in src/content/ is in the script", { skip }, () => {
   const script = readScript().map((p) => p.text).join("\n");
@@ -120,6 +120,16 @@ test("every link in the script is in src/content/", { skip }, () => {
   assert.deepEqual(theirs.filter((u) => !ours.has(u)), []);
 });
 
+test("every scene heading in the script is a slug in src/content/, and each moment has one", { skip }, () => {
+  const slugs = strings.filter((s) => s.key === "slug").map((s) => norm(s.value));
+  const headings = readScript().map((p) => p.text).filter((t) => /^(INT|EXT)\. /.test(t));
+  assert.ok(headings.length > 20, "found the script's scene headings");
+  assert.deepEqual(headings.filter((h) => !slugs.includes(h)), [], "scene headings with no slug");
+  assert.equal(slugs.length, headings.length, "one slug per scene heading");
+  const moments = [...intro, head, ...timeline, zoomOut, site.end];
+  assert.deepEqual(moments.filter((m) => !m.slug).map((m) => m.id ?? "the end"), []);
+});
+
 test("every timecode in the script is in src/content/", { skip }, () => {
   const ours = new Set([...intro, head, ...timeline, zoomOut, site.end].map((m) => m.timecode));
   const theirs = readScript()
@@ -160,7 +170,7 @@ test("words still to come from the user", (t) => {
       pending.push(`${where}: a title for ${node.kind} ${node.id}${node.kind === "instagram" ? " (or one for its set)" : ""}`);
     }
     if (node.items) return walk(node.items, where, node.alt);
-    for (const [k, v] of Object.entries(node)) walk(v, node.id ?? where, setAlt);
+    for (const v of Object.values(node)) walk(v, node.id ?? where, setAlt);
   };
   walk(content, "site");
   const list = [...new Set(pending)];

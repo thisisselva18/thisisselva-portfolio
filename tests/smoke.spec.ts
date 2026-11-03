@@ -23,10 +23,10 @@ test("the page sits on textured paper", async ({ page }, testInfo) => {
   await page.screenshot({ path: testInfo.outputPath("home.png"), fullPage: true });
 });
 
-test("all four faces load", async ({ page }) => {
+test("all five faces load", async ({ page }) => {
   await page.goto("/");
 
-  for (const token of ["--face-serif", "--face-heart", "--face-sans", "--face-mono"]) {
+  for (const token of ["--face-serif", "--face-heart", "--face-sans", "--face-mono", "--face-marker"]) {
     const loaded = await page.evaluate(async (name) => {
       const family = getComputedStyle(document.documentElement).getPropertyValue(name).split(",")[0].trim();
       const faces = await document.fonts.load(`48px ${family}`);

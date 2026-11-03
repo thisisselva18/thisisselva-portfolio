@@ -8,6 +8,7 @@ export const site: Site = {
   description: "Sidequestmaxxing my way through life :D",
 
   landing: {
+    slug: "INT. THE LANDING PAGE – BEFORE ANYTHING",
     visual:
       "Black screen. A small white dot glows in the middle, breathing slowly. There's a button on each side of it-",
     story: { button: "STORY", line: { text: "Got 90 seconds?", size: "small" } },
@@ -19,6 +20,7 @@ export const site: Site = {
   music: { src: "/audio/weird-fishes.mp3", title: "Weird Fishes/Arpeggi", artist: "Radiohead" },
 
   end: {
+    slug: "INT. THE END – 1:23",
     timecode: 83,
     holdFor: 7,
     links: [

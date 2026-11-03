@@ -16,21 +16,34 @@
 
     Blank means decorative: the cluster gets `role="group"` plus `aria-label`, and pictures without their own alt get `alt=""`. `npm run test:content` lists what's still pending (64 right now).
 
-- [ ] Phase 3: Build the design kit. Split in two sessions; **3a is done (3 Nov 2026), 3b is next.** Running alongside Phase 2's wait for alt text (user's OK).
-  - [ ] **3b, in order:**
-    1. Dot (breathing pulse), CrayonScribble, DottedLine, RedBurst (torn-paper rays), PointerLabel (words in extras.pointerLabels), NewsprintBand (real script lines, aria-hidden). All still return null. Build them on src/lib/rough.ts.
-    2. The marker note ("the hand", extras.markerNote): decide hand-drawn SVG lettering or the Permanent Marker fallback font. A new face needs design.md + tokens.css first.
-    3. The stick in src/motion/presets.ts (drop in slightly big, top sticks, bottom flaps once, about 450ms in 12fps steps) and reducedMotion.ts (fade in already stuck). StickyNote already carries `data-sticky-note`. Add a replay control on /kit.
-    4. A static two-card red string sample on /kit, to judge its look (routing is Phase 4).
-    5. Review /kit at 1440 and 390 with the user (BUILD.md: "the most important visual check"), then commit and mark Phase 3 done.
+- [x] Phase 3: Build the design kit. **Done 3 Nov 2026** (3a and 3b; the user reviewed /kit and OK'd it). Running alongside Phase 2's wait for alt text (user's OK).
+  - [x] **3b: done 3 Nov 2026.** The user reviewed /kit; asked for the arrow to be aimed at the head and the string to sag less with swaying cards (both done).
+    1. [x] **Dot** (breathing via CSS, still under reduced motion; `tone="dark"` glows white), **CrayonScribble** (loop, zigzag, star, underline, burst; crayon colours only; the waxy filter is now shared as CrayonFilter, StatCallout uses it too), **DottedLine** (px coords in its positioned parent), **RedBurst** (torn-paper rays as clip-path polygons, red paper grain `.texture-red`, white torn rim), **PointerLabel** (object as children, `at`/`label` in %, dot at each tip), **NewsprintBand** (SVG textPath on waves, `aria-hidden`, constant text size via `slice`). Helpers in src/lib/rough.ts: `zigzag`, `star`, `burstStrokes`, `curve`, `sagPath`, `burstRays`, `wave`.
+    2. [x] **Marker note (user's call):** the arrow is the user's own scan, `Material/point.pdf` → `npm run assets` (PDF → its JPEG → `trace` with potrace) → public/media/marks/arrow.svg, drawn as a CSS mask in `--ink`. The words are Permanent Marker (`--face-marker`, next/font/google) as a stand-in until the user scans "(yep, that kid)" handwritten; then trace it the same way and drop the font. design.md section 4 records this. New component `MarkerNote`.
+    3. [x] **The stick:** `stick()` / `stickPile()` in src/motion/presets.ts: six held poses at 12fps (~500ms), starts 5% big and 22px up, top sticks, bottom slaps, flaps once, settles, then GSAP clears its props. `fadeIn()` + `prefersReducedMotion()` in reducedMotion.ts. Timelines only, so Phase 7 can seek them from the audio clock. /kit has "Replay the stick" (src/app/kit/StickReplay.tsx).
+    4. [x] **Red string sample:** `RedString` (src/components/head/) ties every `[data-string-pin]` in its parent in page order, re-measured on resize: a cubic sagging about 5% of each run (user: "not too much, to some extent"), a fuzzy halo and a faint twist. Routing is Phase 4.
+       - **The cards hanging from it sway (user's call, design.md section 10):** `sway()` in presets.ts swings each card ±1.1–1.7° round its pin, at its own pace (2.5–3.5s), in 12fps steps; the pin stays put, so the string never moves. GSAP folds a card's CSS `rotate` tilt into its transform, so `sway()` takes the tilt and swings round it. The pin's `translate: -50%` is resolved against its own size for the pivot. Off with reduced motion. Tests: the cards move and the pins stay within 1px; with reduced motion, no transform.
+    5. [x] Reviewed /kit with the user, committed.
+  - **Also done in 3b:**
+    - **Scene headings (user's call, option A):** every moment has `slug`, the script's INT./EXT. line word for word (landing, 8 intro beats, head, 10 scenes, zoom out, end). BUILD.md section 4 documents it; a new test checks both ways and was proven to catch a changed heading. NewsprintBand prints slugs + action lines.
+    - **Tokens (design.md first):** `--face-marker`, `--marker-size`, `--dot-size`, `--dot-breath`, `--newsprint-opacity` (0.3).
+    - **MarkerLink** draws one marker line per line of text (client component, measures `getClientRects()`); a plain underline shows until it's measured.
+    - **Asset pipeline:** PDF sources (reads the scan's JPEG), `trace` (→ .svg), `uncheck` (removes a baked-in checkerboard by flood-filling from the edges up to the sticker border), and an optional per-entry `quality`. **The camera is cut out** (public/media/cutouts/camera.png); Writing.jpg, idea.jpg, music.jpg should work the same way with `uncheck`. rotaract-poster.jpg is now 1200px at quality 78: 633KB, down from 1.1MB (next/image re-encodes it per screen anyway).
+    - **Tests:** the stick (records every pose: at least 4 tilted ones, then flat and opaque), reduced motion (never a transform; proven to fail when the check is skipped), decorations hidden from screen readers, wrapped links underlined per line, five faces load. 18/18 Playwright, 13/13 content. Fixed an old unused-variable lint warning in content.check.mjs.
+    - New devDependency: `potrace` (tracing scans).
+  - **For Phase 4:**
+    - **The red string on a phone:** with cards stacked, a string tied at the top of each card runs straight across the upper card's photo. Phase 4: run it behind the cards on phones, or tie it at a side?
+    - **Clip sideways overflow on the page:** the stick (notes start 5% big) and the head's burst and scribbles reach past the edges on a phone. The page needs `overflow-x: clip` on its main column. The kit test waits for notes to settle before checking width.
+    - **Newsprint** is printed lines only. The reference's bands look like strips of paper with the print on them. Add a paper strip behind each band if the user wants.
+    - **The marker arrow is aimed (user's request):** the MarkerNote sits inside the cutout's box (absolute, px offsets), the words on clean paper above the burst, the arrow hung from the start of the words (tip about 8px in, 124px below their top) landing on the top of the head, not the face. At 390px the yellow crayon stroke just touches the "(". Phase 4 should place it the same way: anchored to the cutout.
   - [x] **Embeds (3 Nov 2026, user's go-ahead).** The script now says "EMBED + LINK" on both club REELS lines, and has a new `EMBED + LINK: youtube.com/watch?v=7C35Sxp9B3g` above the channel link in THE CAMERA. The .docx was edited directly; the backup is in the session scratchpad (C:/Users/vk360/AppData/Local/Temp/claude/804e280d29e6ffdc/ce60cbfb-2452-437a-915c-5d9f19b2a1c9/scratchpad/backup/Storyteller_by_Heart_Script.before-embeds.docx, temporary). Built:
     - **Content:** the five club reels in the clubs note's media, each with a cover, and the latest video in the camera-2017 note. `instagram` media gained `poster`.
     - **Covers:** the user's screenshots in Material/ (`Rotaract - <id>.png`, `EClub_DOQ17fzD_vg.png`, `EClub - 2nd reel.png` = DHm_NzOCoT2), cropped 6% off the bottom to drop Instagram's mute icon (new `crop` step), into public/media/reels/covers/<id>.jpg. All five are 3:5, and so is the frame.
     - **ReelEmbed:** handles Instagram (InstagramEmbed: cover, then Instagram's embed iframe on tap). A white sticker button sits under every embed: "Watch the original", or "Watch this to know more about me" for 7C35Sxp9B3g (extras.embedButton, the user's words). It's white, not red, so a row of reels doesn't break "one red shape per screen" (user OK'd the style). StickyNote leaves out links that are already an embed's button.
     - **Tests:** tapping a cover loads the player, and nothing loads before.
     - **Phase 4:** lay the five reels out beside the clubs notes as a fanned row, with each group's label ("REELS – ROTARACT") over its run. The viral reel's tag still comes from the user. Instagram's player brings its own header and footer, and Instagram decides whether a reel plays inline or opens Instagram. If that feels off, the alternative is hosting muted loops from the reel video files, like Shunya.
-  - **Small things seen in the 3a review, for 3b:** a MarkerLink that wraps (LinkedIn at 390px) gets one underline under both lines. ReelEmbed doesn't handle the `instagram` media kind yet. rotaract-poster.jpg is 1.1MB (halftone dots compress badly; maybe maxWidth 1200).
-- [ ] Phase 4: Scroll mode, without fancy motion
+  - **Small things seen in the 3a review:** all handled in 3b (wrapped MarkerLink, the poster's size; ReelEmbed already handled `instagram`).
+- [ ] Phase 4: Scroll mode, without fancy motion. **Next.** Carry over the "For Phase 4" notes under Phase 3 (string on phones, clip sideways overflow, marker note anchored to the cutout, newsprint strips).
 - [ ] Phase 5: Scroll mode, with the real motion
 - [ ] Phase 6: The intro (story mode only)
 - [ ] Phase 7: Story mode
@@ -85,7 +98,7 @@
 
 ## Open questions
 - docs/session_summary.md (BUILD.md section 0) isn't in docs/ yet. Copy it in from the Wispr Portfolio folder when convenient.
-- **New burst images, Material/ originals:** camera.jpg, Writing.jpg, idea.jpg and music.jpg have a fake checkerboard "transparency" baked in, and megaphone.png has a white background. The asset pipeline has to cut them out.
+- **New burst images, Material/ originals:** camera.jpg, Writing.jpg, idea.jpg and music.jpg have a fake checkerboard "transparency" baked in, and megaphone.png has a white background. The `uncheck` step handles the checkerboard (camera done); megaphone.png still needs a white-background cut.
 - **Scenes with no card pictures:** the music note (0:38; the guitar/piano/headphones/Currents set sits in the head) and Anthpo (0:45). Decide in Phase 4: reuse the burst objects as their cards?
 - **Cards with no file in Material/:** orange ball / tiny shoe / statue (Anthpo), Σ gear, notebook doodle, HSP hoodie, code-bracket grid, clapperboard. Draw them, or source them? (The hoodie could be cropped from EndPicture_Photoroom.png. Material/Bengaluru_System_Sigma.png may be the Σ gear.)
 - **FFmpeg isn't installed.** The asset pipeline needs it for the reels and vlog clips. Until then, /kit shows the phone frame with a stand-in photo.

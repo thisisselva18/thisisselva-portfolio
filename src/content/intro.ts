@@ -5,6 +5,7 @@ import type { IntroBeat } from "./types";
 export const intro: IntroBeat[] = [
   {
     id: "spark",
+    slug: "INT. A BLACK SCREEN – 0:00 (STORY MODE ONLY)",
     timecode: 0,
     holdFor: 4,
     supertitles: [{ text: "Marketing. Advertising.\nIt’s a neat thing, right?" }],
@@ -16,6 +17,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "big-bang",
+    slug: "EXT. EVERYWHERE, ALL AT ONCE – 0:04 (STORY MODE ONLY)",
     timecode: 4,
     holdFor: 2,
     supertitles: [],
@@ -27,6 +29,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "cave",
+    slug: "INT. A CAVE, A LONG TIME AGO – 0:06 (STORY MODE ONLY)",
     timecode: 6,
     holdFor: 4,
     supertitles: [{ text: "Before anyone was selling anything, we were telling stories." }],
@@ -35,6 +38,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "town-square",
+    slug: "EXT. A TOWN SQUARE – 0:10 (STORY MODE ONLY)",
     timecode: 10,
     holdFor: 4,
     supertitles: [
@@ -46,6 +50,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "printing-press",
+    slug: "INT. A PRINTING PRESS – 0:14 (STORY MODE ONLY)",
     timecode: 14,
     holdFor: 4,
     supertitles: [{ text: "The printing press let those stories travel.", cornerTag: "1450s" }],
@@ -54,6 +59,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "radio-tv",
+    slug: "INT. A LIVING ROOM – 0:18 (STORY MODE ONLY)",
     timecode: 18,
     holdFor: 4,
     supertitles: [
@@ -64,6 +70,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "internet",
+    slug: "INT. A COMPUTER SCREEN – 0:22 (STORY MODE ONLY)",
     timecode: 22,
     holdFor: 4,
     supertitles: [{ text: "Then came the internet. Every story, every ad, a click away.", cornerTag: "1994" }],
@@ -76,6 +83,7 @@ export const intro: IntroBeat[] = [
   },
   {
     id: "year-2006",
+    slug: "INT. A BLACK SCREEN – 0:26 (STORY MODE ONLY)",
     timecode: 26,
     holdFor: 4,
     supertitles: [{ text: "2006" }, { text: "And then came Selva (Me!)." }],

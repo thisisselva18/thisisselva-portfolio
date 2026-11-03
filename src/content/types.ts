@@ -43,6 +43,7 @@ export type StickyNote = {
 // One timeline entry: a card cluster on one side, the supertitles and notes on the other.
 export type Scene = {
   id: string;
+  slug: string; // the script's scene heading, word for word: "INT. SELVA'S HEAD – 0:30". Newsprint texture only.
   object: string; // the card that comes out of the head
   side: "left" | "right";
   timecode: number; // seconds into story mode
@@ -58,6 +59,7 @@ export type Scene = {
 // The head (0:30) and the zoom out to the present day (1:19). Not timeline entries.
 export type HeadMoment = {
   id: string;
+  slug: string; // the script's scene heading, word for word: "INT. SELVA'S HEAD – 0:30". Newsprint texture only.
   timecode: number;
   holdFor: number;
   supertitles: Supertitle[];
@@ -67,6 +69,7 @@ export type HeadMoment = {
 
 export type IntroBeat = {
   id: string;
+  slug: string; // the script's scene heading, word for word: "INT. SELVA'S HEAD – 0:30". Newsprint texture only.
   timecode: number;
   holdFor: number;
   supertitles: Supertitle[];
@@ -76,6 +79,7 @@ export type IntroBeat = {
 
 // The end (1:23): the present-day cutout with the social links around it.
 export type EndMoment = {
+  slug: string; // the script's scene heading, word for word: "INT. SELVA'S HEAD – 0:30". Newsprint texture only.
   timecode: number;
   holdFor: number; // until "Hit me up!" lands
   links: Link[];
@@ -88,6 +92,7 @@ export type Site = {
   title: string;
   description: string;
   landing: {
+    slug: string;
     visual: string;
     story: { button: string; line: Supertitle };
     scroll: { button: string; line: Supertitle };

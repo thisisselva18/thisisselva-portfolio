@@ -24,6 +24,7 @@ export const yearBar = { from: "2017", to: "2026" };
 
 export const head: HeadMoment = {
   id: "head",
+  slug: "INT. SELVA'S HEAD – 0:30",
   timecode: 30,
   holdFor: 6,
   supertitles: [
@@ -63,6 +64,7 @@ export const timeline: Scene[] = [
     id: "camera-2017",
     object: "camera",
     side: "left",
+    slug: "INT. SELVA'S HEAD – THE CAMERA – 0:36",
     timecode: 36,
     holdFor: 2,
     supertitles: [{ text: "2017. A kid with a camera." }],
@@ -84,6 +86,7 @@ export const timeline: Scene[] = [
     id: "music-2020",
     object: "music-note",
     side: "right",
+    slug: "INT. SELVA'S HEAD – THE MUSIC NOTE – 0:38",
     timecode: 38,
     holdFor: 2,
     supertitles: [{ text: "2020." }, { text: "SG Records and Productions", size: "small" }],
@@ -103,6 +106,7 @@ export const timeline: Scene[] = [
     id: "youtube-2024",
     object: "video-thumbnail",
     side: "left",
+    slug: "INT. SELVA'S HEAD – THE VIDEO THUMBNAIL – 0:40",
     timecode: 40,
     holdFor: 5,
     supertitles: [
@@ -148,6 +152,7 @@ export const timeline: Scene[] = [
     id: "anthpo",
     object: "orange-ball",
     side: "right",
+    slug: "INT. SELVA'S HEAD – THE ORANGE BALL – 0:45",
     timecode: 45,
     holdFor: 3,
     supertitles: [{ text: "Then I found Anthpo, and marketing got weird." }],
@@ -172,6 +177,7 @@ export const timeline: Scene[] = [
     id: "clubs-2025",
     object: "poster-pile",
     side: "left",
+    slug: "INT. SELVA'S HEAD – THE POSTER PILE – 0:48",
     timecode: 48,
     holdFor: 6,
     supertitles: [
@@ -254,6 +260,7 @@ export const timeline: Scene[] = [
     stat: "120K+",
     object: "sigma-gear",
     side: "right",
+    slug: "INT. SELVA'S HEAD – THE Σ GEAR – 0:54",
     timecode: 54,
     holdFor: 5,
     supertitles: [
@@ -292,6 +299,7 @@ export const timeline: Scene[] = [
     cardsAlt: "do.blr",
     object: "notebook",
     side: "left",
+    slug: "INT. SELVA'S HEAD – THE NOTEBOOK – 0:59",
     timecode: 59,
     holdFor: 4,
     supertitles: [{ text: "Got bored in class. Started do.bengaluru.", cornerTag: "March 2026" }],
@@ -326,6 +334,7 @@ export const timeline: Scene[] = [
     id: "xeneva-2026",
     object: "t-shirt",
     side: "right",
+    slug: "INT. SELVA'S HEAD – THE T-SHIRT – 1:03",
     timecode: 63,
     holdFor: 4,
     supertitles: [{ text: "Gave a deep-tech startup a voice. (And a T-shirt.)", cornerTag: "July 2026" }],
@@ -361,6 +370,7 @@ export const timeline: Scene[] = [
     stat: "40 people",
     object: "hoodie",
     side: "left",
+    slug: "INT. SELVA'S HEAD – MY TIME AT HOMEBREW BY HSP – 1:07",
     timecode: 67,
     holdFor: 3,
     supertitles: [{ text: "Ran socials and marketing for Homebrew.", cornerTag: "August 2026" }],
@@ -398,6 +408,7 @@ export const timeline: Scene[] = [
     cardsAlt: "Made stickers and an advert for IndiaFOSS 2026",
     object: "sticker-stack",
     side: "right",
+    slug: "INT. SELVA'S HEAD – THE STICKER STACK – 1:10",
     timecode: 70,
     holdFor: 9,
     supertitles: [{ text: "And the one I'm proudest of so far.", cornerTag: "September 2026" }],
@@ -442,6 +453,7 @@ export const timeline: Scene[] = [
 
 export const zoomOut: HeadMoment = {
   id: "zoom-out",
+  slug: "INT. SELVA'S HEAD – 1:19",
   timecode: 79,
   holdFor: 4,
   supertitles: [{ text: "So much more to come, so many more to write!" }],

@@ -22,6 +22,7 @@
   --face-heart: var(--font-geist-serif-heart); /* "Storyteller by heart." only */
   --face-sans: var(--font-geist-sans); /* the details, buttons, links */
   --face-mono: var(--font-geist-mono); /* the engineer: corner tags, year bar, captions */
+  --face-marker: var(--font-permanent-marker); /* the hand: a stand-in until Selva's handwriting is scanned */
 
   /* Supertitles: at least 1/12 of the screen tall on desktop, never under 32px on a phone */
   --supertitle-size: clamp(2rem, min(9vh, 7vw), 7.5rem);
@@ -40,6 +41,16 @@
   /* Buttons: bold Geist Sans caps, at least 19px */
   --button-size: 1.1875rem;
   --button-weight: 700;
+
+  /* The dot (design.md section 6): about a full stop in a 120px headline, breathing slowly */
+  --dot-size: clamp(0.75rem, 1.3vw, 1.125rem);
+  --dot-breath: 3.2s;
+
+  /* Newsprint bands: real script lines as texture, at low contrast */
+  --newsprint-opacity: 0.3;
+
+  /* The marker note: a few handwritten words, never small */
+  --marker-size: 1.375rem;
 
   /* Layout */
   --gutter-phone: 1rem;

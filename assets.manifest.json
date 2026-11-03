@@ -38,8 +38,9 @@
     "treatment": [
       "colour-print"
     ],
-    "maxWidth": 1400,
-    "usedIn": "clubs-shunya"
+    "maxWidth": 1200,
+    "usedIn": "clubs-shunya",
+    "quality": 78
   },
   {
     "src": "Material/Sept_2025_Entrepreneurship_Club.jpg",
@@ -148,5 +149,31 @@
     },
     "maxWidth": 720,
     "usedIn": "clubs-2025 (reel cover, cropped to remove Instagram's mute icon)"
+  },
+  {
+    "src": "Material/point.pdf",
+    "out": "public/media/marks/arrow.svg",
+    "treatment": [
+      "crop",
+      "trace"
+    ],
+    "crop": {
+      "left": 0.38,
+      "top": 0.34,
+      "right": 0.32,
+      "bottom": 0.4
+    },
+    "maxWidth": 900,
+    "usedIn": "the marker note (the hand): Selva's own arrow, scanned"
+  },
+  {
+    "src": "Material/camera.jpg",
+    "out": "public/media/cutouts/camera.png",
+    "treatment": [
+      "uncheck",
+      "trim"
+    ],
+    "maxWidth": 1200,
+    "usedIn": "head (the burst) and camera-2017. Already halftoned with a sticker border; only the fake checkerboard is removed"
   }
 ]

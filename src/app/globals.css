@@ -24,6 +24,7 @@
   --font-heart: var(--face-heart);
   --font-sans: var(--face-sans);
   --font-mono: var(--face-mono);
+  --font-marker: var(--face-marker);
 
   --text-supertitle: var(--supertitle-size);
   --text-supertitle--line-height: var(--supertitle-leading);
@@ -33,6 +34,7 @@
   --text-details: var(--details-size);
   --text-details--line-height: var(--details-leading);
   --text-button: var(--button-size);
+  --text-marker: var(--marker-size);
 
   --shadow-*: initial;
   --shadow-lift: var(--lift-shadow);

@@ -2,11 +2,17 @@
 // (docs/BUILD.md section 6). Never writes to Material/.
 //
 // Treatments run in the order the manifest lists them:
+//   uncheck         remove a fake "transparency" checkerboard baked into a cutout: flood-fills
+//                   from the edges over the checker's two colours, up to the sticker border
 //   trim            crop away empty transparent space around a cutout
 //   crop            cut strips off the edges, as fractions: "crop": { "bottom": 0.06 } (e.g. a screenshot's UI)
 //   bw-halftone     black-and-white print: faded ink-on-paper duotone with chunky dots over it
 //   colour-print    colour print: warmed, faded colour with a CMY dot screen over it
 //   sticker-border  a white, slightly rough sticker border around a cutout
+//   trace           ink on white (a scanned drawing) traced into an SVG path in currentColor.
+//                   Must be last, and the out file must end in .svg.
+// A src can be a scanned PDF (one page, one JPEG inside, like a phone scanner app makes):
+// the JPEG is read straight out of it.
 // Every file is resized to maxWidth first (never enlarged). AVIF/WebP and responsive
 // sizes are served by next/image, so this writes one PNG or JPG per entry.
 //
@@ -16,6 +22,7 @@
 // Run with `npm run assets`. Add `-- <text>` to only run entries whose out path contains <text>.
 
 import sharp from "sharp";
+import potrace from "potrace";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
@@ -130,7 +137,77 @@ async function stickerBorder(img) {
   return sharp(white).composite([{ input: padded }]);
 }
 
+// The first JPEG inside a PDF. Scanner apps save each page as one JPEG, so this is the scan itself.
+function jpegFromPdf(path) {
+  const pdf = readFileSync(path);
+  const at = pdf.indexOf("/DCTDecode");
+  if (at < 0) throw new Error(`${path}: no JPEG inside`);
+  const length = Number(pdf.toString("latin1", at, at + 300).match(/\/Length (\d+)/)?.[1]);
+  let start = pdf.indexOf("stream", at) + "stream".length;
+  if (pdf[start] === 13) start++;
+  if (pdf[start] === 10) start++;
+  return pdf.subarray(start, start + length);
+}
+
+// Ink lines on white paper into one SVG path. Faint scan lines and specks drop out.
+async function trace(buffer) {
+  const ink = await sharp(buffer).flatten({ background: "#ffffff" }).greyscale().threshold(170).trim({ threshold: 40 }).png().toBuffer();
+  const { width, height } = await sharp(ink).metadata();
+  const svg = await new Promise((resolve, reject) =>
+    potrace.trace(ink, { threshold: 128, turdSize: 12, optTolerance: 0.3, color: "currentColor", background: "transparent" }, (err, out) =>
+      err ? reject(err) : resolve(out),
+    ),
+  );
+  return { svg: svg.replace(/<rect[^>]*\/>/, ""), width, height };
+}
+
+// A fake checkerboard "transparency" baked into an image (common in downloaded cutouts).
+// The checker's two colours are read from the image's edge; everything joined to the edge
+// in those colours becomes transparent. The cutout's own sticker border stops the fill.
+async function uncheck(img) {
+  const { data, info } = await img.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  const at = (x, y) => (y * w + x) * 4;
+  const lum = (i) => data[i] * 0.2126 + data[i + 1] * 0.7152 + data[i + 2] * 0.0722;
+  const edge = [];
+  for (let x = 0; x < w; x++) edge.push(at(x, 0), at(x, h - 1));
+  for (let y = 0; y < h; y++) edge.push(at(0, y), at(w - 1, y));
+  const lums = edge.map(lum).sort((a, b) => a - b);
+  const checker = [lums[Math.floor(lums.length * 0.05)], lums[Math.floor(lums.length * 0.95)]];
+  const near = (i) => {
+    const sat = Math.max(data[i], data[i + 1], data[i + 2]) - Math.min(data[i], data[i + 1], data[i + 2]);
+    const l = lum(i);
+    return sat < 24 && checker.some((c) => Math.abs(l - c) < 22);
+  };
+  const seen = new Uint8Array(w * h);
+  const stack = edge.filter(near).map((i) => i / 4);
+  while (stack.length) {
+    const p = stack.pop();
+    if (seen[p]) continue;
+    seen[p] = 1;
+    const x = p % w;
+    const y = (p - x) / w;
+    for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]) {
+      if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+      const q = ny * w + nx;
+      if (!seen[q] && near(q * 4)) stack.push(q);
+    }
+  }
+  // Clear the filled pixels, and soften the one-pixel rim next to them.
+  for (let p = 0; p < w * h; p++) if (seen[p]) data[p * 4 + 3] = 0;
+  for (let y = 1; y < h - 1; y++) {
+    for (let x = 1; x < w - 1; x++) {
+      const p = y * w + x;
+      if (seen[p]) continue;
+      const open = seen[p - 1] + seen[p + 1] + seen[p - w] + seen[p + w];
+      if (open) data[p * 4 + 3] = Math.round(255 * (1 - open * 0.15));
+    }
+  }
+  return sharp(data, { raw: info });
+}
+
 const steps = {
+  uncheck,
   trim: (img) => img.trim({ threshold: 1 }),
   crop: async (img, entry) => {
     const { width, height } = await img.metadata();
@@ -147,6 +224,7 @@ const steps = {
   "bw-halftone": bwHalftone,
   "colour-print": colourPrint,
   "sticker-border": stickerBorder,
+  trace: (img) => img, // runs at the end, on the finished bitmap
 };
 
 const sizes = existsSync(SIZES) ? JSON.parse(readFileSync(SIZES, "utf8")) : {};
@@ -161,8 +239,8 @@ for (const entry of manifest) {
   if (unknown.length) throw new Error(`${entry.out}: unknown treatment ${unknown.join(", ")}`);
 
   // Trim and crop before resizing, so maxWidth applies to what's left.
-  const before = ["trim", "crop"];
-  let img = sharp(entry.src).rotate();
+  const before = ["uncheck", "trim", "crop"];
+  let img = sharp(entry.src.endsWith(".pdf") ? jpegFromPdf(entry.src) : entry.src).rotate();
   let buffer = await img.png().toBuffer();
   for (const t of entry.treatment) {
     if (before.includes(t)) buffer = await (await steps[t](sharp(buffer), entry)).png().toBuffer();
@@ -174,12 +252,22 @@ for (const entry of manifest) {
   }
 
   mkdirSync(dirname(entry.out), { recursive: true });
+  const web = entry.out.replace(/^public/, "");
+
+  if (entry.treatment.includes("trace")) {
+    if (!entry.out.endsWith(".svg")) throw new Error(`${entry.out}: trace writes an .svg`);
+    const { svg, width, height } = await trace(buffer);
+    writeFileSync(entry.out, svg);
+    sizes[web] = { width, height };
+    console.log(`${web}  ${width}x${height}  ${(svg.length / 1024).toFixed(0)}KB (traced)`);
+    continue;
+  }
+
   img = sharp(buffer);
   const out = entry.out.endsWith(".jpg")
-    ? await img.flatten({ background: "#ffffff" }).jpeg({ quality: 86, mozjpeg: true }).toFile(entry.out)
+    ? await img.flatten({ background: "#ffffff" }).jpeg({ quality: entry.quality ?? 86, mozjpeg: true }).toFile(entry.out)
     : await img.png({ compressionLevel: 9, effort: 8 }).toFile(entry.out);
 
-  const web = entry.out.replace(/^public/, "");
   sizes[web] = { width: out.width, height: out.height };
   console.log(`${web}  ${out.width}x${out.height}  ${(out.size / 1024).toFixed(0)}KB`);
 }

@@ -15,7 +15,6 @@
     "out": "public/media/cutouts/present-day.png",
     "treatment": [
       "trim",
-      "colour-print",
       "sticker-border"
     ],
     "maxWidth": 2000,
@@ -26,7 +25,6 @@
     "out": "public/media/cutouts/guitar.png",
     "treatment": [
       "trim",
-      "colour-print",
       "sticker-border"
     ],
     "maxWidth": 900,
@@ -35,9 +33,7 @@
   {
     "src": "Material/Sept_2025_RotaractPESUECC_Club.jpg",
     "out": "public/media/photos/clubs/rotaract-poster.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1200,
     "usedIn": "clubs-shunya",
     "quality": 78
@@ -45,9 +41,7 @@
   {
     "src": "Material/Sept_2025_Entrepreneurship_Club.jpg",
     "out": "public/media/photos/clubs/ecell-poster.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "clubs-shunya"
   },
@@ -191,7 +185,6 @@
     "out": "public/media/cutouts/piano.png",
     "treatment": [
       "trim",
-      "colour-print",
       "sticker-border"
     ],
     "maxWidth": 900,
@@ -202,7 +195,6 @@
     "out": "public/media/cutouts/headphones.png",
     "treatment": [
       "trim",
-      "colour-print",
       "sticker-border"
     ],
     "maxWidth": 900,
@@ -241,7 +233,6 @@
     "treatment": [
       "uncheck",
       "trim",
-      "colour-print",
       "sticker-border"
     ],
     "maxWidth": 900,
@@ -309,27 +300,21 @@
   {
     "src": "Material/Rotaract.png",
     "out": "public/media/photos/clubs/rotaract-event.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "clubs-2025"
   },
   {
     "src": "Material/October_2025_Design_Lead_for_Hackathon.png",
     "out": "public/media/photos/clubs/acm-badge.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1200,
     "usedIn": "clubs-2025"
   },
   {
     "src": "Material/Hacknight7_October_Hackathon.jpg",
     "out": "public/media/photos/clubs/acm-hacknight.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "clubs-2025"
   },
@@ -350,27 +335,21 @@
   {
     "src": "Material/BengaluruSystems_March2026.png",
     "out": "public/media/photos/bengaluru-systems/meetup-1.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "bengaluru-systems-2026"
   },
   {
     "src": "Material/BengaluruSystems_April2026.png",
     "out": "public/media/photos/bengaluru-systems/meetup-2.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "bengaluru-systems-2026"
   },
   {
     "src": "Material/BengaluruSystems_May2026.png",
     "out": "public/media/photos/bengaluru-systems/meetup-3.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "bengaluru-systems-2026"
   },
@@ -412,9 +391,7 @@
   {
     "src": "Material/March_2026_Pic.png",
     "out": "public/media/photos/do-blr/filming.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1200,
     "usedIn": "do-bengaluru-2026"
   },
@@ -464,81 +441,63 @@
   {
     "src": "Material/Xeneva_IndiaFOSS.jpg",
     "out": "public/media/photos/xeneva/team.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/Xeneva_IndiaFOSS_2.jpg",
     "out": "public/media/photos/xeneva/booth-1.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/Xeneva_IndiaFOSS_3.jpg",
     "out": "public/media/photos/xeneva/booth-2.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "xeneva-2026"
   },
   {
     "src": "Material/FOSSTalks_3_Church_Street.png",
     "out": "public/media/photos/homebrew/church-street-1.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "homebrew-2026"
   },
   {
     "src": "Material/Homebrew_ChurchStreet.jpg",
     "out": "public/media/photos/homebrew/church-street-2.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "homebrew-2026"
   },
   {
     "src": "Material/Homebrew_HSP_Stall.jpg",
     "out": "public/media/photos/homebrew/stall.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "homebrew-2026"
   },
   {
     "src": "Material/HSP_Homebrew_Marketing.png",
     "out": "public/media/photos/homebrew/marketing.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "homebrew-2026"
   },
   {
     "src": "Material/Homebrew_HSP_2.jpg",
     "out": "public/media/photos/homebrew/poster.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1200,
     "usedIn": "homebrew-2026 (spotted in the wild)"
   },
   {
     "src": "Material/Homebrew_IndiaFOSS.jpg",
     "out": "public/media/photos/homebrew/united-by-foss.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "homebrew-2026 (spotted in the wild)"
   },
@@ -604,9 +563,7 @@
   {
     "src": "Material/Club_Photography.png",
     "out": "public/media/photos/clubs/photography.jpg",
-    "treatment": [
-      "colour-print"
-    ],
+    "treatment": [],
     "maxWidth": 1400,
     "usedIn": "clubs-2025 (added by the user, 3 Nov 2026)"
   },

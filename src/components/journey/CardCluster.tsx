@@ -34,6 +34,8 @@ type Shown = Extract<Media, { kind: "image" | "post" | "video" }>;
 const ready = (m: Media): m is Shown =>
   m.kind === "image" || m.kind === "post" ? !!mediaSize(m.src) : m.kind === "video" ? !!mediaSize(m.poster) : false;
 
+const isSticker = (m: Shown) => m.kind === "image" && /^\/media\/(stickers|xeneva\/sticker)/.test(m.src);
+
 // A cutout or sticker stands on its own; everything else is mounted.
 const standsAlone = (m: Shown) => m.kind === "image" && /^\/media\/(cutouts|stickers|xeneva\/sticker)/.test(m.src);
 
@@ -73,7 +75,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
           key={set.label}
           role={set.alt && !label ? "group" : undefined}
           aria-label={set.alt && !label ? set.alt : undefined}
-          className={`relative flex w-full flex-wrap items-start justify-center ${s > 0 ? (pointers ? "mt-6" : "-mt-4 sm:-mt-8") : ""}`}
+          className={`relative flex w-full flex-wrap items-start justify-center ${s > 0 ? (pointers || shownSets[s - 1].items.filter((m) => isSticker(m)).length >= 2 ? "mt-6" : "-mt-4 sm:-mt-8") : ""}`}
         >
           {(() => {
             const cards = items.map((m, i) => {
@@ -108,6 +110,31 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
               // A card with a corner tag or an always-shown caption sits above its neighbours, so neither is hidden.
               return { m, i, wide, alone, later, card, make, lift: corner || extras.shownCaptions.includes(m.src) ? "z-10" : "" };
             });
+            // Stickers (the IndiaFOSS and Xeneva ones): all the same size, side by side with a little
+            // room between them, so none covers another (the user's call). Anything else in the set
+            // (the T-shirt) leads above them as usual.
+            const stickers = cards.filter((c) => isSticker(c.m));
+            if (stickers.length >= 2) {
+              const per = stickers.length <= 4 ? stickers.length : Math.ceil(stickers.length / 2);
+              return (
+                <>
+                  {cards
+                    .filter((c) => !isSticker(c.m))
+                    .map(({ m, alone, card }) => (
+                      <div key={key(m)} className={`relative z-20 ${alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                        {card}
+                      </div>
+                    ))}
+                  <div className={`flex w-full flex-wrap justify-center gap-y-6 ${stickers.length < cards.length ? "mt-6" : ""}`}>
+                    {stickers.map(({ m, card, lift }) => (
+                      <div key={key(m)} className={`relative flex aspect-square items-center justify-center px-[2%] ${lift}`} style={{ width: `${100 / per}%` }}>
+                        <div className="w-full">{card}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              );
+            }
             const wideCards = cards.filter((c) => c.wide);
             const rest = cards.filter((c) => !c.wide);
             const maxW = (later: boolean) => (later ? "max-w-[17rem]" : "max-w-[15rem]");

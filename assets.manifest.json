@@ -633,5 +633,13 @@
     "treatment": [],
     "maxWidth": 1060,
     "usedIn": "bengaluru-systems-2026 (added by the user, 3 Nov 2026)"
+  },
+  {
+    "src": "Material/Shunya_QR.mp4",
+    "out": "public/media/reels/shunya-qr.mp4",
+    "treatment": [],
+    "maxWidth": 1080,
+    "usedIn": "clubs-2025, under the Day 0 note (muted; added by the user, 3 Nov 2026)",
+    "posterAt": 2
   }
 ]

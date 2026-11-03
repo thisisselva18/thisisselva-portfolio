@@ -6,6 +6,7 @@
 import { Fragment } from "react";
 import { extras } from "@/content/extras";
 import type { Link, MediaSet, Scene as SceneContent, StickyNote as NoteContent } from "@/content/types";
+import { InViewVideo } from "@/components/ui/InViewVideo";
 import { OriginalButton, ReelEmbed } from "@/components/ui/ReelEmbed";
 import { StatCallout } from "@/components/ui/StatCallout";
 import { StickyNote } from "@/components/ui/StickyNote";
@@ -70,12 +71,20 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
 
   // Pictures: a small pile of captioned cards. A picture on its own (the SoundCloud screenshot)
   // keeps its caption on show, not only on hover (the user's call).
-  const pictures = set.items.flatMap((m) => (m.kind === "image" || m.kind === "post" ? [m] : []));
+  const pictures = set.items.flatMap((m) => (m.kind === "image" || m.kind === "post" || m.kind === "video" ? [m] : []));
   return (
     <div role={set.alt ? "group" : undefined} aria-label={set.alt} className="flex w-full flex-wrap items-start justify-center">
       {pictures.map((m, i) => (
-        <div key={m.src} className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : fill ? "w-full max-w-[24rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
-          <WorkCard src={m.src} alt={m.alt ?? ""} sizes="(max-width: 640px) 60vw, 352px" attach="none" caption={m.alt} captionShown={pictures.length === 1 || extras.shownCaptions.includes(m.src)} />
+        <div key={m.src} className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : fill ? "w-full max-w-[24rem]" : m.kind === "video" ? "w-[62%] max-w-[15rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
+          <WorkCard
+            src={m.src}
+            alt={m.kind === "video" ? "" : (m.alt ?? "")}
+            sizes="(max-width: 640px) 60vw, 352px"
+            attach="none"
+            caption={m.alt}
+            captionShown={pictures.length === 1 || extras.shownCaptions.includes(m.src)}
+            media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt || set.label} /> : undefined}
+          />
         </div>
       ))}
     </div>

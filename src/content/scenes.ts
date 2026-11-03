@@ -255,6 +255,8 @@ export const timeline: Scene[] = [
         body: [
           "On the last day, we stuck QR codes all over campus, all leading to our Instagram page. At around 6 PM, the reel dropped.",
         ],
+        // Selva sticking the QR codes up (the user's video, 3 Nov 2026).
+        media: [set("Sticking the QR codes", [video("reels/shunya-qr")])],
       },
       {
         heading: "What happened",

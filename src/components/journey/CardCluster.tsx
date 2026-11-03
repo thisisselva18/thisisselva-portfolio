@@ -95,7 +95,8 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
               if (lead && pointers && m.kind === "image" && m.src.endsWith("/camera.png")) {
                 card = <PointerLabel pointers={pointers.map((text, p) => ({ text, ...CAMERA_POINTS[p] }))}>{card}</PointerLabel>;
               }
-              return { m, i, wide, alone, later, card };
+              // A card with a corner tag sits above its neighbours, so the tag isn't hidden under the next print.
+              return { m, i, wide, alone, later, card, lift: corner ? "z-10" : "" };
             });
             const wideCards = cards.filter((c) => c.wide);
             const rest = cards.filter((c) => !c.wide);
@@ -117,8 +118,8 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                       <div key={col} className={`flex w-1/2 flex-col ${col ? "mt-10 items-start" : "items-end"}`}>
                         {rest
                           .filter((_, r) => r % 2 === col)
-                          .map(({ m, later, card }, r) => (
-                            <div key={key(m)} className={`relative w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"}`}>
+                          .map(({ m, later, card, lift }, r) => (
+                            <div key={key(m)} className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"}`}>
                               {card}
                             </div>
                           ))}
@@ -126,10 +127,10 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                     ))}
                   </div>
                 ) : (
-                  rest.map(({ m, i, alone, later, card }) => (
+                  rest.map(({ m, i, alone, later, card, lift }) => (
                     <div
                       key={key(m)}
-                      className={`relative ${alone ? "w-[30%] max-w-[9rem]" : `${later ? "w-[50%]" : "w-[48%]"} ${maxW(later)}`} ${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`}
+                      className={`relative ${lift} ${alone ? "w-[30%] max-w-[9rem]" : `${later ? "w-[50%]" : "w-[48%]"} ${maxW(later)}`} ${later ? "-mx-[3%]" : "-mx-[1.5%]"} ${i % 2 ? "mt-8" : "-mt-2"}`}
                     >
                       {card}
                     </div>

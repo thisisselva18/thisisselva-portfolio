@@ -27,6 +27,11 @@ export const extras = {
     "youtube.com/@thisisselva18": "Check out my channel",
   } as Record<string, string>,
 
+  // A supertitle shown in the user's words instead of the script's, keyed by the script's line.
+  lineOverrides: {
+    "Oh hello, didn't see you there.": "Hello there. This is Selva!",
+  } as Record<string, string>,
+
   // Extra supertitle lines under a scene's first one, in the user's words (not in the script).
   extraLines: {
     "bengaluru-systems-2026": ["1.1K+ followers"],

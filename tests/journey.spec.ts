@@ -4,6 +4,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { head, timeline, zoomOut } from "../src/content/scenes";
 import { site } from "../src/content/site";
+import { extras } from "../src/content/extras";
 
 const contentLinks = [...timeline.flatMap((s) => s.notes.flatMap((n) => n.links ?? [])), ...site.end.links];
 
@@ -35,7 +36,10 @@ test("every scene is on the page, in order, with its first supertitle", async ({
   const ids = await page.$$eval("main section", (s) => s.map((e) => e.id));
   expect(ids).toEqual([head.id, ...timeline.map((s) => s.id), "the-end"]);
   // Each scene's first line is its heading, named once (the paper strip under it is a hidden copy).
-  for (const s of [head, ...timeline, zoomOut]) await expect(page.getByRole("heading", { name: s.supertitles[0].text, exact: true })).toBeVisible();
+  for (const s of [head, ...timeline, zoomOut]) {
+    const text = s.supertitles[0].text;
+    await expect(page.getByRole("heading", { name: extras.lineOverrides[text] ?? text, exact: true })).toBeVisible();
+  }
 });
 
 test("every link in the content is a link on the page", async ({ page }) => {

@@ -6,6 +6,7 @@
 
 import type { ReactNode } from "react";
 import type { Supertitle as SupertitleLine } from "@/content/types";
+import { extras } from "@/content/extras";
 import { CrayonLoop } from "./StatCallout";
 
 const SMALL_SERIF_MAX = 32;
@@ -19,7 +20,9 @@ type Props = {
   circle?: string; // a stat inside the line ("120K+"), circled in red crayon where it stands
 };
 
-export function Supertitle({ line, as: Tag = "p", strip, className, id, circle }: Props) {
+export function Supertitle({ line: scriptLine, as: Tag = "p", strip, className, id, circle }: Props) {
+  // The user can reword a line without touching the script (extras.lineOverrides).
+  const line = { ...scriptLine, text: extras.lineOverrides[scriptLine.text] ?? scriptLine.text };
   // The line's words, with the stat (if any) kept on one line and, in the visible layer, circled.
   const at = circle ? line.text.indexOf(circle) : -1;
   const words = (loop: boolean): ReactNode =>

@@ -71,7 +71,10 @@ export const extras = {
   } as Record<string, { label: string; href: string }>,
 
   // Script paragraphs the user took off the site (the script keeps them).
-  hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
+  hiddenParagraphs: [
+    "But out of all of them, Shunya is the one I still think about.",
+    "And I didn't stop there. Chapter 2 came next, then Year One and Year Two.",
+  ] as string[],
 
   // Extra supertitle lines under a scene's first one, in the user's words (not in the script).
   // `circle` is the bit circled in red crayon.

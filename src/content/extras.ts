@@ -29,6 +29,7 @@ export const extras = {
   // A supertitle shown in the user's words instead of the script's, keyed by the script's line.
   lineOverrides: {
     "Oh hello, didn't see you there.": "Hello there. This is Selva!",
+    "One life, tons of stories to tell.": "CSE undergrad IRL", // the user's words, 4 Nov 2026
   } as Record<string, string>,
 
   // Cards whose caption always shows, not only on hover (the user's picks, 3 Nov 2026).

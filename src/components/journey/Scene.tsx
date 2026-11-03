@@ -240,9 +240,30 @@ export function Scene({ scene }: { scene: SceneContent }) {
             ) : null}
 
             {part.tail && part.tailMediaBeside ? (
-              <div className="grid min-w-0 gap-5 lg:col-span-2 lg:grid-cols-[15rem_minmax(0,32rem)] lg:items-center lg:justify-center lg:gap-10">
-                <div className="hidden lg:block">
-                  {part.tail.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} fill />) ?? [])}
+              <div className="grid min-w-0 gap-5 lg:col-span-2 lg:grid-cols-2 lg:gap-x-16">
+                {/* The video lines up with the notes' column edge above, and runs from the top of the
+                    first tail note to the bottom of the last (cropping a little, never squashing). */}
+                <div className="relative hidden lg:block">
+                  {part.tail.flatMap((i) =>
+                    (scene.notes[i].media ?? []).flatMap((set) =>
+                      set.items.flatMap((m) =>
+                        m.kind === "video" ? (
+                          <div key={m.src} className="absolute inset-y-0 left-0 aspect-[9/16]">
+                            <WorkCard
+                              src={m.src}
+                              alt=""
+                              sizes="240px"
+                              attach="none"
+                              className="flex h-full flex-col"
+                              media={<InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt || set.label} className="min-h-0 grow object-cover" />}
+                            />
+                          </div>
+                        ) : (
+                          []
+                        ),
+                      ),
+                    ),
+                  )}
                 </div>
                 <div className="flex min-w-0 flex-col items-center gap-5 lg:items-start">
                   {part.tail.map((i) => (

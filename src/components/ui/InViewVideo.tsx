@@ -37,7 +37,7 @@ export function InViewVideo({ src, poster, label, className }: Props) {
   return (
     <video
       ref={ref}
-      className={`block h-auto w-full ${className ?? ""}`}
+      className={`block w-full ${className?.includes("grow") ? "" : "h-auto"} ${className ?? ""}`}
       src={src}
       poster={poster}
       muted

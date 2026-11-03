@@ -24,7 +24,6 @@ export const extras = {
   // A link shown with the user's words instead of the script's, keyed by the script's label.
   // Only that one link changes (the end's "YouTube – ..." link keeps its own words).
   linkLabels: {
-    "youtube.com/@thisisselva18": "Check out my channel",
   } as Record<string, string>,
 
   // A supertitle shown in the user's words instead of the script's, keyed by the script's line.
@@ -48,6 +47,7 @@ export const extras = {
   // Note links shown as a sticker button on the note instead, with the user's words (keyed by href).
   noteButtons: {
     "https://www.instagram.com/do.bengaluru": "Check out the page!",
+    "https://www.youtube.com/@thisisselva18": "Check out my channel", // in the camera note only; the end's link stays a link
   } as Record<string, string>,
 
   // Note paragraphs shown in the user's words instead of the script's, keyed by the script's paragraph.

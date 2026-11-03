@@ -364,7 +364,7 @@ export const timeline: Scene[] = [
       set("The team at IndiaFOSS", [
         image("photos/xeneva/team.jpg"),
         image("photos/xeneva/booth-1.jpg"),
-        image("photos/xeneva/booth-2.jpg"),
+        { ...image("photos/xeneva/booth-2.jpg"), alt: "A moment with Dr. Kailash Nadh, CTO of Zerodha!" },
       ], "Xeneva at IndiaFOSS '26"),
     ],
     notes: [

@@ -230,7 +230,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                   ? extras.extraLines[scene.id]?.map(({ text, circle }) => <Supertitle key={text} line={{ text }} strip circle={circle} className={`mx-auto !mt-1 lg:mx-0 ${FIT_STAT_LINE}`} />)
                   : null}
               </div>
-              {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
+              {p === 0 && scene.stat && !statInLine && !extras.extraLines[scene.id] ? <StatCallout stat={scene.stat} /> : null}
               {part.notes.map((i) => (
                 <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards || part.embedsAsCards} phoneOnlyMedia={part.mediaUnder} />
               ))}

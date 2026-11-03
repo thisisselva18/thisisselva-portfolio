@@ -57,6 +57,8 @@ export const extras = {
   // `circle` is the bit circled in red crayon.
   extraLines: {
     "bengaluru-systems-2026": [{ text: "1.2K+ followers", circle: "1.2K+" }],
+    // In place of the big "3K" callout (the user's words).
+    "do-bengaluru-2026": [{ text: "3K+ accounts", circle: "3K+" }],
   } as Record<string, { text: string; circle?: string }[]>,
 
   // The one handwritten marker note (design.md section 4: "the hand")

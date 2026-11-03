@@ -235,13 +235,14 @@ export function Scene({ scene }: { scene: SceneContent }) {
               {part.notes.map((i) => (
                 <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards || part.embedsAsCards} phoneOnlyMedia={part.mediaUnder} />
               ))}
+              {/* The user's button for this part, centred under its notes (extras.partButtons). */}
+              {p === 0 && extras.partButtons[scene.id] ? (
+                <div className="mt-3 flex w-full max-w-[30rem] justify-center">
+                  <StickerButton label={extras.partButtons[scene.id].label} href={extras.partButtons[scene.id].href} />
+                </div>
+              ) : null}
             </div>
 
-            {p === 0 && extras.partButtons[scene.id] ? (
-              <div className="flex justify-center lg:col-span-2">
-                <StickerButton label={extras.partButtons[scene.id].label} href={extras.partButtons[scene.id].href} />
-              </div>
-            ) : null}
             {part.wideMedia ? (
               <div className="min-w-0 lg:col-span-2">
                 {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} wide />) ?? [])}

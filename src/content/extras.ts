@@ -62,7 +62,7 @@ export const extras = {
       "This is the one I'm proudest of so far. A Homebrew x FOSS United advert, written, directed, edited and voiced by me, revealed in September 2026.",
   } as Record<string, string>,
 
-  // A sticker button across a scene part, between its notes and its wide media (the user's words
+  // A sticker button under a scene part's notes (the user's words
   // and link, 3 Nov 2026). Keyed by scene id.
   partButtons: {
     "clubs-2025": { label: "All my work here!", href: "https://drive.google.com/drive/u/0/folders/1nAYMgnHxcpmMaMKoGDReWWyFz2xY3to-" },

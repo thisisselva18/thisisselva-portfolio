@@ -19,7 +19,7 @@ const isEmbed = (m: MediaSet["items"][number]): m is Embed => m.kind === "youtub
 const button = (id: string) => extras.embedButton[id] ?? extras.embedButton.default;
 const originalFor = (note: NoteContent, id: string) => note.links?.find((l) => l.href.includes(id));
 
-function NoteMedia({ set, note, wide }: { set: MediaSet; note: NoteContent; wide?: boolean }) {
+function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent; wide?: boolean; fill?: boolean }) {
   const embeds = set.items.filter(isEmbed);
 
   // A run of reels (the clubs): one row per link group, each under its label. On a phone the
@@ -73,7 +73,7 @@ function NoteMedia({ set, note, wide }: { set: MediaSet; note: NoteContent; wide
   return (
     <div role={set.alt ? "group" : undefined} aria-label={set.alt} className="flex w-full flex-wrap items-start justify-center">
       {pictures.map((m, i) => (
-        <div key={m.src} className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
+        <div key={m.src} className={`${pictures.length > 1 ? "w-[52%] max-w-[16rem]" : fill ? "w-full max-w-[24rem]" : "w-[78%] max-w-[22rem]"} ${i ? "-ml-[4%] mt-10" : ""}`}>
           <WorkCard src={m.src} alt={m.alt ?? ""} sizes="(max-width: 640px) 60vw, 352px" attach="none" caption={m.alt} />
         </div>
       ))}
@@ -122,19 +122,23 @@ export function Scene({ scene }: { scene: SceneContent }) {
         const textCol = right ? "lg:col-start-1" : "lg:col-start-2";
         return (
           <div key={p} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 ${split ? "lg:items-center" : "lg:items-start"}`}>
-            <div className={`min-w-0 lg:row-start-1 ${split ? "" : "lg:pt-10"} ${cardsCol}`}>
-              <CardCluster
-                seed={p ? `${scene.id}-${p}` : scene.id}
-                sets={part.cards.map((c) => scene.cards[c])}
-                label={p ? undefined : scene.cardsAlt}
-                cornerTags={corners(part.lines)}
-                labelStrip={p ? undefined : extras.labelStrips[scene.id]}
-                pointers={p ? undefined : (extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
-                tied={p === 0}
-              />
+            <div className={`min-w-0 lg:row-start-1 ${split ? "" : "lg:pt-10"} ${cardsCol} ${part.mediaBeside ? "flex items-center justify-center gap-[4%]" : ""}`}>
+              <div className={part.mediaBeside ? "w-[34%] shrink-0" : ""}>
+                <CardCluster
+                  seed={p ? `${scene.id}-${p}` : scene.id}
+                  sets={part.cards.map((c) => scene.cards[c])}
+                  label={p ? undefined : scene.cardsAlt}
+                  cornerTags={corners(part.lines)}
+                  labelStrip={p ? undefined : extras.labelStrips[scene.id]}
+                  pointers={p ? undefined : (extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
+                  tied={p === 0}
+                  fill={part.mediaBeside}
+                />
+              </div>
+              {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
               {part.mediaBeside ? (
-                <div className="-mt-6 sm:-mt-10">
-                  {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} />) ?? [])}
+                <div className="min-w-0 flex-1">
+                  {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} fill />) ?? [])}
                 </div>
               ) : null}
             </div>

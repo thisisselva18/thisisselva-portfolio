@@ -22,6 +22,7 @@ type Props = {
   labelStrip?: string; // extras.labelStrips: on the last set
   pointers?: string[]; // extras.pointerLabels: round the camera
   tied?: boolean; // false for a second cluster in the same scene: the string ties each scene once
+  fill?: boolean; // the lead fills its box (when something sits beside the cluster)
 };
 
 type Shown = Extract<Media, { kind: "image" | "post" | "video" }>;
@@ -40,7 +41,7 @@ const CAMERA_POINTS: Pick<Pointer, "at" | "label">[] = [
   { at: [12, 40], label: [-4, 88] },
 ];
 
-export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers, tied = true }: Props) {
+export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers, tied = true, fill }: Props) {
   const shownSets = sets.map((set) => ({ set, items: set.items.filter(ready) })).filter((s) => s.items.length);
 
   if (!shownSets.length && !tied) return null;
@@ -108,7 +109,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
             return (
               <>
                 {wideCards.map(({ m, alone, card }) => (
-                  <div key={key(m)} className={`relative z-0 ${alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                  <div key={key(m)} className={`relative z-0 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
                     {card}
                   </div>
                 ))}

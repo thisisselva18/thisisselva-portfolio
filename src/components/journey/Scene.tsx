@@ -19,7 +19,7 @@ const isEmbed = (m: MediaSet["items"][number]): m is Embed => m.kind === "youtub
 const button = (id: string) => extras.embedButton[id] ?? extras.embedButton.default;
 const originalFor = (note: NoteContent, id: string) => note.links?.find((l) => l.href.includes(id));
 
-function NoteMedia({ set, note }: { set: MediaSet; note: NoteContent }) {
+function NoteMedia({ set, note, wide }: { set: MediaSet; note: NoteContent; wide?: boolean }) {
   const embeds = set.items.filter(isEmbed);
 
   // A run of reels (the clubs): one row per link group, each under its label. On a phone the
@@ -33,9 +33,9 @@ function NoteMedia({ set, note }: { set: MediaSet; note: NoteContent }) {
       else groups.push({ group: original?.group, reels: [{ media, original }] });
     }
     return (
-      <div role="group" aria-label={set.alt} className="w-full space-y-6">
+      <div role="group" aria-label={set.alt} className={`w-full space-y-6 ${wide ? "lg:flex lg:items-start lg:justify-center lg:gap-16 lg:space-y-0" : ""}`}>
         {groups.map(({ group, reels }) => (
-          <div key={group ?? reels[0].media.id}>
+          <div key={group ?? reels[0].media.id} className="min-w-0">
             {group ? <p className="mb-2 px-2 font-mono text-mono text-ink">{group}</p> : null}
             <div className="-mx-[var(--gutter-phone)] flex snap-x snap-mandatory gap-5 overflow-x-auto px-[var(--gutter-phone)] pb-4 pt-6 sm:mx-0 sm:gap-0 sm:overflow-visible sm:px-0">
               {reels.map(({ media, original }, i) => (
@@ -81,65 +81,96 @@ function NoteMedia({ set, note }: { set: MediaSet; note: NoteContent }) {
   );
 }
 
-// Scenes whose story has a second part: from card set `cards` and note `notes` on, it goes under
-// the card cluster on a laptop, so both halves stay full (the user: Shunya's reel and its notes
-// fill the side under the club photos). On a phone it simply follows, in reading order.
-const SECOND_PART: Record<string, { cards: number; notes: number }> = {
-  "clubs-2025": { cards: 1, notes: 1 },
+// Scenes told in parts (the user: the clubs and Shunya are two blocks, each one a tidy
+// rectangle). Each part has its own supertitles, cards and notes; the sides flip from one part
+// to the next, so the page still zigzags. `wideMedia` lays its notes' media (the club reels)
+// across the whole block underneath; `mediaBeside` puts its notes' pictures with the cards (the
+// SoundCloud screenshot next to the music note); `tail` notes sit side by side under the block. On a phone
+// it all reads top to bottom in that order. Only the first part's cards are tied to the string.
+type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean };
+const PARTS: Record<string, Part[]> = {
+  "clubs-2025": [
+    { lines: [0], cards: [0], notes: [0], wideMedia: true },
+    { lines: [1], cards: [1], notes: [1, 2], tail: [3, 4] },
+  ],
+  "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
 };
 
-function Notes({ scene, notes, from }: { scene: SceneContent; notes: NoteContent[]; from: number }) {
-  return notes.map((note, i) => (
-    <Fragment key={note.heading ?? note.body[0] ?? i}>
-      <StickyNote note={note} seed={`${scene.id}-${from + i}`} className="w-full" />
-      {note.media?.map((set) => <NoteMedia key={set.label} set={set} note={note} />)}
-    </Fragment>
-  ));
+function Note({ scene, i, noMedia }: { scene: SceneContent; i: number; noMedia?: boolean }) {
+  const note = scene.notes[i];
+  return (
+    <>
+      <StickyNote note={note} seed={`${scene.id}-${i}`} className="w-full" />
+      {noMedia ? null : note.media?.map((set) => <NoteMedia key={set.label} set={set} note={note} />)}
+    </>
+  );
 }
 
 export function Scene({ scene }: { scene: SceneContent }) {
-  const right = scene.side === "right";
-  const corners = scene.supertitles.flatMap((l) => (l.cornerTag ? [l.cornerTag] : []));
+  const corners = (lines: number[]) => lines.flatMap((l) => (scene.supertitles[l].cornerTag ? [scene.supertitles[l].cornerTag as string] : []));
   // A stat that's already in a supertitle is circled there, not repeated below it.
   const statInLine = !!scene.stat && scene.supertitles.some((l) => l.text.includes(scene.stat as string));
-  const split = SECOND_PART[scene.id];
-  const cards = split ? scene.cards.slice(0, split.cards) : scene.cards;
-  const notes = split ? scene.notes.slice(0, split.notes) : scene.notes;
-  const cardsCol = right ? "lg:col-start-2" : "lg:col-start-1";
-  const textCol = right ? "lg:col-start-1" : "lg:col-start-2";
+  const all = (n: number) => Array.from({ length: n }, (_, i) => i);
+  const parts: Part[] = PARTS[scene.id] ?? [{ lines: all(scene.supertitles.length), cards: all(scene.cards.length), notes: all(scene.notes.length) }];
+  const split = parts.length > 1 || !!PARTS[scene.id];
+
   return (
-    <section
-      id={scene.id}
-      aria-labelledby={`${scene.id}-title`}
-      className="relative z-10 grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:items-start lg:gap-16"
-    >
-      <div className={`min-w-0 lg:row-start-1 lg:pt-10 ${cardsCol}`}>
-        <CardCluster
-          seed={scene.id}
-          sets={cards}
-          label={scene.cardsAlt}
-          cornerTags={corners}
-          labelStrip={(extras.labelStrips as Record<string, string>)[scene.id]}
-          pointers={(extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
-        />
-      </div>
+    <section id={scene.id} aria-labelledby={`${scene.id}-title`} className="relative z-10 space-y-24 py-20 sm:py-28">
+      {parts.map((part, p) => {
+        const right = (scene.side === "right") !== (p % 2 === 1);
+        const cardsCol = right ? "lg:col-start-2" : "lg:col-start-1";
+        const textCol = right ? "lg:col-start-1" : "lg:col-start-2";
+        return (
+          <div key={p} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 ${split ? "lg:items-center" : "lg:items-start"}`}>
+            <div className={`min-w-0 lg:row-start-1 ${split ? "" : "lg:pt-10"} ${cardsCol}`}>
+              <CardCluster
+                seed={p ? `${scene.id}-${p}` : scene.id}
+                sets={part.cards.map((c) => scene.cards[c])}
+                label={p ? undefined : scene.cardsAlt}
+                cornerTags={corners(part.lines)}
+                labelStrip={p ? undefined : (extras.labelStrips as Record<string, string>)[scene.id]}
+                pointers={p ? undefined : (extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
+                tied={p === 0}
+              />
+              {part.mediaBeside ? (
+                <div className="-mt-6 sm:-mt-10">
+                  {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} />) ?? [])}
+                </div>
+              ) : null}
+            </div>
 
-      <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-span-2 lg:row-start-1 lg:items-start ${textCol}`}>
-        <div className="w-full space-y-4 text-center lg:text-left">
-          {scene.supertitles.map((line, i) => (
-            <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} as={i === 0 ? "h2" : "p"} {...(i === 0 ? { id: `${scene.id}-title` } : {})} className="mx-auto lg:mx-0" />
-          ))}
-        </div>
-        {scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
-        <Notes scene={scene} notes={notes} from={0} />
-      </div>
+            <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-start-1 lg:items-start ${textCol}`}>
+              <div className="w-full space-y-4 text-center lg:text-left">
+                {part.lines.map((l, i) => {
+                  const line = scene.supertitles[l];
+                  const heading = l === 0 ? { as: "h2" as const, id: `${scene.id}-title` } : i === 0 ? { as: "h3" as const } : { as: "p" as const };
+                  return <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} {...heading} className="mx-auto lg:mx-0" />;
+                })}
+              </div>
+              {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
+              {part.notes.map((i) => (
+                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside} />
+              ))}
+            </div>
 
-      {split ? (
-        <div className={`flex min-w-0 flex-col items-center gap-8 lg:row-start-2 lg:items-start ${cardsCol}`}>
-          <CardCluster seed={`${scene.id}-2`} sets={scene.cards.slice(split.cards)} tied={false} />
-          <Notes scene={scene} notes={scene.notes.slice(split.notes)} from={split.notes} />
-        </div>
-      ) : null}
+            {part.wideMedia ? (
+              <div className="min-w-0 lg:col-span-2">
+                {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} wide />) ?? [])}
+              </div>
+            ) : null}
+
+            {part.tail ? (
+              <div className="grid min-w-0 gap-8 lg:col-span-2 lg:grid-cols-2 lg:items-start lg:gap-16">
+                {part.tail.map((i) => (
+                  <div key={i} className="flex min-w-0 flex-col items-center gap-8">
+                    <Note scene={scene} i={i} />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
     </section>
   );
 }

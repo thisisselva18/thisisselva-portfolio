@@ -34,7 +34,8 @@ test("every scene is on the page, in order, with its first supertitle", async ({
   await page.goto("/");
   const ids = await page.$$eval("main section", (s) => s.map((e) => e.id));
   expect(ids).toEqual([head.id, ...timeline.map((s) => s.id), "the-end"]);
-  for (const s of [head, ...timeline, zoomOut]) await expect(page.getByText(s.supertitles[0].text, { exact: true })).toBeVisible();
+  // Each scene's first line is its heading, named once (the paper strip under it is a hidden copy).
+  for (const s of [head, ...timeline, zoomOut]) await expect(page.getByRole("heading", { name: s.supertitles[0].text, exact: true })).toBeVisible();
 });
 
 test("every link in the content is a link on the page", async ({ page }) => {

@@ -155,7 +155,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                   return <Supertitle key={line.text} line={line} strip circle={statInLine ? scene.stat : undefined} {...heading} className={`mx-auto lg:mx-0 ${statInLine ? FIT_STAT_LINE : ""}`} />;
                 })}
                 {p === 0
-                  ? extras.extraLines[scene.id]?.map((text) => <Supertitle key={text} line={{ text }} strip className={`mx-auto !mt-1 lg:mx-0 ${FIT_STAT_LINE}`} />)
+                  ? extras.extraLines[scene.id]?.map(({ text, circle }) => <Supertitle key={text} line={{ text }} strip circle={circle} className={`mx-auto !mt-1 lg:mx-0 ${FIT_STAT_LINE}`} />)
                   : null}
               </div>
               {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}

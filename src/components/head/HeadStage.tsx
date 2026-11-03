@@ -27,6 +27,13 @@ const RING: { left: number; top: number; w: string }[] = [
   { left: 93, top: 6, w: "w-[6%] sm:w-[3%]" }, // music staff
 ];
 
+// The lines that move to the stage's top corners on a laptop: which line, where, and its lean.
+const CORNER_LINES = [
+  { line: 1, at: "left-[1%] top-[8%] w-[38%]", lean: -6 }, // "One life, tons of stories to tell."
+  { line: 2, at: "right-[1%] top-[9%] w-[28%]", lean: 6 }, // "Storyteller by heart."
+];
+const CORNER_SIZE = "!text-[length:calc(var(--supertitle-size)*0.55)]";
+
 export function HeadStage() {
   const [cutoutSet, objectsSet] = head.cards;
   const cutout = cutoutSet.items[0];
@@ -51,11 +58,27 @@ export function HeadStage() {
           {/* Anchored to the cutout, as on /kit: the arrow's tip lands on the top of the head. */}
           <MarkerNote text={extras.markerNote.head} className="absolute left-[120px] top-[-106px] z-10 sm:left-[194px] sm:top-[-109px]" />
         </div>
+
+        {/* On a laptop, the second and third lines sit in the top corners, among the objects, leaning
+            outwards (the user's call, 3 Nov 2026). On a phone the corners are too narrow, so they
+            stay under the first line (below). Overlapping the objects is fine. */}
+        {CORNER_LINES.map(({ line: l, at, lean }) => (
+          <div key={l} aria-hidden className={`absolute z-20 hidden lg:block ${at}`} style={{ rotate: `${lean}deg` }}>
+            <Supertitle line={head.supertitles[l]} strip className={`mx-auto text-center ${CORNER_SIZE}`} />
+          </div>
+        ))}
       </div>
 
       <div className="mx-auto flex max-w-[40rem] flex-col items-center gap-5 text-center">
         {head.supertitles.map((line, i) => (
-          <Supertitle key={line.text} line={line} strip as={i === 0 ? "h1" : "p"} {...(i === 0 ? { id: "head-title" } : {})} className="mx-auto" />
+          <Supertitle
+            key={line.text}
+            line={line}
+            strip
+            as={i === 0 ? "h1" : "p"}
+            {...(i === 0 ? { id: "head-title" } : {})}
+            className={`mx-auto ${CORNER_LINES.some((c) => c.line === i) ? "lg:sr-only" : ""}`}
+          />
         ))}
       </div>
     </section>

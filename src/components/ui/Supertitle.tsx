@@ -32,7 +32,7 @@ export function Supertitle({ line: scriptLine, as: Tag = "p", strip, className, 
       <>
         {line.text.slice(0, at).trimEnd()}
         {/* The stat starts its own line ("120K+ impressions."), the user's call. */}
-        <br />
+        {at > 0 ? <br /> : null}
         <span className="whitespace-nowrap">
           <span className="relative inline-block">
             {circle}

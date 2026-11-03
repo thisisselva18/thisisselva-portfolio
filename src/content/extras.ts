@@ -33,9 +33,10 @@ export const extras = {
   } as Record<string, string>,
 
   // Extra supertitle lines under a scene's first one, in the user's words (not in the script).
+  // `circle` is the bit circled in red crayon.
   extraLines: {
-    "bengaluru-systems-2026": ["1.1K+ followers"],
-  } as Record<string, string[]>,
+    "bengaluru-systems-2026": [{ text: "1.2K+ followers", circle: "1.2K+" }],
+  } as Record<string, { text: string; circle?: string }[]>,
 
   // The one handwritten marker note (design.md section 4: "the hand")
   markerNote: {

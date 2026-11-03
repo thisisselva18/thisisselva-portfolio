@@ -91,6 +91,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   mount={!alone}
                   attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
                   caption={alone ? undefined : m.alt}
+                  captionShown={m.kind === "video"} // a video's words stay on its card (the user's call)
                   corner={corner ? <CornerTag text={corner} /> : null}
                   media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt} /> : undefined}
                 />

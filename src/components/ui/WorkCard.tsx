@@ -21,12 +21,13 @@ type Props = {
   mount?: boolean; // false for a cutout that stands on its own, with only its sticker border
   corner?: ReactNode; // a CornerTag, at the bottom-right corner like a date stamp on a photo
   caption?: string; // the user's words, in the polaroid gap (mounted cards only)
+  captionShown?: boolean; // always show the caption, not only on hover (the IndiaFOSS ad, the user's call)
   media?: ReactNode; // shown instead of the image (a video)
   stretch?: boolean; // grow to fill a taller box, cropping the picture (never squashing it)
   className?: string;
 };
 
-export function WorkCard({ src, alt, sizes, attach = "pin", tapes = [], mount = true, corner, caption, media, stretch, className }: Props) {
+export function WorkCard({ src, alt, sizes, attach = "pin", tapes = [], mount = true, corner, caption, captionShown, media, stretch, className }: Props) {
   const isCutout = !mount;
   const polaroid = mount && !!caption;
   return (
@@ -51,7 +52,7 @@ export function WorkCard({ src, alt, sizes, attach = "pin", tapes = [], mount = 
       {polaroid ? (
         <figcaption
           aria-hidden
-          className="absolute inset-x-[var(--mount-border)] bottom-0 flex h-[var(--polaroid-gap)] items-center justify-center text-center font-mono text-caption leading-tight text-ink opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100"
+          className={`absolute inset-x-[var(--mount-border)] bottom-0 flex h-[var(--polaroid-gap)] items-center justify-center text-center font-mono text-caption leading-tight text-ink ${captionShown ? "" : "opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100"}`}
           data-caption
         >
           <span className="line-clamp-2">{caption}</span>

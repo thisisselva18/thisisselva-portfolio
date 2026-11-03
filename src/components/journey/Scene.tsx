@@ -87,25 +87,38 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
 // across the whole block underneath; `mediaBeside` puts its notes' pictures with the cards (the
 // SoundCloud screenshot next to the music note); `tail` notes sit side by side under the block. On a phone
 // it all reads top to bottom in that order. Only the first part's cards are tied to the string.
-type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean };
+// `mediaUnder` puts its notes' pictures under the cards on a laptop (Homebrew's "Spotted in the
+// wild"), and after their note on a phone, so the notes on the other side sit close together.
+type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean };
 const PARTS: Record<string, Part[]> = {
   "clubs-2025": [
     { lines: [0], cards: [0], notes: [0], wideMedia: true },
     { lines: [1], cards: [1], notes: [1, 2], tail: [3, 4] },
   ],
   "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
+  "homebrew-2026": [{ lines: [0], cards: [0], notes: [0, 1, 2], mediaUnder: true }],
 };
 
 // A headline whose stat starts its own line ("120K+ impressions.") is sized to its column, so that
 // line never has to wrap or run over: the line is about 9em wide, so at most 10.5% of the column.
 const FIT_STAT_LINE = "!text-[length:min(var(--supertitle-size),10.5cqi)]";
 
-function Note({ scene, i, noMedia }: { scene: SceneContent; i: number; noMedia?: boolean }) {
+function Note({ scene, i, noMedia, phoneOnlyMedia }: { scene: SceneContent; i: number; noMedia?: boolean; phoneOnlyMedia?: boolean }) {
   const note = scene.notes[i];
   return (
     <>
       <StickyNote note={note} seed={`${scene.id}-${i}`} className="w-full" />
-      {noMedia ? null : note.media?.map((set) => <NoteMedia key={set.label} set={set} note={note} />)}
+      {noMedia
+        ? null
+        : note.media?.map((set) =>
+            phoneOnlyMedia ? (
+              <div key={set.label} className="w-full lg:hidden">
+                <NoteMedia set={set} note={note} />
+              </div>
+            ) : (
+              <NoteMedia key={set.label} set={set} note={note} />
+            ),
+          )}
     </>
   );
 }
@@ -140,6 +153,11 @@ export function Scene({ scene }: { scene: SceneContent }) {
                 />
               </div>
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
+              {part.mediaUnder ? (
+                <div className="mt-10 hidden lg:block">
+                  {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} />) ?? [])}
+                </div>
+              ) : null}
               {part.mediaBeside ? (
                 <div className="min-w-0 flex-1">
                   {part.notes.flatMap((i) => scene.notes[i].media?.map((set) => <NoteMedia key={set.label} set={set} note={scene.notes[i]} fill />) ?? [])}
@@ -160,7 +178,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               </div>
               {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
               {part.notes.map((i) => (
-                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside} />
+                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside} phoneOnlyMedia={part.mediaUnder} />
               ))}
             </div>
 

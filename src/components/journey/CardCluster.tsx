@@ -116,8 +116,8 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   <div className={`flex w-full justify-center ${wideCards.length ? "-mt-6" : ""}`}>
                     {[0, 1].map((col) => (
                       <div key={col} className={`flex w-1/2 flex-col ${col ? "mt-10 items-start" : "items-end"}`}>
-                        {rest
-                          .filter((_, r) => r % 2 === col)
+                        {columnOf(rest.map((c) => c.m))
+                          .flatMap((c, r) => (c === col ? [rest[r]] : []))
                           .map(({ m, later, card, lift }, r) => (
                             <div key={key(m)} className={`relative ${lift} w-[104%] ${maxW(later)} ${r ? "-mt-5" : ""} ${col ? "-ml-[4%]" : "-mr-[4%]"}`}>
                               {card}
@@ -149,3 +149,16 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
 }
 
 const key = (m: Shown) => m.src;
+
+// Masonry: each print goes into whichever of the two columns is shorter so far (by its shape),
+// so a column never ends with a hole beside a longer one. The right column starts a little lower.
+function columnOf(items: Shown[]) {
+  const heights = [0, 0.15];
+  return items.map((m) => {
+    const size = mediaSize(m.kind === "video" ? m.poster : m.src);
+    const tall = size ? size.height / size.width : 1;
+    const col = heights[0] <= heights[1] ? 0 : 1;
+    heights[col] += tall;
+    return col;
+  });
+}

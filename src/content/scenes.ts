@@ -202,6 +202,8 @@ export const timeline: Scene[] = [
         image("photos/clubs/rotaract-event.jpg"),
         image("photos/clubs/acm-badge.jpg"),
         image("photos/clubs/acm-hacknight.jpg"),
+        // Moved here from do.bengaluru by the user (3 Nov 2026), to fill the clubs pile.
+        image("photos/do-blr/filming.jpg"),
       ], "Origins of my love for campaigning..."),
       set("The Shunya reel", [video("reels/shunya-reveal")]),
     ],
@@ -319,7 +321,6 @@ export const timeline: Scene[] = [
         post("posts/do-blr/do-blr-4.png"),
         post("posts/do-blr/do-blr-5.png"),
       ], "A step outside my comfort zone"),
-      set("You filming", [image("photos/do-blr/filming.jpg")]),
     ],
     notes: [
       {

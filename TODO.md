@@ -59,6 +59,7 @@
     - The landing (STORY / SCROLL) isn't built: the site opens straight on the head, which is scroll mode's start anyway.
   - **After the review (user, 3 Nov):** supertitle strips are drawn in a hidden layer under the words (they covered descenders); a stat that's in its supertitle (120K+) is circled in place, with no separate callout; the clubs scene's second part (Shunya reel + its 4 notes) sits under the cards on a laptop (`SECOND_PART` in Scene.tsx); later sets' photos/videos are bigger and a set's only video plays wide.
   - **Instagram reels are screenshots now (user, 3 Nov):** no play mark, no player; the "Watch the original" button is the way through. InstagramEmbed.tsx was removed. YouTube embeds still load on tap.
+  - **More review changes (user, 3 Nov evening):** draft_v3_final_FINAL.fdx label strip removed; cards with corner tags sit above neighbours; card piles of 3+ prints are two masonry columns, each print going to the shorter column (`columnOf`); scenes can be told in parts (`PARTS` in Scene.tsx): clubs and Shunya are two rectangular blocks (reels in one row under the clubs block; Day 0 and What happened side by side under the Shunya block), and the music scene puts the SoundCloud screenshot with the note; the filming photo moved from do.bengaluru to the club photos (user's call).
   - **Next:** push to GitHub (waiting for the user's OK), import the repo on Vercel, check the live link on a phone.
 - [ ] Phase 5: Scroll mode, with the real motion
 - [ ] Phase 6: The intro (story mode only)

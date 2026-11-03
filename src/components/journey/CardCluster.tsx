@@ -103,8 +103,8 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
               return card;
               };
               const card = make();
-              // A card with a corner tag sits above its neighbours, so the tag isn't hidden under the next print.
-              return { m, i, wide, alone, later, card, make, lift: corner ? "z-10" : "" };
+              // A card with a corner tag or an always-shown caption sits above its neighbours, so neither is hidden.
+              return { m, i, wide, alone, later, card, make, lift: corner || extras.shownCaptions.includes(m.src) ? "z-10" : "" };
             });
             const wideCards = cards.filter((c) => c.wide);
             const rest = cards.filter((c) => !c.wide);

@@ -47,7 +47,7 @@ export const head: HeadMoment = {
     // headphones and Currents cover, then the rest (the user put them together, 3 Nov 2026).
     set("The objects that burst out", [
       image("cutouts/camera.png", "as-is"),
-      image("cutouts/music-note.png", "as-is"),
+      image("cutouts/cat.png", "as-is"), // the user's cat (the favicon), in the music note's place (3 Nov 2026)
       image("cutouts/guitar.png"),
       image("cutouts/piano.png"),
       image("cutouts/headphones.png"),

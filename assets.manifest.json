@@ -616,5 +616,15 @@
     "treatment": [],
     "maxWidth": 512,
     "usedIn": "the favicon (Next.js serves src/app/icon.png as the site icon)"
+  },
+  {
+    "src": "Material/Flavicon.png",
+    "out": "public/media/cutouts/cat.png",
+    "treatment": [
+      "trim",
+      "sticker-border"
+    ],
+    "maxWidth": 600,
+    "usedIn": "head (the burst), in the music note's place; also the favicon (user, 3 Nov 2026)"
   }
 ]

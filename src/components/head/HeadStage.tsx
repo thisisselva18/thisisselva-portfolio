@@ -16,7 +16,7 @@ import { WorkCard } from "@/components/ui/WorkCard";
 // Kept to the sides and below, clear of the face and of the marker note top right.
 const RING: { left: number; top: number; w: string }[] = [
   { left: 1, top: 4, w: "w-[19%] sm:w-[11%]" }, // camera
-  { left: 2, top: 34, w: "w-[18%] sm:w-[9%]" }, // music note
+  { left: 2, top: 34, w: "w-[18%] sm:w-[9%]" }, // the cat (the favicon)
   { left: 1, top: 60, w: "w-[13%] sm:w-[7%]" }, // guitar
   { left: 81, top: 32, w: "w-[19%] sm:w-[10%]" }, // piano
   { left: 81, top: 52, w: "w-[18%] sm:w-[9%]" }, // headphones

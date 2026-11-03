@@ -248,7 +248,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                     (scene.notes[i].media ?? []).flatMap((set) =>
                       set.items.flatMap((m) =>
                         m.kind === "video" ? (
-                          <div key={m.src} className="absolute inset-y-0 left-0 aspect-[9/16]">
+                          <div key={m.src} className="absolute inset-y-0 left-5 aspect-[9/16]">
                             <WorkCard
                               src={m.src}
                               alt=""

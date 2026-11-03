@@ -54,7 +54,7 @@
   - **Tests:** tests/journey.spec.ts (no errors / missing media / sideways scroll; scenes in order; every content link present and external ones `_blank noopener`; one pin per cluster; reduced motion = no sway). smoke.spec.ts now allows more textures. Playwright: 90s timeout, 2 workers (the dev server builds each image size on first request). 32/32, content 13/13, lint and `npm run build` clean. Link check: all 200, LinkedIn 999 (bot block, check by hand).
   - **Still open from Phase 4:**
     - ~~Videos~~ done (user ran the ffmpeg-static approval, 3 Nov). ~~Ad embed cover~~ done: it uses the ad's poster frame.
-    - Anthpo still has no picture (orange ball / shoe / statue).
+    - ~~Anthpo has no picture~~: its two YouTube videos (Cheeseball Man, Kid with Crocs) are embedded on the cards side instead (user, 3 Nov; `embedsAsCards`).
     - Captions show on hover, but cards aren't keyboard-focusable, so a sighted keyboard user won't see them (screen readers get the alt).
     - The landing (STORY / SCROLL) isn't built: the site opens straight on the head, which is scroll mode's start anyway.
   - **After the review (user, 3 Nov):** supertitle strips are drawn in a hidden layer under the words (they covered descenders); a stat that's in its supertitle (120K+) is circled in place, with no separate callout; the clubs scene's second part (Shunya reel + its 4 notes) sits under the cards on a laptop (`SECOND_PART` in Scene.tsx); later sets' photos/videos are bigger and a set's only video plays wide.

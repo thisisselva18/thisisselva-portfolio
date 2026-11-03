@@ -172,6 +172,8 @@ export const timeline: Scene[] = [
           "A year later, tiny 3D-printed Crocs started showing up on statues in Central Park. An anonymous account called Kid with Crocs kept dropping clues, people went hunting for them, and it turned out to be a Crocs campaign the whole time.",
           "Both of them were Anthpo. That's when it clicked for me. The best marketing is a story people want to be a part of.",
         ],
+        // The two videos as embeds, beside the note (the user's call, 3 Nov 2026). Titles are the script's link labels.
+        media: [set("The Anthpo videos", [youtube("hHeV486B5iI", "Cheeseball Man"), youtube("j1AReFV9ckY", "Kid with Crocs")])],
         links: [
           { label: "Cheeseball Man – youtu.be/hHeV486B5iI", href: "https://youtu.be/hHeV486B5iI" },
           { label: "Kid with Crocs – youtu.be/j1AReFV9ckY", href: "https://youtu.be/j1AReFV9ckY" },

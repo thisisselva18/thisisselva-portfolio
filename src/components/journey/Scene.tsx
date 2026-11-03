@@ -92,7 +92,9 @@ function NoteMedia({ set, note, wide, fill }: { set: MediaSet; note: NoteContent
 // wild"), and after their note on a phone, so the notes on the other side sit close together.
 // `buttonsUnderCards` drops its notes' embeds and puts each one's Watch here button under the cards
 // instead, where the same video already plays (the IndiaFOSS ad, the user's call).
-type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean; buttonsUnderCards?: boolean };
+// `embedsAsCards` shows its notes' embeds on the cards side, one under another, in place of cards
+// (Anthpo has no pictures; its two videos go there, the user's call).
+type Part = { lines: number[]; cards: number[]; notes: number[]; tail?: number[]; wideMedia?: boolean; mediaBeside?: boolean; mediaUnder?: boolean; buttonsUnderCards?: boolean; embedsAsCards?: boolean };
 const PARTS: Record<string, Part[]> = {
   "clubs-2025": [
     { lines: [0], cards: [0], notes: [0], wideMedia: true },
@@ -100,6 +102,7 @@ const PARTS: Record<string, Part[]> = {
   ],
   "music-2020": [{ lines: [0, 1], cards: [0], notes: [0], mediaBeside: true }],
   "homebrew-2026": [{ lines: [0], cards: [0], notes: [0, 1, 2], mediaUnder: true }],
+  anthpo: [{ lines: [0], cards: [], notes: [0], embedsAsCards: true }],
   "indiafoss-2026": [{ lines: [0], cards: [0, 1], notes: [0, 1, 2, 3], buttonsUnderCards: true }],
 };
 
@@ -144,6 +147,16 @@ export function Scene({ scene }: { scene: SceneContent }) {
         return (
           <div key={p} className={`grid gap-8 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 ${split ? "lg:items-center" : "lg:items-start"}`}>
             <div className={`min-w-0 lg:row-start-1 ${split ? "" : "lg:pt-10"} ${cardsCol} ${part.mediaBeside ? "flex items-center justify-center gap-[4%]" : ""}`}>
+              {part.embedsAsCards ? (
+                <div className="relative flex flex-col items-center gap-8">
+                  <span aria-hidden data-string-pin className="absolute left-1/2 top-0 z-30 block size-2.5 -translate-x-1/2 rounded-full bg-ink shadow-lift" />
+                  {part.notes.flatMap((i) =>
+                    (scene.notes[i].media ?? []).flatMap((set) =>
+                      set.items.filter(isEmbed).map((m) => <NoteMedia key={m.id} set={{ ...set, items: [m] }} note={scene.notes[i]} />),
+                    ),
+                  )}
+                </div>
+              ) : (
               <div className={part.mediaBeside ? "w-[34%] shrink-0" : ""}>
                 <CardCluster
                   seed={p ? `${scene.id}-${p}` : scene.id}
@@ -156,6 +169,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                   fill={part.mediaBeside}
                 />
               </div>
+              )}
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
               {/* A note's link the user turned into a button under the cards (the Shunya reel). */}
               {(() => {
@@ -205,7 +219,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
               </div>
               {p === 0 && scene.stat && !statInLine ? <StatCallout stat={scene.stat} /> : null}
               {part.notes.map((i) => (
-                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards} phoneOnlyMedia={part.mediaUnder} />
+                <Note key={i} scene={scene} i={i} noMedia={part.wideMedia || part.mediaBeside || part.buttonsUnderCards || part.embedsAsCards} phoneOnlyMedia={part.mediaUnder} />
               ))}
             </div>
 

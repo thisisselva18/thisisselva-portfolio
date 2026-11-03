@@ -45,7 +45,7 @@
     - the holdFor chain runs from 0:00 to 1:30, the sides alternate, and Heart is used once
 
     It was proven to catch a changed word, a dropped paragraph and a shifted timecode.
-  - **The six new burst images** from the user (camera.jpg, Writing.jpg, idea.jpg, music.jpg, music2.jpg, megaphone.png) are in the head's "The objects that burst out" set, and in the review sheet.
+  - **The six new burst images** from the user (camera.jpg, Writing.jpg, idea.jpg, music.jpg, music2.jpg, megaphone.png) are in the head's "The objects that burst out" set, and in the review sheet. The user confirmed that the light bulb, megaphone and sheet-music strip belong to the head, where all the cards come together, along with the guitar, keyboard and Currents cover. The script's head PHOTOS line doesn't list them yet.
 
 ## Notes for next sessions
 - **docs/ and CLAUDE.md are gitignored on purpose (privacy).** Don't commit them. docs/references/ and docs/media-review.html are local only too.
@@ -58,7 +58,6 @@
 ## Open questions
 - docs/session_summary.md (BUILD.md section 0) isn't in docs/ yet. Copy it in from the Wispr Portfolio folder when convenient.
 - **New burst images, Material/ originals:** camera.jpg, Writing.jpg, idea.jpg and music.jpg have a fake checkerboard "transparency" baked in, and megaphone.png has a white background. The asset pipeline has to cut them out.
-- **New burst images, the script:** it doesn't name idea, megaphone or music-staff. Which scene's cards are they, if any? Add a PHOTOS line to the .docx.
 - **Scenes with no card pictures:** the music note (0:38; the guitar/piano/headphones/Currents set sits in the head) and Anthpo (0:45). Decide in Phase 4: reuse the burst objects as their cards?
 - **Cards with no file in Material/:** orange ball / tiny shoe / statue (Anthpo), Σ gear, notebook doodle, HSP hoodie, code-bracket grid, clapperboard. Draw them in Phase 3, or source them?
 - **FFmpeg isn't installed.** The asset pipeline needs it for the reels and vlog clips.

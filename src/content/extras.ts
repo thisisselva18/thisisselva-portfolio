@@ -32,6 +32,13 @@ export const extras = {
     "Oh hello, didn't see you there.": "Hello there. This is Selva!",
   } as Record<string, string>,
 
+  // Cards whose caption always shows, not only on hover (the user's picks, 3 Nov 2026).
+  shownCaptions: [
+    "/media/photos/homebrew/marketing.jpg",
+    "/media/photos/homebrew/poster.jpg",
+    "/media/photos/homebrew/united-by-foss.jpg",
+  ] as string[],
+
   // Script paragraphs the user took off the site (the script keeps them).
   hiddenParagraphs: ["But out of all of them, Shunya is the one I still think about."] as string[],
 

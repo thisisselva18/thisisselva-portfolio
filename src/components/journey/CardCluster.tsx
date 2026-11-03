@@ -5,6 +5,7 @@
 // their own. A set's alt names the set for screen readers; a scene's cardsAlt names the cluster.
 
 import type { ReactNode } from "react";
+import { extras } from "@/content/extras";
 import type { Media, MediaSet } from "@/content/types";
 import { CornerTag } from "@/components/ui/CornerTag";
 import { CrayonScribble } from "@/components/ui/CrayonScribble";
@@ -91,7 +92,7 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
                   mount={!alone}
                   attach={lead && tied ? (alone ? "tape" : "pin") : "none"}
                   caption={alone ? undefined : m.alt}
-                  captionShown={m.kind === "video"} // a video's words stay on its card (the user's call)
+                  captionShown={m.kind === "video" || extras.shownCaptions.includes(m.src)} // the user's picks, and videos
                   corner={corner ? <CornerTag text={corner} /> : null}
                   media={m.kind === "video" ? <InViewVideo src={m.src} poster={m.poster} label={m.alt || set.alt} /> : undefined}
                 />

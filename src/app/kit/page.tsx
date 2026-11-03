@@ -252,7 +252,7 @@ export default function Kit() {
           <div className="relative h-56 max-w-md">
             <WorkCard src="/media/cutouts/guitar.png" alt="" sizes="120px" mount={false} className="absolute left-2 top-2 w-20" />
             <div className="absolute bottom-4 right-4">
-              <LabelStrip text={extras.labelStrips["camera-2017"]} />
+              <LabelStrip text={clubs.notes[0].links?.find((l) => l.tag)?.tag ?? ""} />
             </div>
             <DottedLine from={[96, 96]} to={[250, 180]} />
           </div>

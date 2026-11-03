@@ -128,7 +128,7 @@ export function Scene({ scene }: { scene: SceneContent }) {
                 sets={part.cards.map((c) => scene.cards[c])}
                 label={p ? undefined : scene.cardsAlt}
                 cornerTags={corners(part.lines)}
-                labelStrip={p ? undefined : (extras.labelStrips as Record<string, string>)[scene.id]}
+                labelStrip={p ? undefined : extras.labelStrips[scene.id]}
                 pointers={p ? undefined : (extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
                 tied={p === 0}
               />

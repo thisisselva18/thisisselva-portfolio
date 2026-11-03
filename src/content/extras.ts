@@ -17,10 +17,15 @@ export const extras = {
     "camera-2017": ["Point", "Shoot", "Upload"],
   },
 
-  // Label strips: a few typed words on a narrow strip of paper, slightly crooked
-  labelStrips: {
-    "camera-2017": "VID_2017_0001.MP4",
-  },
+  // Label strips: a few typed words on a narrow strip of paper, slightly crooked, keyed by scene.
+  // None right now: the user removed both (3 Nov 2026).
+  labelStrips: {} as Record<string, string>,
+
+  // A link shown with the user's words instead of the script's, keyed by the script's label.
+  // Only that one link changes (the end's "YouTube – ..." link keeps its own words).
+  linkLabels: {
+    "youtube.com/@thisisselva18": "Check out my channel",
+  } as Record<string, string>,
 
   // The one handwritten marker note (design.md section 4: "the hand")
   markerNote: {

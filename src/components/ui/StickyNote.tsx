@@ -4,6 +4,7 @@
 // Media the script places after a note is laid out by the scene, not inside the note.
 
 import type { Link, StickyNote as StickyNoteContent } from "@/content/types";
+import { extras } from "@/content/extras";
 import { tilt } from "@/lib/rough";
 import { MarkerLink } from "./MarkerLink";
 import { StickerButton } from "./StickerButton";
@@ -60,7 +61,7 @@ export function StickyNote({ note, seed, className }: Props) {
                 <ul className="space-y-1">
                   {run.links.map((link) => (
                     <li key={link.href}>
-                      <MarkerLink link={link} />
+                      <MarkerLink link={{ ...link, label: extras.linkLabels[link.label] ?? link.label }} />
                     </li>
                   ))}
                 </ul>

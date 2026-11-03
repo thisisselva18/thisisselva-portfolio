@@ -120,6 +120,19 @@ const PARTS: Record<string, Part[]> = {
 // line never has to wrap or run over: the line is about 9em wide, so at most 10.5% of the column.
 const FIT_STAT_LINE = "!text-[length:min(var(--supertitle-size),10.5cqi)]";
 
+// A note's link the user turned into a button under the cards (the Shunya reel): it sits centred
+// under the lead card's tilted bottom edge.
+function movedButtons(scene: SceneContent, part: Part) {
+  const moved = [...part.notes, ...(part.tail ?? [])].flatMap((i) => (scene.notes[i].links ?? []).filter((l) => extras.linkButtons[l.href]));
+  return moved.length ? (
+    <div className="flex flex-wrap justify-center gap-4 whitespace-nowrap">
+      {moved.map((l) => (
+        <OriginalButton key={l.href} link={l} text={extras.linkButtons[l.href]} />
+      ))}
+    </div>
+  ) : undefined;
+}
+
 function Note({ scene, i, noMedia, phoneOnlyMedia }: { scene: SceneContent; i: number; noMedia?: boolean; phoneOnlyMedia?: boolean }) {
   const note = scene.notes[i];
   return (
@@ -177,21 +190,11 @@ export function Scene({ scene }: { scene: SceneContent }) {
                   pointers={p ? undefined : (extras.pointerLabels as Record<string, readonly string[]>)[scene.id]?.slice()}
                   tied={p === 0}
                   fill={part.mediaBeside}
+                  underLead={movedButtons(scene, part)}
                 />
               </div>
               )}
               {/* The notes' pictures beside the cards (the SoundCloud screenshot next to the music note). */}
-              {/* A note's link the user turned into a button under the cards (the Shunya reel). */}
-              {(() => {
-                const moved = [...part.notes, ...(part.tail ?? [])].flatMap((i) => (scene.notes[i].links ?? []).filter((l) => extras.linkButtons[l.href]));
-                return moved.length ? (
-                  <div className="mt-6 flex flex-wrap justify-center gap-4">
-                    {moved.map((l) => (
-                      <OriginalButton key={l.href} link={l} text={extras.linkButtons[l.href]} />
-                    ))}
-                  </div>
-                ) : null;
-              })()}
               {part.buttonsUnderCards ? (
                 <div className="mt-6 flex flex-wrap justify-center gap-4">
                   {part.notes.flatMap((i) =>

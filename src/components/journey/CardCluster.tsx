@@ -6,6 +6,7 @@
 
 import type { ReactNode } from "react";
 import { extras } from "@/content/extras";
+import { tilt } from "@/lib/rough";
 import type { Media, MediaSet } from "@/content/types";
 import { CornerTag } from "@/components/ui/CornerTag";
 import { CrayonScribble } from "@/components/ui/CrayonScribble";
@@ -24,6 +25,7 @@ type Props = {
   pointers?: string[]; // extras.pointerLabels: round the camera
   tied?: boolean; // false for a second cluster in the same scene: the string ties each scene once
   fill?: boolean; // the lead fills its box (when something sits beside the cluster)
+  underLead?: ReactNode; // sits centred under the lead card's tilted bottom edge (a button)
 };
 
 type Shown = Extract<Media, { kind: "image" | "post" | "video" }>;
@@ -42,7 +44,7 @@ const CAMERA_POINTS: Pick<Pointer, "at" | "label">[] = [
   { at: [12, 40], label: [-4, 88] },
 ];
 
-export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers, tied = true, fill }: Props) {
+export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, pointers, tied = true, fill, underLead }: Props) {
   const shownSets = sets.map((set) => ({ set, items: set.items.filter(ready) })).filter((s) => s.items.length);
 
   if (!shownSets.length && !tied) return null;
@@ -116,9 +118,21 @@ export function CardCluster({ seed, sets, label, cornerTags = [], labelStrip, po
             return (
               <>
                 {/* The lead (the card the string ties to) sits on top of the prints under it. */}
-                {wideCards.map(({ m, alone, card }) => (
-                  <div key={key(m)} className={`relative z-20 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"}`}>
+                {wideCards.map(({ m, alone, card }, w) => (
+                  <div
+                    key={key(m)}
+                    className={`relative z-20 ${fill ? "w-full" : alone ? "w-[62%] max-w-[18rem]" : "w-[80%] max-w-[26rem]"} ${underLead && w === 0 ? "mb-20" : ""}`}
+                  >
                     {card}
+                    {/* Turned with the card (same tilt, same centre), so the button sits under the middle
+                        of its tilted bottom edge, not under the middle of its upright box. */}
+                    {underLead && w === 0 ? (
+                      <div className="pointer-events-none absolute inset-0" style={{ rotate: `${tilt(`card:${m.src}`, 4)}deg` }}>
+                        <div className="pointer-events-auto absolute left-1/2 top-full pt-6" style={{ translate: "-50% 0", rotate: `${-tilt(`card:${m.src}`, 4)}deg` }}>
+                          {underLead}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 ))}
                 {masonry ? (
